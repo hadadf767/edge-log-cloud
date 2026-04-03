@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edge Log Cloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">EDGE LOG</div>
+        <p class="muted small">Cloud trading journal for every device.</p>
+      </div>
+      <div class="stack-sm">
+        <button class="ghost-btn" id="open-setup-btn">Supabase Settings</button>
+        <button class="ghost-btn" id="signout-btn" hidden>Sign out</button>
+      </div>
+      <div class="card sidebar-card">
+        <div class="label">Session</div>
+        <div id="session-state" class="mono">Offline</div>
+        <div id="session-user" class="muted small">Add Supabase keys to begin</div>
+      </div>
+      <div class="card sidebar-card">
+        <div class="label">Sync Notes</div>
+        <ul class="info-list muted small">
+          <li>Static site friendly</li>
+          <li>Works on mobile browsers</li>
+          <li>Trades sync per signed-in email</li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Multi-device journal</p>
+          <h1>Use the same trade log on your phone, laptop, and anywhere else.</h1>
+          <p class="muted intro">This version stores trades in Supabase instead of browser-only storage, so your data follows your account.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="primary-btn" id="open-auth-btn">Email Sign In</button>
+          <button class="ghost-btn" id="refresh-btn">Refresh</button>
+        </div>
+      </section>
+
+      <section class="stats-grid" id="stats-grid">
+        <article class="card stat-card"><div class="label">Net P&amp;L</div><div id="stat-pnl" class="metric">₹0</div></article>
+        <article class="card stat-card"><div class="label">Trades</div><div id="stat-trades" class="metric">0</div></article>
+        <article class="card stat-card"><div class="label">Win Rate</div><div id="stat-winrate" class="metric">0%</div></article>
+        <article class="card stat-card"><div class="label">Avg R:R</div><div id="stat-rr" class="metric">-</div></article>
+      </section>
+
+      <section class="content-grid">
+        <article class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="label">Log Trade</div>
+              <h2 id="form-title">New trade</h2>
+            </div>
+            <button class="ghost-btn" id="reset-form-btn">Clear</button>
+          </div>
+          <form id="trade-form" class="form-grid">
+            <input type="hidden" id="trade-id">
+            <label>
+              <span>Symbol</span>
+              <input id="symbol" placeholder="NIFTY" required>
+            </label>
+            <label>
+              <span>Date</span>
+              <input id="trade-date" type="date" required>
+            </label>
+            <label>
+              <span>Direction</span>
+              <select id="direction">
+                <option>Long</option>
+                <option>Short</option>
+              </select>
+            </label>
+            <label>
+              <span>Setup</span>
+              <input id="setup" placeholder="Breakout">
+            </label>
+            <label>
+              <span>Entry</span>
+              <input id="entry" type="number" step="0.01" placeholder="0.00">
+            </label>
+            <label>
+              <span>Exit</span>
+              <input id="exit" type="number" step="0.01" placeholder="0.00">
+            </label>
+            <label>
+              <span>Quantity</span>
+              <input id="quantity" type="number" step="1" placeholder="1">
+            </label>
+            <label>
+              <span>P&amp;L</span>
+              <input id="pnl" type="number" step="0.01" placeholder="Auto or manual">
+            </label>
+            <label>
+              <span>Stop Loss</span>
+              <input id="stop-loss" type="number" step="0.01" placeholder="0.00">
+            </label>
+            <label>
+              <span>Target</span>
+              <input id="target" type="number" step="0.01" placeholder="0.00">
+            </label>
+            <label>
+              <span>R:R</span>
+              <input id="rr" type="number" step="0.01" placeholder="1.50">
+            </label>
+            <label>
+              <span>Emotion</span>
+              <select id="emotion">
+                <option>Calm</option>
+                <option>Neutral</option>
+                <option>FOMO</option>
+                <option>Revenge</option>
+                <option>Anxious</option>
+                <option>Overconfident</option>
+              </select>
+            </label>
+            <label class="full">
+              <span>Notes</span>
+              <textarea id="notes" rows="4" placeholder="What happened, what you learned, what to repeat or stop?"></textarea>
+            </label>
+            <div class="full form-actions">
+              <button class="primary-btn" type="submit" id="save-trade-btn">Save Trade</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="card panel">
+          <div class="panel-head wrap">
+            <div>
+              <div class="label">Trade Log</div>
+              <h2>Cloud synced trades</h2>
+            </div>
+            <div class="toolbar">
+              <input id="search" class="search" placeholder="Search symbol, setup, notes">
+              <button class="ghost-btn" id="export-btn">Export CSV</button>
+            </div>
+          </div>
+          <div id="empty-state" class="empty-state">
+            <h3>No trades yet</h3>
+            <p class="muted">Sign in, then log your first trade. Your data will sync to any device where you sign in with the same email.</p>
+          </div>
+          <div class="table-wrap">
+            <table id="trades-table" hidden>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Symbol</th>
+                  <th>Dir</th>
+                  <th>Setup</th>
+                  <th>P&amp;L</th>
+                  <th>R:R</th>
+                  <th>Emotion</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="trade-rows"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="setup-modal" class="modal">
+    <form method="dialog" class="modal-card stack">
+      <div>
+        <div class="label">Supabase Setup</div>
+        <h3>Paste your project keys</h3>
+        <p class="muted small">These values are safe for frontend use when you use the public anon key and RLS policies in the included SQL file.</p>
+      </div>
+      <label>
+        <span>Project URL</span>
+        <input id="supabase-url" placeholder="https://your-project.supabase.co">
+      </label>
+      <label>
+        <span>Anon Key</span>
+        <textarea id="supabase-anon" rows="5" placeholder="eyJ..."></textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel">Close</button>
+        <button class="primary-btn" type="button" id="save-setup-btn">Save Settings</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="auth-modal" class="modal">
+    <form method="dialog" class="modal-card stack">
+      <div>
+        <div class="label">Sign In</div>
+        <h3>Magic link email login</h3>
+        <p class="muted small">Open the login link from your email on any device and your journal will load there.</p>
+      </div>
+      <label>
+        <span>Email</span>
+        <input id="auth-email" type="email" placeholder="you@example.com">
+      </label>
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel">Close</button>
+        <button class="primary-btn" type="button" id="send-link-btn">Send Magic Link</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
