@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edge Log â€” Trading Journal</title>
+<title>Edge Log — Trading Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -26,10 +26,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px;}
 
-/* â”€â”€ APP SHELL â”€â”€ */
+/* ── APP SHELL ── */
 .shell{display:flex;height:100vh;}
 
-/* â”€â”€ SIDEBAR â”€â”€ */
+/* ── SIDEBAR ── */
 .sb{width:228px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .sb-top{padding:22px 20px 18px;border-bottom:1px solid var(--border);}
 .sb-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent);letter-spacing:.05em;display:flex;align-items:center;gap:8px;}
@@ -50,20 +50,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .sb-stat{font-size:11px;color:var(--text3);}
 .sb-stat span{color:var(--text2);}
 
-/* â”€â”€ MAIN â”€â”€ */
+/* ── MAIN ── */
 .main{flex:1;overflow-y:auto;background:var(--bg);}
 .page{display:none;padding:30px 34px;max-width:1160px;animation:fadeIn .18s ease;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 
-/* â”€â”€ PAGE HEADER â”€â”€ */
+/* ── PAGE HEADER ── */
 .ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:26px;gap:16px;}
 .ph-left{}
 .ph-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;line-height:1.2;}
 .ph-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:3px;}
 .ph-actions{display:flex;gap:8px;flex-shrink:0;align-items:center;}
 
-/* â”€â”€ BUTTONS â”€â”€ */
+/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--r2);font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .14s;border:none;white-space:nowrap;}
 .btn-primary{background:var(--accent);color:#0b0c0c;}
 .btn-primary:hover{background:var(--accent2);}
@@ -75,7 +75,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .btn-sm{padding:5px 10px;font-size:11px;}
 .btn-icon{padding:6px 10px;font-size:14px;}
 
-/* â”€â”€ CARDS / STATS â”€â”€ */
+/* ── CARDS / STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;}
 .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden;}
 .stat-card-accent{border-top:2px solid var(--accent);}
@@ -91,20 +91,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .sc-sub{font-size:10px;color:var(--text3);margin-top:5px;}
 .sc-trend{position:absolute;right:12px;bottom:12px;font-size:18px;opacity:.12;}
 
-/* â”€â”€ PANELS / SECTIONS â”€â”€ */
+/* ── PANELS / SECTIONS ── */
 .panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
 .panel-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg3);}
 .panel-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
 .panel-body{padding:16px;}
 
-/* â”€â”€ TABLE â”€â”€ */
+/* ── TABLE ── */
 .tbl-wrap{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;min-width:600px;}
 thead tr{background:var(--bg3);border-bottom:1px solid var(--border);}
 th{text-align:left;padding:9px 13px;font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;cursor:pointer;user-select:none;}
 th:hover{color:var(--text2);}
-th.sort-asc::after{content:' â†‘';}
-th.sort-desc::after{content:' â†“';}
+th.sort-asc::after{content:' ↑';}
+th.sort-desc::after{content:' ↓';}
 td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr{cursor:pointer;transition:background .1s;}
@@ -126,7 +126,7 @@ tbody tr:hover{background:var(--bg3);}
 .rr-bad{background:var(--redbg);color:var(--red);}
 .rr-ok{background:var(--amberbg);color:var(--amber);}
 
-/* â”€â”€ MODAL â”€â”€ */
+/* ── MODAL ── */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
 .overlay.open{display:flex;}
 .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);width:720px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow);animation:slideUp .2s ease;}
@@ -137,7 +137,7 @@ tbody tr:hover{background:var(--bg3);}
 .modal-close:hover{color:var(--text);}
 .modal-body{padding:22px 26px 26px;}
 
-/* â”€â”€ FORM â”€â”€ */
+/* ── FORM ── */
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:0;}
 .fl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}
 .fi,.fs,.fta{background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:var(--r2);padding:8px 11px;font-size:13px;font-family:'DM Sans',sans-serif;transition:border-color .14s;outline:none;width:100%;}
@@ -150,16 +150,16 @@ tbody tr:hover{background:var(--bg3);}
 .f-divider{height:1px;background:var(--border);margin:6px 0 16px;}
 .f-section{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
 
-/* â”€â”€ STAR RATING â”€â”€ */
+/* ── STAR RATING ── */
 .star-row{display:flex;gap:2px;}
 .star-btn{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text4);transition:color .1s;padding:0 2px;line-height:1;}
 .star-btn.on{color:var(--accent);}
 
-/* â”€â”€ CHARTS â”€â”€ */
+/* ── CHARTS ── */
 .chart-container{position:relative;}
 canvas{display:block;width:100%!important;}
 
-/* â”€â”€ CALENDAR HEATMAP â”€â”€ */
+/* ── CALENDAR HEATMAP ── */
 .heatmap-wrap{overflow-x:auto;}
 .heatmap{display:flex;gap:3px;padding:4px 0;}
 .hm-col{display:flex;flex-direction:column;gap:3px;}
@@ -177,14 +177,14 @@ canvas{display:block;width:100%!important;}
 .hm-month-labels{display:flex;gap:3px;padding-left:0;margin-bottom:3px;}
 .hm-month-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;}
 
-/* â”€â”€ RISK CALCULATOR â”€â”€ */
+/* ── RISK CALCULATOR ── */
 .risk-calc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px;}
 .risk-result{background:var(--bg4);border-radius:var(--r2);padding:14px;margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .rr-item{text-align:center;}
 .rr-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
 .rr-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:var(--text);}
 
-/* â”€â”€ PLAYBOOK â”€â”€ */
+/* ── PLAYBOOK ── */
 .pb-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0;margin-bottom:10px;overflow:hidden;transition:border-color .14s;}
 .pb-card:hover{border-color:var(--border2);}
 .pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;}
@@ -197,7 +197,7 @@ canvas{display:block;width:100%!important;}
 .pb-stat{background:var(--bg3);border-radius:var(--r2);padding:10px;text-align:center;}
 .pb-sl{font-size:11px;color:var(--text2);line-height:1.6;}
 
-/* â”€â”€ WEEK REVIEW â”€â”€ */
+/* ── WEEK REVIEW ── */
 .week-days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px;}
 .wd{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px;text-align:center;transition:border-color .14s;}
 .wd:hover{border-color:var(--border2);}
@@ -207,7 +207,7 @@ canvas{display:block;width:100%!important;}
 .wd-bar{height:3px;border-radius:2px;margin-top:6px;background:var(--bg4);}
 .wd-bar-fill{height:100%;border-radius:2px;}
 
-/* â”€â”€ RULE CARDS â”€â”€ */
+/* ── RULE CARDS ── */
 .rule-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;transition:border-color .14s;}
 .rule-card:hover{border-color:var(--border2);}
 .rule-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);background:var(--accentbg);border:1px solid rgba(201,151,62,.2);width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:500;}
@@ -216,7 +216,7 @@ canvas{display:block;width:100%!important;}
 .rule-title{font-weight:600;font-size:14px;margin-bottom:4px;}
 .rule-desc{font-size:12px;color:var(--text2);line-height:1.65;}
 
-/* â”€â”€ MISTAKE PATTERNS â”€â”€ */
+/* ── MISTAKE PATTERNS ── */
 .mistake-bar{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
 .mistake-bar:last-child{border-bottom:none;}
 .mb-name{font-size:12px;color:var(--text);width:200px;flex-shrink:0;}
@@ -225,32 +225,32 @@ canvas{display:block;width:100%!important;}
 .mb-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);width:30px;text-align:right;}
 .mb-pnl{font-family:'DM Mono',monospace;font-size:11px;width:80px;text-align:right;}
 
-/* â”€â”€ PROGRESS â”€â”€ */
+/* ── PROGRESS ── */
 .prog-wrap{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:5px;}
 .prog-fill{height:100%;border-radius:2px;transition:width .4s;}
 
-/* â”€â”€ TOOLTIP â”€â”€ */
+/* ── TOOLTIP ── */
 .tooltip{position:fixed;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text);pointer-events:none;z-index:500;white-space:nowrap;box-shadow:var(--shadow);display:none;}
 
-/* â”€â”€ SEARCH â”€â”€ */
+/* ── SEARCH ── */
 .search-wrap{position:relative;margin-bottom:14px;}
 .search-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:var(--r2);padding:8px 12px 8px 34px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .14s;width:100%;}
 .search-input:focus{border-color:var(--accent);}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none;}
 
-/* â”€â”€ FILTER CHIPS â”€â”€ */
+/* ── FILTER CHIPS ── */
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 .chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--text3);background:transparent;transition:all .14s;white-space:nowrap;}
 .chip:hover:not(.chip-on){border-color:var(--border2);color:var(--text2);}
 .chip.chip-on{border-color:var(--accent);color:var(--accent);background:var(--accentbg);}
 
-/* â”€â”€ EMPTY STATE â”€â”€ */
+/* ── EMPTY STATE ── */
 .empty-state{text-align:center;padding:52px 20px;}
 .es-icon{font-size:32px;opacity:.2;margin-bottom:10px;}
 .es-text{font-size:13px;color:var(--text3);}
 .es-sub{font-size:11px;color:var(--text4);margin-top:4px;}
 
-/* â”€â”€ DETAIL GRID â”€â”€ */
+/* ── DETAIL GRID ── */
 .dg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
 .di{background:var(--bg3);border-radius:var(--r2);padding:11px 12px;}
 .di-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px;}
@@ -259,13 +259,13 @@ canvas{display:block;width:100%!important;}
 .note-box.plan-box{border-left-color:var(--accent);}
 .note-box.lesson-box{border-left-color:var(--blue);}
 
-/* â”€â”€ TOAST â”€â”€ */
+/* ── TOAST ── */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r2);padding:10px 16px;font-size:13px;color:var(--text);z-index:999;box-shadow:var(--shadow);transform:translateY(10px);opacity:0;transition:all .2s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.toast-ok{border-left:3px solid var(--green);}
 .toast.toast-warn{border-left:3px solid var(--red);}
 
-/* â”€â”€ MISC â”€â”€ */
+/* ── MISC ── */
 .divider{height:1px;background:var(--border);margin:16px 0;}
 .badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:600;}
 .badge-green{background:var(--greenbg);color:var(--green);}
@@ -277,7 +277,7 @@ canvas{display:block;width:100%!important;}
 <body>
 <div class="shell">
 
-<!-- â•â• SIDEBAR â•â• -->
+<!-- ══ SIDEBAR ══ -->
 <aside class="sb">
   <div class="sb-top">
     <div class="sb-logo"><div class="sb-logo-dot"></div>EDGE LOG</div>
@@ -291,37 +291,37 @@ canvas{display:block;width:100%!important;}
   </div>
   <nav class="sb-nav">
     <div class="sb-section-label">Overview</div>
-    <div class="nav-item active" onclick="nav('dashboard')"><span class="ni">â¬›</span>Dashboard</div>
-    <div class="nav-item" onclick="nav('trades')"><span class="ni">â—ˆ</span>Trade Log<span class="nb" id="nb-trades">0</span></div>
-    <div class="nav-item" onclick="nav('analytics')"><span class="ni">â—Ž</span>Analytics</div>
-    <div class="nav-item" onclick="nav('calendar')"><span class="ni">â–¦</span>Calendar</div>
+    <div class="nav-item active" onclick="nav('dashboard')"><span class="ni">⬛</span>Dashboard</div>
+    <div class="nav-item" onclick="nav('trades')"><span class="ni">◈</span>Trade Log<span class="nb" id="nb-trades">0</span></div>
+    <div class="nav-item" onclick="nav('analytics')"><span class="ni">◎</span>Analytics</div>
+    <div class="nav-item" onclick="nav('calendar')"><span class="ni">▦</span>Calendar</div>
 
     <div class="sb-section-label">Tools</div>
-    <div class="nav-item" onclick="nav('risk')"><span class="ni">âŠ™</span>Risk Calculator</div>
-    <div class="nav-item" onclick="nav('playbook')"><span class="ni">â—«</span>Playbook</div>
+    <div class="nav-item" onclick="nav('risk')"><span class="ni">⊙</span>Risk Calculator</div>
+    <div class="nav-item" onclick="nav('playbook')"><span class="ni">◫</span>Playbook</div>
 
     <div class="sb-section-label">Review</div>
-    <div class="nav-item" onclick="nav('weekly')"><span class="ni">â—»</span>Weekly Review</div>
-    <div class="nav-item" onclick="nav('mistakes')"><span class="ni">â–³</span>Mistakes<span class="ndot" id="nb-mistakes" style="display:none"></span></div>
+    <div class="nav-item" onclick="nav('weekly')"><span class="ni">◻</span>Weekly Review</div>
+    <div class="nav-item" onclick="nav('mistakes')"><span class="ni">△</span>Mistakes<span class="ndot" id="nb-mistakes" style="display:none"></span></div>
 
     <div class="sb-section-label">System</div>
-    <div class="nav-item" onclick="nav('rules')"><span class="ni">â–£</span>My Rules</div>
+    <div class="nav-item" onclick="nav('rules')"><span class="ni">▣</span>My Rules</div>
   </nav>
   <div class="sb-bottom">
     <div class="sb-pnl-label">Net P&L</div>
-    <div class="sb-pnl-val" id="sb-pnl">â‚¹0</div>
+    <div class="sb-pnl-val" id="sb-pnl">$0</div>
     <div class="sb-stats-row">
-      <div class="sb-stat">WR: <span id="sb-wr">â€”</span></div>
-      <div class="sb-stat">PF: <span id="sb-pf">â€”</span></div>
-      <div class="sb-stat">RR: <span id="sb-rr">â€”</span></div>
+      <div class="sb-stat">WR: <span id="sb-wr">—</span></div>
+      <div class="sb-stat">PF: <span id="sb-pf">—</span></div>
+      <div class="sb-stat">RR: <span id="sb-rr">—</span></div>
     </div>
   </div>
 </aside>
 
-<!-- â•â• MAIN â•â• -->
+<!-- ══ MAIN ══ -->
 <main class="main">
 
-<!-- â”€â”€â”€ DASHBOARD â”€â”€â”€ -->
+<!-- ─── DASHBOARD ─── -->
 <div id="page-dashboard" class="page active">
   <div class="ph">
     <div class="ph-left">
@@ -329,7 +329,7 @@ canvas{display:block;width:100%!important;}
       <div class="ph-sub" id="ph-date"></div>
     </div>
     <div class="ph-actions">
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">â†“ Export CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export CSV</button>
       <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
     </div>
   </div>
@@ -337,30 +337,30 @@ canvas{display:block;width:100%!important;}
   <div class="stats-row">
     <div class="stat-card stat-card-green">
       <div class="sc-label">Net P&L</div>
-      <div class="sc-val" id="d-pnl">â‚¹0</div>
+      <div class="sc-val" id="d-pnl">$0</div>
       <div class="sc-sub" id="d-pnl-sub">All time</div>
-      <div class="sc-trend">â‚¹</div>
+      <div class="sc-trend">$</div>
     </div>
     <div class="stat-card stat-card-accent">
       <div class="sc-label">Win Rate</div>
-      <div class="sc-val gold" id="d-wr">â€”</div>
+      <div class="sc-val gold" id="d-wr">—</div>
       <div class="sc-sub" id="d-wr-sub">0 trades</div>
       <div class="sc-trend">%</div>
     </div>
     <div class="stat-card stat-card-blue">
       <div class="sc-label">Profit Factor</div>
-      <div class="sc-val" id="d-pf" style="color:var(--text)">â€”</div>
+      <div class="sc-val" id="d-pf" style="color:var(--text)">—</div>
       <div class="sc-sub">Gross W / Gross L</div>
-      <div class="sc-trend">Ã—</div>
+      <div class="sc-trend">×</div>
     </div>
     <div class="stat-card stat-card-purple">
       <div class="sc-label">Avg R:R</div>
-      <div class="sc-val" id="d-rr" style="color:var(--purple)">â€”</div>
+      <div class="sc-val" id="d-rr" style="color:var(--purple)">—</div>
       <div class="sc-sub">Realized risk:reward</div>
     </div>
     <div class="stat-card stat-card-red">
       <div class="sc-label">Max Drawdown</div>
-      <div class="sc-val neg" id="d-dd">â‚¹0</div>
+      <div class="sc-val neg" id="d-dd">$0</div>
       <div class="sc-sub" id="d-dd-sub">Peak to trough</div>
     </div>
   </div>
@@ -385,11 +385,11 @@ canvas{display:block;width:100%!important;}
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title">Recent Trades</div>
-        <button class="btn btn-ghost btn-sm" onclick="nav('trades')">View all â†’</button>
+        <button class="btn btn-ghost btn-sm" onclick="nav('trades')">View all →</button>
       </div>
       <div class="tbl-wrap">
         <table><thead><tr>
-          <th>Date</th><th>Symbol</th><th>Dir</th><th>P&L</th><th>â­</th>
+          <th>Date</th><th>Symbol</th><th>Dir</th><th>P&L</th><th>⭐</th>
         </tr></thead>
         <tbody id="d-recent"></tbody></table>
       </div>
@@ -402,7 +402,7 @@ canvas{display:block;width:100%!important;}
         <div class="panel-body">
           <div style="display:flex;gap:4px;flex-wrap:wrap" id="d-streak"></div>
           <div style="display:flex;gap:16px;margin-top:10px">
-            <div style="font-size:11px;color:var(--text3)">Current: <span id="d-streak-cur" style="color:var(--text2)">â€”</span></div>
+            <div style="font-size:11px;color:var(--text3)">Current: <span id="d-streak-cur" style="color:var(--text2)">—</span></div>
             <div style="font-size:11px;color:var(--text3)">Best W: <span id="d-streak-best" style="color:var(--green)">0</span></div>
           </div>
         </div>
@@ -415,24 +415,24 @@ canvas{display:block;width:100%!important;}
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <div>
               <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Best Day</div>
-              <div class="pnl-p" id="d-best-day" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500">â‚¹0</div>
-              <div style="font-size:10px;color:var(--text3)" id="d-best-day-date">â€”</div>
+              <div class="pnl-p" id="d-best-day" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500">$0</div>
+              <div style="font-size:10px;color:var(--text3)" id="d-best-day-date">—</div>
             </div>
             <div>
               <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Worst Day</div>
-              <div class="pnl-n" id="d-worst-day" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500">â‚¹0</div>
-              <div style="font-size:10px;color:var(--text3)" id="d-worst-day-date">â€”</div>
+              <div class="pnl-n" id="d-worst-day" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500">$0</div>
+              <div style="font-size:10px;color:var(--text3)" id="d-worst-day-date">—</div>
             </div>
           </div>
           <div class="divider"></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <div>
               <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Avg Win</div>
-              <div class="pnl-p" id="d-avg-win" style="font-family:'DM Mono',monospace;font-size:14px">â‚¹0</div>
+              <div class="pnl-p" id="d-avg-win" style="font-family:'DM Mono',monospace;font-size:14px">$0</div>
             </div>
             <div>
               <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Avg Loss</div>
-              <div class="pnl-n" id="d-avg-loss" style="font-family:'DM Mono',monospace;font-size:14px">â‚¹0</div>
+              <div class="pnl-n" id="d-avg-loss" style="font-family:'DM Mono',monospace;font-size:14px">$0</div>
             </div>
           </div>
         </div>
@@ -441,18 +441,18 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â”€â”€â”€ TRADE LOG â”€â”€â”€ -->
+<!-- ─── TRADE LOG ─── -->
 <div id="page-trades" class="page">
   <div class="ph">
     <div class="ph-title">Trade Log</div>
     <div class="ph-actions">
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">â†“ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ CSV</button>
       <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
     </div>
   </div>
   <div class="search-wrap">
-    <span class="search-icon">âŒ•</span>
-    <input class="search-input" id="search-input" placeholder="Search by symbol, setup, notesâ€¦" oninput="renderTradeLog()">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" id="search-input" placeholder="Search by symbol, setup, notes…" oninput="renderTradeLog()">
   </div>
   <div class="chips">
     <span class="chip chip-on" onclick="setFilter('all',this)">All</span>
@@ -462,7 +462,7 @@ canvas{display:block;width:100%!important;}
     <span class="chip" onclick="setFilter('short',this)">Short</span>
     <span class="chip" onclick="setFilter('fomo',this)">FOMO</span>
     <span class="chip" onclick="setFilter('rev',this)">Revenge</span>
-    <span class="chip" onclick="setFilter('r5',this)">â˜… 5</span>
+    <span class="chip" onclick="setFilter('r5',this)">★ 5</span>
   </div>
   <div class="panel">
     <div class="tbl-wrap">
@@ -478,7 +478,7 @@ canvas{display:block;width:100%!important;}
           <th onclick="sortBy('pnl')">P&L</th>
           <th onclick="sortBy('rr')">R:R</th>
           <th>Emotion</th>
-          <th onclick="sortBy('rating')">â˜…</th>
+          <th onclick="sortBy('rating')">★</th>
           <th>Mistake</th>
         </tr></thead>
         <tbody id="log-tbody"></tbody>
@@ -487,7 +487,7 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â”€â”€â”€ ANALYTICS â”€â”€â”€ -->
+<!-- ─── ANALYTICS ─── -->
 <div id="page-analytics" class="page">
   <div class="ph"><div class="ph-title">Analytics</div></div>
 
@@ -524,14 +524,14 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â”€â”€â”€ CALENDAR â”€â”€â”€ -->
+<!-- ─── CALENDAR ─── -->
 <div id="page-calendar" class="page">
   <div class="ph">
     <div class="ph-title">Calendar Heatmap</div>
     <div class="ph-actions">
-      <button class="btn btn-ghost btn-sm" onclick="calYear(-1)">â† Prev</button>
+      <button class="btn btn-ghost btn-sm" onclick="calYear(-1)">← Prev</button>
       <span id="cal-year-label" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text2);padding:0 8px">2026</span>
-      <button class="btn btn-ghost btn-sm" onclick="calYear(1)">Next â†’</button>
+      <button class="btn btn-ghost btn-sm" onclick="calYear(1)">Next →</button>
     </div>
   </div>
 
@@ -558,28 +558,28 @@ canvas{display:block;width:100%!important;}
     <div class="panel">
       <div class="panel-header"><div class="panel-title">Best Month</div></div>
       <div class="panel-body">
-        <div class="sc-val pos" id="cal-best-month">â€”</div>
-        <div class="sc-sub" id="cal-best-month-label">â€”</div>
+        <div class="sc-val pos" id="cal-best-month">—</div>
+        <div class="sc-sub" id="cal-best-month-label">—</div>
       </div>
     </div>
     <div class="panel">
       <div class="panel-header"><div class="panel-title">Profitable Days</div></div>
       <div class="panel-body">
-        <div class="sc-val gold" id="cal-prof-days">â€”</div>
+        <div class="sc-val gold" id="cal-prof-days">—</div>
         <div class="sc-sub">out of traded days</div>
       </div>
     </div>
     <div class="panel">
       <div class="panel-header"><div class="panel-title">Avg per Trade Day</div></div>
       <div class="panel-body">
-        <div class="sc-val" id="cal-avg-day" style="color:var(--text)">â€”</div>
+        <div class="sc-val" id="cal-avg-day" style="color:var(--text)">—</div>
         <div class="sc-sub">across all active days</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- â”€â”€â”€ RISK CALCULATOR â”€â”€â”€ -->
+<!-- ─── RISK CALCULATOR ─── -->
 <div id="page-risk" class="page">
   <div class="ph"><div class="ph-title">Risk Calculator</div></div>
 
@@ -589,7 +589,7 @@ canvas{display:block;width:100%!important;}
         <div class="f-section" style="margin-bottom:14px">Position Sizer</div>
         <div class="fg-grid" style="gap:10px">
           <div class="fg">
-            <label class="fl">Account Size (â‚¹)</label>
+            <label class="fl">Account Size ($)</label>
             <input class="fi" id="rc-account" type="number" value="100000" oninput="calcRisk()">
           </div>
           <div class="fg">
@@ -597,15 +597,15 @@ canvas{display:block;width:100%!important;}
             <input class="fi" id="rc-riskpct" type="number" value="1" step="0.1" oninput="calcRisk()">
           </div>
           <div class="fg">
-            <label class="fl">Entry Price (â‚¹)</label>
+            <label class="fl">Entry Price ($)</label>
             <input class="fi" id="rc-entry" type="number" placeholder="e.g. 22450" oninput="calcRisk()">
           </div>
           <div class="fg">
-            <label class="fl">Stop Loss (â‚¹)</label>
+            <label class="fl">Stop Loss ($)</label>
             <input class="fi" id="rc-sl" type="number" placeholder="e.g. 22350" oninput="calcRisk()">
           </div>
           <div class="fg">
-            <label class="fl">Target (â‚¹)</label>
+            <label class="fl">Target ($)</label>
             <input class="fi" id="rc-target" type="number" placeholder="e.g. 22650" oninput="calcRisk()">
           </div>
           <div class="fg">
@@ -614,12 +614,12 @@ canvas{display:block;width:100%!important;}
           </div>
         </div>
         <div class="risk-result" id="risk-result">
-          <div class="rr-item"><div class="rr-label">Risk Amount</div><div class="rr-val pnl-n" id="rc-risk-amt">â€”</div></div>
-          <div class="rr-item"><div class="rr-label">Max Qty / Lots</div><div class="rr-val" id="rc-qty">â€”</div></div>
-          <div class="rr-item"><div class="rr-label">Reward</div><div class="rr-val pnl-p" id="rc-reward">â€”</div></div>
-          <div class="rr-item"><div class="rr-label">R:R Ratio</div><div class="rr-val" id="rc-rr">â€”</div></div>
-          <div class="rr-item"><div class="rr-label">Win Needed (BEP)</div><div class="rr-val gold" id="rc-bep">â€”</div></div>
-          <div class="rr-item"><div class="rr-label">Capital at Risk</div><div class="rr-val" id="rc-cap-pct">â€”</div></div>
+          <div class="rr-item"><div class="rr-label">Risk Amount</div><div class="rr-val pnl-n" id="rc-risk-amt">—</div></div>
+          <div class="rr-item"><div class="rr-label">Max Qty / Lots</div><div class="rr-val" id="rc-qty">—</div></div>
+          <div class="rr-item"><div class="rr-label">Reward</div><div class="rr-val pnl-p" id="rc-reward">—</div></div>
+          <div class="rr-item"><div class="rr-label">R:R Ratio</div><div class="rr-val" id="rc-rr">—</div></div>
+          <div class="rr-item"><div class="rr-label">Win Needed (BEP)</div><div class="rr-val gold" id="rc-bep">—</div></div>
+          <div class="rr-item"><div class="rr-label">Capital at Risk</div><div class="rr-val" id="rc-cap-pct">—</div></div>
         </div>
       </div>
 
@@ -647,7 +647,7 @@ canvas{display:block;width:100%!important;}
         <div class="panel-body">
           <div class="fg-grid" style="gap:10px;margin-bottom:14px">
             <div class="fg">
-              <label class="fl">Daily Loss Limit (â‚¹)</label>
+              <label class="fl">Daily Loss Limit ($)</label>
               <input class="fi" id="rc-daily-limit" type="number" value="3000" oninput="calcDailyLimit()">
             </div>
             <div class="fg">
@@ -664,8 +664,8 @@ canvas{display:block;width:100%!important;}
         <div class="panel-body">
           <div class="fg-grid" style="gap:10px;margin-bottom:14px">
             <div class="fg"><label class="fl">Win Rate (%)</label><input class="fi" id="ex-wr" type="number" value="50" oninput="calcExpectancy()"></div>
-            <div class="fg"><label class="fl">Avg Win (â‚¹)</label><input class="fi" id="ex-win" type="number" value="3000" oninput="calcExpectancy()"></div>
-            <div class="fg"><label class="fl">Avg Loss (â‚¹)</label><input class="fi" id="ex-loss" type="number" value="2000" oninput="calcExpectancy()"></div>
+            <div class="fg"><label class="fl">Avg Win ($)</label><input class="fi" id="ex-win" type="number" value="3000" oninput="calcExpectancy()"></div>
+            <div class="fg"><label class="fl">Avg Loss ($)</label><input class="fi" id="ex-loss" type="number" value="2000" oninput="calcExpectancy()"></div>
             <div class="fg"><label class="fl">Trades per month</label><input class="fi" id="ex-trades" type="number" value="20" oninput="calcExpectancy()"></div>
           </div>
           <div id="expectancy-display"></div>
@@ -675,23 +675,23 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â”€â”€â”€ PLAYBOOK â”€â”€â”€ -->
+<!-- ─── PLAYBOOK ─── -->
 <div id="page-playbook" class="page">
   <div class="ph">
     <div class="ph-title">Setup Playbook</div>
-    <div class="ph-sub">Based on your logged trades â€” what each setup actually earns you</div>
+    <div class="ph-sub">Based on your logged trades — what each setup actually earns you</div>
   </div>
   <div id="playbook-list"></div>
 </div>
 
-<!-- â”€â”€â”€ WEEKLY REVIEW â”€â”€â”€ -->
+<!-- ─── WEEKLY REVIEW ─── -->
 <div id="page-weekly" class="page">
   <div class="ph">
     <div class="ph-title">Weekly Review</div>
     <div class="ph-actions">
-      <button class="btn btn-ghost btn-sm" onclick="weekNav(-1)">â† Prev</button>
+      <button class="btn btn-ghost btn-sm" onclick="weekNav(-1)">← Prev</button>
       <span id="week-label" style="font-size:12px;color:var(--text2);padding:0 8px;font-family:'DM Mono',monospace"></span>
-      <button class="btn btn-ghost btn-sm" onclick="weekNav(1)">Next â†’</button>
+      <button class="btn btn-ghost btn-sm" onclick="weekNav(1)">Next →</button>
     </div>
   </div>
   <div class="week-days" id="week-days"></div>
@@ -718,7 +718,7 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â”€â”€â”€ MISTAKES â”€â”€â”€ -->
+<!-- ─── MISTAKES ─── -->
 <div id="page-mistakes" class="page">
   <div class="ph"><div class="ph-title">Mistake Patterns</div></div>
 
@@ -726,17 +726,17 @@ canvas{display:block;width:100%!important;}
     <div class="stat-card stat-card-red">
       <div class="sc-label">FOMO Trades</div>
       <div class="sc-val neg" id="m-fomo">0</div>
-      <div class="sc-sub" id="m-fomo-pnl">â‚¹0 lost</div>
+      <div class="sc-sub" id="m-fomo-pnl">$0 lost</div>
     </div>
     <div class="stat-card stat-card-red">
       <div class="sc-label">Revenge Trades</div>
       <div class="sc-val neg" id="m-revenge">0</div>
-      <div class="sc-sub" id="m-revenge-pnl">â‚¹0 lost</div>
+      <div class="sc-sub" id="m-revenge-pnl">$0 lost</div>
     </div>
     <div class="stat-card" style="border-top:2px solid var(--amber)">
       <div class="sc-label">Moved Stop</div>
       <div class="sc-val" id="m-movedstop" style="color:var(--amber)">0</div>
-      <div class="sc-sub" id="m-movedstop-pnl">â‚¹0 impact</div>
+      <div class="sc-sub" id="m-movedstop-pnl">$0 impact</div>
     </div>
     <div class="stat-card stat-card-red">
       <div class="sc-label">Mistake Rate</div>
@@ -767,11 +767,11 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â”€â”€â”€ RULES â”€â”€â”€ -->
+<!-- ─── RULES ─── -->
 <div id="page-rules" class="page">
   <div class="ph">
     <div class="ph-title">My Trading Rules</div>
-    <div class="ph-sub">Check rules you followed today â€” build the habit</div>
+    <div class="ph-sub">Check rules you followed today — build the habit</div>
   </div>
   <div id="rules-list" style="max-width:700px"></div>
 </div>
@@ -779,24 +779,24 @@ canvas{display:block;width:100%!important;}
 </main>
 </div>
 
-<!-- â•â• ADD / EDIT TRADE MODAL â•â• -->
+<!-- ══ ADD / EDIT TRADE MODAL ══ -->
 <div class="overlay" id="modal-add">
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title" id="modal-add-title">Log a Trade</div>
-      <button class="modal-close" onclick="closeOverlay('modal-add')">âœ•</button>
+      <button class="modal-close" onclick="closeOverlay('modal-add')">✕</button>
     </div>
     <div class="modal-body">
       <div class="f-section">Trade Details</div>
       <div class="fg-grid">
-        <div class="fg"><label class="fl">Symbol</label><input class="fi" id="f-sym" placeholder="NIFTY, BANKNIFTYâ€¦" style="text-transform:uppercase"></div>
+        <div class="fg"><label class="fl">Symbol</label><input class="fi" id="f-sym" placeholder="NIFTY, BANKNIFTY…" style="text-transform:uppercase"></div>
         <div class="fg"><label class="fl">Date</label><input class="fi" id="f-date" type="date"></div>
         <div class="fg"><label class="fl">Direction</label>
           <select class="fs" id="f-dir"><option>Long</option><option>Short</option></select>
         </div>
         <div class="fg"><label class="fl">Setup</label>
           <select class="fs" id="f-setup">
-            <option value="">â€” Select â€”</option>
+            <option value="">— Select —</option>
             <option>Breakout</option><option>Reversal</option><option>Trend Follow</option>
             <option>Support/Resistance</option><option>Opening Range</option><option>Gap Fill</option>
             <option>VWAP Bounce</option><option>Price Action</option><option>Other</option>
@@ -804,14 +804,14 @@ canvas{display:block;width:100%!important;}
         </div>
       </div>
       <div class="fg-grid">
-        <div class="fg"><label class="fl">Entry Price (â‚¹)</label><input class="fi" id="f-entry" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
-        <div class="fg"><label class="fl">Exit Price (â‚¹)</label><input class="fi" id="f-exit" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
+        <div class="fg"><label class="fl">Entry Price ($)</label><input class="fi" id="f-entry" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
+        <div class="fg"><label class="fl">Exit Price ($)</label><input class="fi" id="f-exit" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
         <div class="fg"><label class="fl">Quantity / Lots</label><input class="fi" id="f-qty" type="number" placeholder="1" oninput="autoCalcPnl()"></div>
-        <div class="fg"><label class="fl">P&L (â‚¹) <span style="color:var(--text3);font-style:italic;font-size:9px">auto-fills</span></label><input class="fi" id="f-pnl" type="number" placeholder="Auto or manual"></div>
+        <div class="fg"><label class="fl">P&L ($) <span style="color:var(--text3);font-style:italic;font-size:9px">auto-fills</span></label><input class="fi" id="f-pnl" type="number" placeholder="Auto or manual"></div>
       </div>
       <div class="fg-grid">
-        <div class="fg"><label class="fl">Stop Loss (â‚¹)</label><input class="fi" id="f-sl" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
-        <div class="fg"><label class="fl">Target (â‚¹)</label><input class="fi" id="f-target" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
+        <div class="fg"><label class="fl">Stop Loss ($)</label><input class="fi" id="f-sl" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
+        <div class="fg"><label class="fl">Target ($)</label><input class="fi" id="f-target" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
         <div class="fg"><label class="fl">R:R <span style="color:var(--text3);font-style:italic;font-size:9px">auto</span></label><input class="fi" id="f-rr" type="number" placeholder="1:?" step="0.01" readonly style="opacity:.7"></div>
         <div class="fg"><label class="fl">Time of Entry</label><input class="fi" id="f-time" type="time" value="09:30"></div>
       </div>
@@ -838,7 +838,7 @@ canvas{display:block;width:100%!important;}
             <option>Overtraded</option>
             <option>Ignored stop loss</option>
             <option>Sized too large</option>
-            <option>No setup â€” FOMO entry</option>
+            <option>No setup — FOMO entry</option>
             <option>Revenge trade</option>
             <option>Held loser too long</option>
             <option>Added to losing position</option>
@@ -865,7 +865,7 @@ canvas{display:block;width:100%!important;}
   </div>
 </div>
 
-<!-- â•â• TRADE DETAIL MODAL â•â• -->
+<!-- ══ TRADE DETAIL MODAL ══ -->
 <div class="overlay" id="modal-detail">
   <div class="modal">
     <div class="modal-head">
@@ -873,14 +873,14 @@ canvas{display:block;width:100%!important;}
       <div style="display:flex;gap:8px;align-items:center">
         <button class="btn btn-ghost btn-sm" id="md-edit-btn">Edit</button>
         <button class="btn btn-danger btn-sm" id="md-del-btn">Delete</button>
-        <button class="modal-close" onclick="closeOverlay('modal-detail')">âœ•</button>
+        <button class="modal-close" onclick="closeOverlay('modal-detail')">✕</button>
       </div>
     </div>
     <div class="modal-body" id="md-body"></div>
   </div>
 </div>
 
-<!-- â•â• TOOLTIP â•â• -->
+<!-- ══ TOOLTIP ══ -->
 <div class="tooltip" id="tooltip"></div>
 <div class="toast" id="toast"></div>
 
@@ -1045,7 +1045,7 @@ window.openCloudSetup = async function openCloudSetup() {
   if (!anonKey) return;
   await window.edgeCloud.configure(url.trim(), anonKey.trim());
   if (window.refreshFromCloud) await window.refreshFromCloud();
-  if (window.toast) window.toast("Cloud settings saved âœ“");
+  if (window.toast) window.toast("Cloud settings saved ✓");
 };
 
 window.openCloudAuth = async function openCloudAuth() {
@@ -1053,7 +1053,7 @@ window.openCloudAuth = async function openCloudAuth() {
   if (!email) return;
   try {
     await window.edgeCloud.sendMagicLink(email.trim());
-    if (window.toast) window.toast("Magic link sent âœ“");
+    if (window.toast) window.toast("Magic link sent ✓");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not send magic link", true);
   }
@@ -1068,9 +1068,9 @@ await initCloud();
 </script>
 
 <script>
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  DATA
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 let T = [];
 let editId = null, formRating = 3, tradeFilter = 'all', sortKey = 'date', sortDir = -1;
 let eqRange = 'all', calDisplayYear = new Date().getFullYear(), weekOffset = 0;
@@ -1079,9 +1079,9 @@ const rulesChecked = JSON.parse(localStorage.getItem('ej2-rules') || '{}');
 function save() {}
 function saveRules() { localStorage.setItem('ej2-rules', JSON.stringify(rulesChecked)); }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  NAVIGATION
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function nav(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1100,9 +1100,9 @@ function nav(name) {
   if (name === 'rules') renderRules();
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  STATS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function stats(arr) {
   if (!arr.length) return {};
   const pnl = arr.reduce((s, t) => s + t.pnl, 0);
@@ -1129,26 +1129,26 @@ function stats(arr) {
 
 function fmtPnl(v) {
   const s = v >= 0 ? '+' : '';
-  return `<span class="${v >= 0 ? 'pnl-p' : 'pnl-n'}">${s}â‚¹${Math.abs(v).toLocaleString('en-IN')}</span>`;
+  return `<span class="${v >= 0 ? 'pnl-p' : 'pnl-n'}">${s}$${Math.abs(v).toLocaleString('en-IN')}</span>`;
 }
 function fmtDir(d) {
   return d === 'Long'
-    ? '<span class="dir-l">â–² L</span>'
-    : '<span class="dir-s">â–¼ S</span>';
+    ? '<span class="dir-l">▲ L</span>'
+    : '<span class="dir-s">▼ S</span>';
 }
 function fmtStars(r) {
   r = r || 3;
-  return `<span class="stars">${'â˜…'.repeat(r)}${'â˜†'.repeat(5 - r)}</span>`;
+  return `<span class="stars">${'★'.repeat(r)}${'☆'.repeat(5 - r)}</span>`;
 }
 function fmtEmo(e) {
   const cls = e === 'FOMO' ? 'tag-e-fomo' : e === 'Revenge' ? 'tag-e-revenge' : e === 'Calm' ? 'tag-e-calm' : 'tag-e-amber';
-  return `<span class="tag ${cls}">${e || 'â€”'}</span>`;
+  return `<span class="tag ${cls}">${e || '—'}</span>`;
 }
 function fmtMono(v) { return `<span class="mono" style="font-size:12px;color:var(--text2)">${v}</span>`; }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  MODAL HELPERS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
 function openAdd(id = null) {
   editId = id;
@@ -1171,7 +1171,7 @@ function openAdd(id = null) {
 function buildFormStars() {
   const el = document.getElementById('form-stars');
   el.innerHTML = [1,2,3,4,5].map(i =>
-    `<button type="button" class="star-btn ${i <= formRating ? 'on' : ''}" onclick="setFormRating(${i})">â˜…</button>`
+    `<button type="button" class="star-btn ${i <= formRating ? 'on' : ''}" onclick="setFormRating(${i})">★</button>`
   ).join('');
 }
 function setFormRating(n) {
@@ -1202,9 +1202,9 @@ function autoCalcRR() {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  SAVE TRADE
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 async function refreshFromCloud() {
   if (!window.edgeCloud) return;
   try {
@@ -1257,15 +1257,15 @@ async function saveTrade() {
     closeOverlay('modal-add');
     editId = null;
     await refreshFromCloud();
-    toast(trade.id ? 'Trade updated âœ“' : 'Trade saved âœ“');
+    toast(trade.id ? 'Trade updated ✓' : 'Trade saved ✓');
   } catch (error) {
     toast(error.message || 'Could not save trade', true);
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  DELETE
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 async function deleteTrade(id) {
   if (!confirm('Delete this trade?')) return;
   try {
@@ -1278,9 +1278,9 @@ async function deleteTrade(id) {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  DETAIL MODAL
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function openDetail(id) {
   const t = T.find(x => x.id === id);
   if (!t) return;
@@ -1290,12 +1290,12 @@ function openDetail(id) {
   document.getElementById('md-del-btn').onclick = () => deleteTrade(id);
   const fields = [
     { l: 'Direction', v: fmtDir(t.dir) },
-    { l: 'Setup', v: t.setup ? `<span class="tag tag-setup">${t.setup}</span>` : 'â€”' },
+    { l: 'Setup', v: t.setup ? `<span class="tag tag-setup">${t.setup}</span>` : '—' },
     { l: 'P&L', v: fmtPnl(t.pnl) },
-    { l: 'Entry', v: t.entry ? `â‚¹${t.entry.toLocaleString('en-IN')}` : 'â€”' },
-    { l: 'Exit', v: t.exit ? `â‚¹${t.exit.toLocaleString('en-IN')}` : 'â€”' },
-    { l: 'Qty', v: t.qty || 'â€”' },
-    { l: 'R:R', v: t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : 'â€”' },
+    { l: 'Entry', v: t.entry ? `$${t.entry.toLocaleString('en-IN')}` : '—' },
+    { l: 'Exit', v: t.exit ? `$${t.exit.toLocaleString('en-IN')}` : '—' },
+    { l: 'Qty', v: t.qty || '—' },
+    { l: 'R:R', v: t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : '—' },
     { l: 'Emotion', v: fmtEmo(t.emotion) },
     { l: 'Rating', v: fmtStars(t.rating) },
   ];
@@ -1303,34 +1303,34 @@ function openDetail(id) {
     <div class="dg">${fields.map(f => `<div class="di"><div class="di-label">${f.l}</div><div class="di-val">${f.v}</div></div>`).join('')}</div>
     ${t.plan ? `<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Pre-trade Plan</div><div class="note-box plan-box" style="margin-bottom:14px">${t.plan}</div>` : ''}
     ${t.notes ? `<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Lesson / Notes</div><div class="note-box lesson-box" style="margin-bottom:14px">${t.notes}</div>` : ''}
-    ${t.mistake ? `<div style="display:inline-flex;align-items:center;gap:7px;background:var(--redbg);color:var(--red);padding:7px 12px;border-radius:var(--r2);font-size:12px;border:1px solid var(--redborder)">âš  Mistake: ${t.mistake}</div>` : ''}
+    ${t.mistake ? `<div style="display:inline-flex;align-items:center;gap:7px;background:var(--redbg);color:var(--red);padding:7px 12px;border-radius:var(--r2);font-size:12px;border:1px solid var(--redborder)">⚠ Mistake: ${t.mistake}</div>` : ''}
   `;
   document.getElementById('modal-detail').classList.add('open');
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  DASHBOARD
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function renderDashboard() {
   const st = stats(T);
   const pnl = st.pnl || 0;
   const el = document.getElementById('d-pnl');
-  el.textContent = (pnl >= 0 ? '+' : '') + 'â‚¹' + Math.abs(pnl).toLocaleString('en-IN');
+  el.textContent = (pnl >= 0 ? '+' : '') + '$' + Math.abs(pnl).toLocaleString('en-IN');
   el.className = 'sc-val ' + (pnl >= 0 ? 'pos' : 'neg');
   document.getElementById('d-pnl-sub').textContent = T.length + ' total trades';
-  document.getElementById('d-wr').textContent = T.length ? (st.wr * 100).toFixed(1) + '%' : 'â€”';
+  document.getElementById('d-wr').textContent = T.length ? (st.wr * 100).toFixed(1) + '%' : '—';
   document.getElementById('d-wr-sub').textContent = T.length + ' trades';
-  document.getElementById('d-pf').textContent = st.pf > 0 ? (st.pf > 100 ? 'âˆž' : st.pf.toFixed(2)) : 'â€”';
-  document.getElementById('d-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(2) : 'â€”';
-  document.getElementById('d-dd').textContent = st.dd ? '-â‚¹' + st.dd.toLocaleString('en-IN') : 'â‚¹0';
+  document.getElementById('d-pf').textContent = st.pf > 0 ? (st.pf > 100 ? '∞' : st.pf.toFixed(2)) : '—';
+  document.getElementById('d-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(2) : '—';
+  document.getElementById('d-dd').textContent = st.dd ? '-$' + st.dd.toLocaleString('en-IN') : '$0';
   document.getElementById('nb-trades').textContent = T.length;
 
   // Sidebar
-  document.getElementById('sb-pnl').textContent = (pnl >= 0 ? '+' : '') + 'â‚¹' + Math.abs(pnl).toLocaleString('en-IN');
+  document.getElementById('sb-pnl').textContent = (pnl >= 0 ? '+' : '') + '$' + Math.abs(pnl).toLocaleString('en-IN');
   document.getElementById('sb-pnl').style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
-  document.getElementById('sb-wr').textContent = T.length ? (st.wr * 100).toFixed(0) + '%' : 'â€”';
-  document.getElementById('sb-pf').textContent = st.pf > 0 ? (st.pf > 100 ? 'âˆž' : st.pf.toFixed(1)) : 'â€”';
-  document.getElementById('sb-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(1) : 'â€”';
+  document.getElementById('sb-wr').textContent = T.length ? (st.wr * 100).toFixed(0) + '%' : '—';
+  document.getElementById('sb-pf').textContent = st.pf > 0 ? (st.pf > 100 ? '∞' : st.pf.toFixed(1)) : '—';
+  document.getElementById('sb-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(1) : '—';
   const mistakeTrades = T.filter(t => t.mistake || t.emotion === 'FOMO' || t.emotion === 'Revenge');
   document.getElementById('nb-mistakes').style.display = mistakeTrades.length ? 'block' : 'none';
 
@@ -1341,13 +1341,13 @@ function renderDashboard() {
   if (days.length) {
     const best = days.reduce((a, b) => b[1] > a[1] ? b : a);
     const worst = days.reduce((a, b) => b[1] < a[1] ? b : a);
-    document.getElementById('d-best-day').textContent = '+â‚¹' + best[1].toLocaleString('en-IN');
+    document.getElementById('d-best-day').textContent = '+$' + best[1].toLocaleString('en-IN');
     document.getElementById('d-best-day-date').textContent = best[0];
-    document.getElementById('d-worst-day').textContent = '-â‚¹' + Math.abs(worst[1]).toLocaleString('en-IN');
+    document.getElementById('d-worst-day').textContent = '-$' + Math.abs(worst[1]).toLocaleString('en-IN');
     document.getElementById('d-worst-day-date').textContent = worst[0];
   }
-  if (st.avgWin) document.getElementById('d-avg-win').textContent = '+â‚¹' + Math.round(st.avgWin).toLocaleString('en-IN');
-  if (st.avgLoss) document.getElementById('d-avg-loss').textContent = '-â‚¹' + Math.abs(Math.round(st.avgLoss)).toLocaleString('en-IN');
+  if (st.avgWin) document.getElementById('d-avg-win').textContent = '+$' + Math.round(st.avgWin).toLocaleString('en-IN');
+  if (st.avgLoss) document.getElementById('d-avg-loss').textContent = '-$' + Math.abs(Math.round(st.avgLoss)).toLocaleString('en-IN');
 
   // Recent trades
   const rec = [...T].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
@@ -1359,7 +1359,7 @@ function renderDashboard() {
         <td>${fmtPnl(t.pnl)}</td>
         <td>${fmtStars(t.rating)}</td>
       </tr>`).join('')
-    : `<tr><td colspan="5"><div class="empty-state"><div class="es-icon">â—ˆ</div><div class="es-text">No trades yet</div><div class="es-sub">Click "+ Log Trade" to begin</div></div></td></tr>`;
+    : `<tr><td colspan="5"><div class="empty-state"><div class="es-icon">◈</div><div class="es-text">No trades yet</div><div class="es-sub">Click "+ Log Trade" to begin</div></div></td></tr>`;
 
   // Streak
   const sorted = [...T].sort((a, b) => a.date.localeCompare(b.date));
@@ -1379,18 +1379,18 @@ function renderDashboard() {
   }
   document.getElementById('d-streak').innerHTML = last20.map(t => {
     const cls = t.pnl > 0 ? 'background:var(--green);' : 'background:var(--red);';
-    return `<div style="width:16px;height:16px;border-radius:3px;${cls}" title="${t.date}: ${t.sym} ${t.pnl >= 0 ? '+' : ''}â‚¹${t.pnl}"></div>`;
+    return `<div style="width:16px;height:16px;border-radius:3px;${cls}" title="${t.date}: ${t.sym} ${t.pnl >= 0 ? '+' : ''}$${t.pnl}"></div>`;
   }).join('') || '<span style="color:var(--text3);font-size:11px">No trades</span>';
-  document.getElementById('d-streak-cur').textContent = cur > 0 ? cur + ' wins' : cur < 0 ? Math.abs(cur) + ' losses' : 'â€”';
+  document.getElementById('d-streak-cur').textContent = cur > 0 ? cur + ' wins' : cur < 0 ? Math.abs(cur) + ' losses' : '—';
   document.getElementById('d-streak-cur').style.color = cur > 0 ? 'var(--green)' : cur < 0 ? 'var(--red)' : 'var(--text2)';
   document.getElementById('d-streak-best').textContent = bestW;
 
   drawEqChart('eq-canvas', T, eqRange);
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  TRADE LOG
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function setFilter(f, el) {
   tradeFilter = f;
   document.querySelectorAll('.chips .chip').forEach(c => c.classList.remove('chip-on'));
@@ -1432,16 +1432,16 @@ function renderTradeLog() {
   });
   document.getElementById('log-tbody').innerHTML = arr.length
     ? arr.map(t => {
-        const rrBadge = t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : 'â€”';
-        const mistTag = t.mistake ? `<span class="tag" style="background:var(--redbg);color:var(--red);border-color:var(--redborder);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.mistake}">${t.mistake}</span>` : '<span style="color:var(--text4)">â€”</span>';
+        const rrBadge = t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : '—';
+        const mistTag = t.mistake ? `<span class="tag" style="background:var(--redbg);color:var(--red);border-color:var(--redborder);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.mistake}">${t.mistake}</span>` : '<span style="color:var(--text4)">—</span>';
         return `<tr onclick="openDetail(${t.id})">
           <td class="mono" style="font-size:11px;color:var(--text3)">${t.date}</td>
           <td><span class="sym">${t.sym}</span></td>
           <td>${fmtDir(t.dir)}</td>
-          <td><span class="tag tag-setup">${t.setup || 'â€”'}</span></td>
-          <td class="mono" style="font-size:12px">${t.entry ? 'â‚¹' + t.entry.toLocaleString('en-IN') : 'â€”'}</td>
-          <td class="mono" style="font-size:12px">${t.exit ? 'â‚¹' + t.exit.toLocaleString('en-IN') : 'â€”'}</td>
-          <td class="mono" style="font-size:12px">${t.qty || 'â€”'}</td>
+          <td><span class="tag tag-setup">${t.setup || '—'}</span></td>
+          <td class="mono" style="font-size:12px">${t.entry ? '$' + t.entry.toLocaleString('en-IN') : '—'}</td>
+          <td class="mono" style="font-size:12px">${t.exit ? '$' + t.exit.toLocaleString('en-IN') : '—'}</td>
+          <td class="mono" style="font-size:12px">${t.qty || '—'}</td>
           <td>${fmtPnl(t.pnl)}</td>
           <td>${rrBadge}</td>
           <td>${fmtEmo(t.emotion)}</td>
@@ -1449,12 +1449,12 @@ function renderTradeLog() {
           <td>${mistTag}</td>
         </tr>`;
       }).join('')
-    : `<tr><td colspan="12"><div class="empty-state"><div class="es-icon">â—ˆ</div><div class="es-text">No trades match</div></div></td></tr>`;
+    : `<tr><td colspan="12"><div class="empty-state"><div class="es-icon">◈</div><div class="es-text">No trades match</div></div></td></tr>`;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  ANALYTICS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function renderAnalytics() {
   drawEqChart('a-eq-canvas', T, 'all');
   drawHistChart();
@@ -1479,22 +1479,22 @@ function renderSetupBreakdown() {
         <td class="mono" style="color:${st.wr >= .5 ? 'var(--green)' : 'var(--red)'}">${(st.wr * 100).toFixed(0)}%</td>
         <td>${fmtPnl(st.pnl)}</td>
         <td>${fmtPnl(Math.round(st.pnl / arr.length))}</td>
-        <td><span class="pnl-p mono">+â‚¹${best.toLocaleString('en-IN')}</span></td>
-        <td><span class="pnl-n mono">-â‚¹${Math.abs(worst).toLocaleString('en-IN')}</span></td>
+        <td><span class="pnl-p mono">+$${best.toLocaleString('en-IN')}</span></td>
+        <td><span class="pnl-n mono">-$${Math.abs(worst).toLocaleString('en-IN')}</span></td>
       </tr>`;
     }).join('') || `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text3)">Log trades to see breakdown</td></tr>`;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  CALENDAR
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function calYear(d) { calDisplayYear += d; renderCalendar(); }
 function renderCalendar() {
   document.getElementById('cal-year-label').textContent = calDisplayYear;
   const year = calDisplayYear;
   const start = new Date(year, 0, 1);
   const end = new Date(year, 11, 31);
-  // build day â†’ pnl map
+  // build day → pnl map
   const dayMap = {};
   T.filter(t => t.date && t.date.startsWith(year)).forEach(t => {
     dayMap[t.date] = (dayMap[t.date] || 0) + t.pnl;
@@ -1510,11 +1510,11 @@ function renderCalendar() {
     monthMap[m] = (monthMap[m] || 0) + v;
   });
   const bestMonth = Object.entries(monthMap).sort((a, b) => b[1] - a[1])[0];
-  document.getElementById('cal-best-month').textContent = bestMonth ? (bestMonth[1] >= 0 ? '+' : '') + 'â‚¹' + Math.round(bestMonth[1]).toLocaleString('en-IN') : 'â€”';
-  document.getElementById('cal-best-month-label').textContent = bestMonth ? bestMonth[0] : 'â€”';
-  document.getElementById('cal-prof-days').textContent = tradedDays.length ? profDays + ' / ' + tradedDays.length : 'â€”';
+  document.getElementById('cal-best-month').textContent = bestMonth ? (bestMonth[1] >= 0 ? '+' : '') + '$' + Math.round(bestMonth[1]).toLocaleString('en-IN') : '—';
+  document.getElementById('cal-best-month-label').textContent = bestMonth ? bestMonth[0] : '—';
+  document.getElementById('cal-prof-days').textContent = tradedDays.length ? profDays + ' / ' + tradedDays.length : '—';
   const avgEl = document.getElementById('cal-avg-day');
-  avgEl.textContent = tradedDays.length ? (avgDay >= 0 ? '+' : '') + 'â‚¹' + Math.round(avgDay).toLocaleString('en-IN') : 'â€”';
+  avgEl.textContent = tradedDays.length ? (avgDay >= 0 ? '+' : '') + '$' + Math.round(avgDay).toLocaleString('en-IN') : '—';
   avgEl.className = 'sc-val ' + (avgDay >= 0 ? 'pos' : 'neg');
 
   // build heatmap: week columns from Jan 1
@@ -1542,7 +1542,7 @@ function renderCalendar() {
           const intensity = Math.min(4, Math.ceil(Math.abs(pnl) / maxAbs * 4));
           cls = pnl >= 0 ? `hm-win-${intensity}` : `hm-loss-${intensity}`;
         }
-        const tip = pnl !== undefined ? `${ds}: ${pnl >= 0 ? '+' : ''}â‚¹${pnl.toLocaleString('en-IN')}` : ds;
+        const tip = pnl !== undefined ? `${ds}: ${pnl >= 0 ? '+' : ''}$${pnl.toLocaleString('en-IN')}` : ds;
         html += `<div class="hm-cell ${cls}" title="${tip}"></div>`;
       }
       d.setDate(d.getDate() + 1);
@@ -1557,9 +1557,9 @@ function renderCalendar() {
   monthLabels.innerHTML = monthNames.map(m => `<span class="hm-month-label" style="width:${13*4+3*4}px">${m}</span>`).join('');
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  RISK CALCULATOR
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function calcRisk() {
   const acc = parseFloat(document.getElementById('rc-account').value) || 0;
   const riskPct = parseFloat(document.getElementById('rc-riskpct').value) || 1;
@@ -1568,7 +1568,7 @@ function calcRisk() {
   const target = parseFloat(document.getElementById('rc-target').value);
   const lot = parseFloat(document.getElementById('rc-lotsize').value) || 1;
   const riskAmt = acc * riskPct / 100;
-  document.getElementById('rc-risk-amt').textContent = riskAmt > 0 ? '-â‚¹' + riskAmt.toLocaleString('en-IN') : 'â€”';
+  document.getElementById('rc-risk-amt').textContent = riskAmt > 0 ? '-$' + riskAmt.toLocaleString('en-IN') : '—';
   if (entry && sl) {
     const riskPerUnit = Math.abs(entry - sl);
     const maxUnits = riskPerUnit > 0 ? riskAmt / riskPerUnit : 0;
@@ -1578,14 +1578,14 @@ function calcRisk() {
       const rewardPerUnit = Math.abs(target - entry);
       const rewardAmt = rewardPerUnit * maxUnits;
       const rr = riskPerUnit > 0 ? rewardPerUnit / riskPerUnit : 0;
-      const bep = rr > 0 ? (1 / (1 + rr) * 100).toFixed(1) : 'â€”';
-      document.getElementById('rc-reward').textContent = '+â‚¹' + Math.round(rewardAmt).toLocaleString('en-IN');
+      const bep = rr > 0 ? (1 / (1 + rr) * 100).toFixed(1) : '—';
+      document.getElementById('rc-reward').textContent = '+$' + Math.round(rewardAmt).toLocaleString('en-IN');
       document.getElementById('rc-rr').textContent = '1:' + rr.toFixed(2);
       document.getElementById('rc-rr').style.color = rr >= 2 ? 'var(--green)' : rr >= 1.5 ? 'var(--amber)' : 'var(--red)';
       document.getElementById('rc-bep').textContent = bep + '%';
     }
   }
-  document.getElementById('rc-cap-pct').textContent = riskAmt > 0 && acc > 0 ? (riskAmt / acc * 100).toFixed(2) + '%' : 'â€”';
+  document.getElementById('rc-cap-pct').textContent = riskAmt > 0 && acc > 0 ? (riskAmt / acc * 100).toFixed(2) + '%' : '—';
 }
 
 function calcDailyLimit() {
@@ -1602,7 +1602,7 @@ function calcDailyLimit() {
     <div style="margin-bottom:12px">
       <div style="display:flex;justify-content:space-between;margin-bottom:4px">
         <span style="font-size:11px;color:var(--text3)">Loss used</span>
-        <span class="mono" style="font-size:11px;color:${Math.abs(dd) > limit * .7 ? 'var(--red)' : 'var(--text2)'}">â‚¹${Math.abs(dd).toLocaleString('en-IN')} / â‚¹${limit.toLocaleString('en-IN')}</span>
+        <span class="mono" style="font-size:11px;color:${Math.abs(dd) > limit * .7 ? 'var(--red)' : 'var(--text2)'}">$${Math.abs(dd).toLocaleString('en-IN')} / $${limit.toLocaleString('en-IN')}</span>
       </div>
       <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%;background:${pct > 80 ? 'var(--red)' : pct > 60 ? 'var(--amber)' : 'var(--green)'}"></div></div>
     </div>
@@ -1614,7 +1614,7 @@ function calcDailyLimit() {
       <div class="prog-wrap"><div class="prog-fill" style="width:${trPct}%;background:${trPct > 80 ? 'var(--red)' : trPct > 60 ? 'var(--amber)' : 'var(--blue)'}"></div></div>
     </div>
     <div style="padding:10px 14px;border-radius:var(--r2);background:${canTrade ? 'var(--greenbg)' : 'var(--redbg)'};border:1px solid ${canTrade ? 'var(--greenborder)' : 'var(--redborder)'};color:${canTrade ? 'var(--green)' : 'var(--red)'};font-size:13px;font-weight:500">
-      ${canTrade ? 'âœ“ You can trade today' : 'â›” Stop â€” limit reached'}
+      ${canTrade ? '✓ You can trade today' : '⛔ Stop — limit reached'}
     </div>
   `;
 }
@@ -1631,32 +1631,32 @@ function calcExpectancy() {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div style="background:var(--bg4);border-radius:var(--r2);padding:12px;text-align:center">
         <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Per Trade</div>
-        <div class="mono" style="font-size:17px;font-weight:500;color:${color}">${expectancy >= 0 ? '+' : ''}â‚¹${expectancy.toFixed(0)}</div>
+        <div class="mono" style="font-size:17px;font-weight:500;color:${color}">${expectancy >= 0 ? '+' : ''}$${expectancy.toFixed(0)}</div>
       </div>
       <div style="background:var(--bg4);border-radius:var(--r2);padding:12px;text-align:center">
         <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Per Month</div>
-        <div class="mono" style="font-size:17px;font-weight:500;color:${color}">${monthly >= 0 ? '+' : ''}â‚¹${monthly.toFixed(0)}</div>
+        <div class="mono" style="font-size:17px;font-weight:500;color:${color}">${monthly >= 0 ? '+' : ''}$${monthly.toFixed(0)}</div>
       </div>
     </div>
     <div style="margin-top:10px;font-size:11px;color:var(--text3);line-height:1.6">
-      ${expectancy > 0 ? 'âœ“ Positive expectancy â€” if you can maintain these numbers consistently, this strategy is viable.' : 'âœ— Negative expectancy â€” either increase win rate, increase avg win, or reduce avg loss.'}
+      ${expectancy > 0 ? '✓ Positive expectancy — if you can maintain these numbers consistently, this strategy is viable.' : '✗ Negative expectancy — either increase win rate, increase avg win, or reduce avg loss.'}
     </div>
   `;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  PLAYBOOK
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function renderPlaybook() {
   const setups = {};
   T.forEach(t => { const s = t.setup || 'No Setup'; if (!setups[s]) setups[s] = []; setups[s].push(t); });
   const colors = { 'Breakout':'#5090c8','Reversal':'#d95f5f','Trend Follow':'#3db87a','Support/Resistance':'#c9973e','Opening Range':'#8b74c8','Gap Fill':'#d4a83a','VWAP Bounce':'#3db87a','Price Action':'#5090c8','Other':'#8a8880','No Setup':'#565450' };
-  const icons = { 'Breakout':'â—ˆ','Reversal':'â—Ž','Trend Follow':'â†’','Support/Resistance':'âŸ·','Opening Range':'â—°','Gap Fill':'â–½','VWAP Bounce':'âˆ¿','Price Action':'â—†','Other':'â—‹','No Setup':'?' };
+  const icons = { 'Breakout':'◈','Reversal':'◎','Trend Follow':'→','Support/Resistance':'⟷','Opening Range':'◰','Gap Fill':'▽','VWAP Bounce':'∿','Price Action':'◆','Other':'○','No Setup':'?' };
   document.getElementById('playbook-list').innerHTML = Object.entries(setups).length
     ? Object.entries(setups).sort((a, b) => b[1].length - a[1].length).map(([s, arr]) => {
         const st = stats(arr);
         const color = colors[s] || '#8a8880';
-        const icon = icons[s] || 'â—‹';
+        const icon = icons[s] || '○';
         const wr = (st.wr * 100).toFixed(0);
         const trades = arr.slice(0, 3);
         return `<div class="pb-card">
@@ -1664,35 +1664,35 @@ function renderPlaybook() {
             <div class="pb-icon" style="background:${color}22;color:${color}">${icon}</div>
             <div>
               <div class="pb-name">${s}</div>
-              <div style="font-size:11px;color:var(--text3)">${arr.length} trades Â· avg â‚¹${Math.round(st.pnl / arr.length).toLocaleString('en-IN')}</div>
+              <div style="font-size:11px;color:var(--text3)">${arr.length} trades · avg $${Math.round(st.pnl / arr.length).toLocaleString('en-IN')}</div>
             </div>
             <div class="pb-wr" style="color:${st.wr >= .5 ? 'var(--green)' : 'var(--red)'}">${wr}% WR</div>
-            <span style="color:var(--text3);font-size:12px;margin-left:8px">â€º</span>
+            <span style="color:var(--text3);font-size:12px;margin-left:8px">›</span>
           </div>
           <div class="pb-body">
             <div class="pb-grid">
-              <div class="pb-stat"><div class="rr-label">Total P&L</div><div class="rr-val ${st.pnl >= 0 ? 'pnl-p' : 'pnl-n'}">${st.pnl >= 0 ? '+' : ''}â‚¹${Math.round(st.pnl).toLocaleString('en-IN')}</div></div>
-              <div class="pb-stat"><div class="rr-label">Profit Factor</div><div class="rr-val">${st.pf > 0 ? (st.pf > 100 ? 'âˆž' : st.pf.toFixed(2)) : 'â€”'}</div></div>
-              <div class="pb-stat"><div class="rr-label">Avg R:R</div><div class="rr-val">${st.avgRR ? '1:' + st.avgRR.toFixed(2) : 'â€”'}</div></div>
-              <div class="pb-stat"><div class="rr-label">Avg Win</div><div class="rr-val pnl-p">${st.avgWin ? '+â‚¹' + Math.round(st.avgWin).toLocaleString('en-IN') : 'â€”'}</div></div>
-              <div class="pb-stat"><div class="rr-label">Avg Loss</div><div class="rr-val pnl-n">${st.avgLoss ? '-â‚¹' + Math.abs(Math.round(st.avgLoss)).toLocaleString('en-IN') : 'â€”'}</div></div>
-              <div class="pb-stat"><div class="rr-label">Best Trade</div><div class="rr-val pnl-p">+â‚¹${Math.max(...arr.map(t => t.pnl)).toLocaleString('en-IN')}</div></div>
+              <div class="pb-stat"><div class="rr-label">Total P&L</div><div class="rr-val ${st.pnl >= 0 ? 'pnl-p' : 'pnl-n'}">${st.pnl >= 0 ? '+' : ''}$${Math.round(st.pnl).toLocaleString('en-IN')}</div></div>
+              <div class="pb-stat"><div class="rr-label">Profit Factor</div><div class="rr-val">${st.pf > 0 ? (st.pf > 100 ? '∞' : st.pf.toFixed(2)) : '—'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Avg R:R</div><div class="rr-val">${st.avgRR ? '1:' + st.avgRR.toFixed(2) : '—'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Avg Win</div><div class="rr-val pnl-p">${st.avgWin ? '+$' + Math.round(st.avgWin).toLocaleString('en-IN') : '—'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Avg Loss</div><div class="rr-val pnl-n">${st.avgLoss ? '-$' + Math.abs(Math.round(st.avgLoss)).toLocaleString('en-IN') : '—'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Best Trade</div><div class="rr-val pnl-p">+$${Math.max(...arr.map(t => t.pnl)).toLocaleString('en-IN')}</div></div>
             </div>
             <div style="font-size:11px;color:var(--text3);margin-top:4px">Recent trades in this setup:</div>
             ${trades.map(t => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px">
               <span style="color:var(--text3)">${t.date}</span>
               <span class="sym">${t.sym}</span>
-              <span class="${t.pnl >= 0 ? 'pnl-p' : 'pnl-n'}">${t.pnl >= 0 ? '+' : ''}â‚¹${t.pnl.toLocaleString('en-IN')}</span>
+              <span class="${t.pnl >= 0 ? 'pnl-p' : 'pnl-n'}">${t.pnl >= 0 ? '+' : ''}$${t.pnl.toLocaleString('en-IN')}</span>
             </div>`).join('')}
           </div>
         </div>`;
       }).join('')
-    : `<div class="empty-state"><div class="es-icon">â—«</div><div class="es-text">No setups yet</div><div class="es-sub">Log trades with a setup to build your playbook</div></div>`;
+    : `<div class="empty-state"><div class="es-icon">◫</div><div class="es-text">No setups yet</div><div class="es-sub">Log trades with a setup to build your playbook</div></div>`;
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  WEEKLY
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function weekNav(d) { weekOffset += d; renderWeekly(); }
 function renderWeekly() {
   const now = new Date();
@@ -1709,7 +1709,7 @@ function renderWeekly() {
   });
   const fri = new Date(mon); fri.setDate(mon.getDate() + 4);
   document.getElementById('week-label').textContent =
-    mon.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) + ' â€“ ' +
+    mon.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) + ' – ' +
     fri.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
 
   const maxAbs = Math.max(...weekDays.map(d => Math.abs(d.pnl)), 1);
@@ -1717,7 +1717,7 @@ function renderWeekly() {
     <div class="wd">
       <div class="wd-name">${d.name}</div>
       <div class="wd-pnl" style="color:${d.pnl > 0 ? 'var(--green)' : d.pnl < 0 ? 'var(--red)' : 'var(--text3)'}">
-        ${d.pnl !== 0 ? (d.pnl > 0 ? '+' : '') + 'â‚¹' + Math.abs(d.pnl).toLocaleString('en-IN') : 'â€”'}
+        ${d.pnl !== 0 ? (d.pnl > 0 ? '+' : '') + '$' + Math.abs(d.pnl).toLocaleString('en-IN') : '—'}
       </div>
       <div class="wd-trades">${d.arr.length} trade${d.arr.length !== 1 ? 's' : ''}</div>
       <div class="wd-bar"><div class="wd-bar-fill" style="width:${Math.abs(d.pnl) / maxAbs * 100}%;background:${d.pnl >= 0 ? 'var(--green)' : 'var(--red)'}"></div></div>
@@ -1729,14 +1729,14 @@ function renderWeekly() {
   const mistakeTrades = weekTrades.filter(t => t.emotion === 'FOMO' || t.emotion === 'Revenge' || t.mistake);
   document.getElementById('w-summary').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      <div><div class="di-label">Week P&L</div><div class="di-val ${weekPnl >= 0 ? 'pnl-p' : 'pnl-n'}">${weekPnl >= 0 ? '+' : ''}â‚¹${Math.abs(weekPnl).toLocaleString('en-IN')}</div></div>
+      <div><div class="di-label">Week P&L</div><div class="di-val ${weekPnl >= 0 ? 'pnl-p' : 'pnl-n'}">${weekPnl >= 0 ? '+' : ''}$${Math.abs(weekPnl).toLocaleString('en-IN')}</div></div>
       <div><div class="di-label">Trades</div><div class="di-val">${weekTrades.length}</div></div>
-      <div><div class="di-label">Win Rate</div><div class="di-val">${weekTrades.length ? (st.wr * 100).toFixed(0) + '%' : 'â€”'}</div></div>
+      <div><div class="di-label">Win Rate</div><div class="di-val">${weekTrades.length ? (st.wr * 100).toFixed(0) + '%' : '—'}</div></div>
       <div><div class="di-label">Mistakes</div><div class="di-val" style="color:${mistakeTrades.length > 0 ? 'var(--red)' : 'var(--green)'}">${mistakeTrades.length}</div></div>
     </div>
     <div style="font-size:12px;color:var(--text2);line-height:1.7;border-left:2px solid var(--border2);padding-left:10px">
       ${weekTrades.length === 0 ? 'No trades this week.' :
-        weekPnl > 0 && mistakeTrades.length === 0 ? 'âœ“ Profitable week with clean execution. Keep it up.' :
+        weekPnl > 0 && mistakeTrades.length === 0 ? '✓ Profitable week with clean execution. Keep it up.' :
         weekPnl > 0 && mistakeTrades.length > 0 ? `Profitable week but ${mistakeTrades.length} emotional trade(s). Review them.` :
         weekPnl < 0 && mistakeTrades.length > 0 ? `Losing week with ${mistakeTrades.length} mistake(s). Focus on discipline next week.` :
         'Losing week but no major mistakes. The setup may need review.'}
@@ -1748,30 +1748,30 @@ function renderWeekly() {
           <td class="mono" style="font-size:11px;color:var(--text3)">${t.date}</td>
           <td><span class="sym">${t.sym}</span></td>
           <td>${fmtDir(t.dir)}</td>
-          <td><span class="tag tag-setup">${t.setup || 'â€”'}</span></td>
+          <td><span class="tag tag-setup">${t.setup || '—'}</span></td>
           <td>${fmtPnl(t.pnl)}</td>
           <td>${fmtEmo(t.emotion)}</td>
-          <td style="font-size:11px;color:var(--text2);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes || 'â€”'}</td>
+          <td style="font-size:11px;color:var(--text2);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes || '—'}</td>
         </tr>`).join('')
     : `<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No trades this week</td></tr>`;
 
   drawWeekBar(weekDays);
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  MISTAKES
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function renderMistakes() {
   const fomo = T.filter(t => t.emotion === 'FOMO');
   const revenge = T.filter(t => t.emotion === 'Revenge');
   const movedSl = T.filter(t => t.mistake === 'Moved stop loss');
   const bad = T.filter(t => t.mistake || t.emotion === 'FOMO' || t.emotion === 'Revenge');
   document.getElementById('m-fomo').textContent = fomo.length;
-  document.getElementById('m-fomo-pnl').textContent = 'â‚¹' + Math.round(fomo.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' P&L';
+  document.getElementById('m-fomo-pnl').textContent = '$' + Math.round(fomo.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' P&L';
   document.getElementById('m-revenge').textContent = revenge.length;
-  document.getElementById('m-revenge-pnl').textContent = 'â‚¹' + Math.round(revenge.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' P&L';
+  document.getElementById('m-revenge-pnl').textContent = '$' + Math.round(revenge.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' P&L';
   document.getElementById('m-movedstop').textContent = movedSl.length;
-  document.getElementById('m-movedstop-pnl').textContent = 'â‚¹' + Math.round(movedSl.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' impact';
+  document.getElementById('m-movedstop-pnl').textContent = '$' + Math.round(movedSl.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' impact';
   document.getElementById('m-rate').textContent = T.length ? (bad.length / T.length * 100).toFixed(0) + '%' : '0%';
 
   const mistakeCounts = {};
@@ -1783,11 +1783,11 @@ function renderMistakes() {
         return `<div class="mistake-bar">
           <div class="mb-name">${m}</div>
           <div class="mb-track"><div class="mb-fill" style="width:${c / max * 100}%"></div></div>
-          <div class="mb-count">${c}Ã—</div>
-          <div class="mb-pnl ${mPnl >= 0 ? 'pnl-p' : 'pnl-n'}">${mPnl >= 0 ? '+' : ''}â‚¹${Math.round(mPnl).toLocaleString('en-IN')}</div>
+          <div class="mb-count">${c}×</div>
+          <div class="mb-pnl ${mPnl >= 0 ? 'pnl-p' : 'pnl-n'}">${mPnl >= 0 ? '+' : ''}$${Math.round(mPnl).toLocaleString('en-IN')}</div>
         </div>`;
       }).join('')
-    : '<div style="color:var(--text3);font-size:12px;padding:10px 0">No mistakes logged â€” stay disciplined!</div>';
+    : '<div style="color:var(--text3);font-size:12px;padding:10px 0">No mistakes logged — stay disciplined!</div>';
 
   document.getElementById('m-tbody').innerHTML = bad.length
     ? bad.slice(0, 20).map(t => `<tr onclick="openDetail(${t.id})">
@@ -1795,25 +1795,25 @@ function renderMistakes() {
         <td><span class="sym">${t.sym}</span></td>
         <td>${fmtPnl(t.pnl)}</td>
         <td>${fmtEmo(t.emotion)}</td>
-        <td><span style="font-size:11px;color:var(--red)">${t.mistake || 'â€”'}</span></td>
-        <td style="font-size:11px;color:var(--text3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes || 'â€”'}</td>
+        <td><span style="font-size:11px;color:var(--red)">${t.mistake || '—'}</span></td>
+        <td style="font-size:11px;color:var(--text3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes || '—'}</td>
       </tr>`).join('')
     : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text3)">No mistake trades logged</td></tr>`;
 
   drawEmotionChart();
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  RULES
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 const RULES = [
-  { n: '01', title: 'Never risk more than 1â€“2% per trade', desc: 'Position sizing is everything. A string of losses should never wipe you out. Risk 1% per trade and you can lose 20 in a row and still be in the game.' },
-  { n: '02', title: 'No setup = No trade', desc: 'If your criteria aren\'t met, sit on your hands. Boredom is not a setup. The market always gives you another opportunity â€” but a blown account doesn\'t come back.' },
+  { n: '01', title: 'Never risk more than 1–2% per trade', desc: 'Position sizing is everything. A string of losses should never wipe you out. Risk 1% per trade and you can lose 20 in a row and still be in the game.' },
+  { n: '02', title: 'No setup = No trade', desc: 'If your criteria aren\'t met, sit on your hands. Boredom is not a setup. The market always gives you another opportunity — but a blown account doesn\'t come back.' },
   { n: '03', title: 'Define stop loss BEFORE entry', desc: 'If you don\'t know where you\'re wrong before you enter, you have a hope, not a trade. Set your stop at the invalidation point, never a round number.' },
   { n: '04', title: 'Maximum daily loss: stop at -2%', desc: 'Two bad trades can snowball into a blown account. If you\'re down 2% in a day, close the platform. The market will be there tomorrow.' },
   { n: '05', title: 'Max 3 trades per day', desc: 'Your first two ideas are usually your best. Anything beyond that is often chasing or compensating. Quality over quantity.' },
   { n: '06', title: 'Log every single trade', desc: 'If it\'s not written down, it didn\'t happen. Your journal is your feedback loop. Skipping logging is choosing to stay blind to your patterns.' },
-  { n: '07', title: 'Review every Friday â€” no exceptions', desc: 'The trade is not over when you exit. What worked? What didn\'t? What emotion drove your worst trade? Honest weekly review is where real growth happens.' },
+  { n: '07', title: 'Review every Friday — no exceptions', desc: 'The trade is not over when you exit. What worked? What didn\'t? What emotion drove your worst trade? Honest weekly review is where real growth happens.' },
   { n: '08', title: 'Minimum 1:1.5 risk-to-reward', desc: 'Even with a 40% win rate, you can be profitable if your winners are bigger than your losers. Never take a trade where the target is smaller than the risk.' },
   { n: '09', title: 'Never add to a losing position', desc: 'Averaging down on a losing trade is how small losses become account-killing losses. Honor your original stop.' },
   { n: '10', title: 'Flat sizing until 3-month profitable', desc: 'Don\'t increase position size until you\'ve proven consistency. Get profitable first, then scale. Not the other way around.' },
@@ -1830,26 +1830,26 @@ function renderRules() {
         <div class="rule-desc">${r.desc}</div>
       </div>
       <div class="rule-check ${checked ? 'checked' : ''}" onclick="toggleRule('${key}', this)" title="Check if followed today">
-        ${checked ? '<span style="color:#fff;font-size:11px">âœ“</span>' : ''}
+        ${checked ? '<span style="color:#fff;font-size:11px">✓</span>' : ''}
       </div>
     </div>`;
   }).join('');
   const checkedToday = RULES.filter(r => !!rulesChecked[today + '-' + r.n]).length;
   // header note
   const ph = document.querySelector('#page-rules .ph-sub');
-  if (ph) ph.textContent = `${checkedToday} / ${RULES.length} rules followed today â€” check each one you honored`;
+  if (ph) ph.textContent = `${checkedToday} / ${RULES.length} rules followed today — check each one you honored`;
 }
 function toggleRule(key, el) {
   rulesChecked[key] = !rulesChecked[key];
   el.classList.toggle('checked', !!rulesChecked[key]);
-  el.innerHTML = rulesChecked[key] ? '<span style="color:#fff;font-size:11px">âœ“</span>' : '';
+  el.innerHTML = rulesChecked[key] ? '<span style="color:#fff;font-size:11px">✓</span>' : '';
   saveRules();
   renderRules();
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  EXPORT CSV
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function exportCSV() {
   const headers = ['Date','Symbol','Direction','Setup','Entry','Exit','Qty','PnL','RR','Emotion','Mistake','Rating','Plan','Notes'];
   const rows = T.map(t => [
@@ -1863,12 +1863,12 @@ function exportCSV() {
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
   a.download = 'trades-' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
-  toast('CSV exported âœ“');
+  toast('CSV exported ✓');
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  TOAST
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function toast(msg, warn = false) {
   const el = document.getElementById('toast');
   el.textContent = msg;
@@ -1876,9 +1876,9 @@ function toast(msg, warn = false) {
   setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  CHARTS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function setEqRange(r, btn) {
   eqRange = r;
   document.querySelectorAll('[id^=eq-btn]').forEach(b => b.classList.remove('active-btn'));
@@ -1944,7 +1944,7 @@ function drawEqChart(id, data, range) {
   ctx.fillStyle = '#3a3836'; ctx.font = '10px DM Mono'; ctx.textAlign = 'right';
   [mn, mx].forEach(v => {
     const y = py(v); if (y >= pad.t && y <= H - pad.b)
-      ctx.fillText((v >= 0 ? '+' : '') + 'â‚¹' + (Math.abs(v) >= 1000 ? (v / 1000).toFixed(0) + 'k' : Math.round(v)), pad.l - 4, y + 3);
+      ctx.fillText((v >= 0 ? '+' : '') + '$' + (Math.abs(v) >= 1000 ? (v / 1000).toFixed(0) + 'k' : Math.round(v)), pad.l - 4, y + 3);
   });
 }
 
@@ -2012,7 +2012,7 @@ function drawSetupChart() {
     if (pnl >= 0) { ctx.beginPath(); ctx.roundRect(x, midY - bh, bw, bh, [3, 3, 0, 0]); ctx.fill(); }
     else { ctx.beginPath(); ctx.roundRect(x, midY, bw, bh, [0, 0, 3, 3]); ctx.fill(); }
     ctx.fillStyle = '#3a3836'; ctx.font = '9px DM Sans'; ctx.textAlign = 'center';
-    ctx.fillText((s.length > 7 ? s.slice(0, 6) + 'â€¦' : s), x + bw / 2, H - 4);
+    ctx.fillText((s.length > 7 ? s.slice(0, 6) + '…' : s), x + bw / 2, H - 4);
   });
   ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(20, midY); ctx.lineTo(W, midY); ctx.stroke();
@@ -2078,7 +2078,7 @@ function drawWeekBar(weekDays) {
     ctx.fillText(d.name, x + bw / 2, H - 4);
     if (d.pnl !== 0) {
       ctx.fillStyle = d.pnl >= 0 ? '#3db87a' : '#d95f5f'; ctx.font = '9px DM Mono';
-      const lbl = (d.pnl >= 0 ? '+' : '-') + 'â‚¹' + (Math.abs(d.pnl) >= 1000 ? (Math.abs(d.pnl) / 1000).toFixed(1) + 'k' : Math.abs(d.pnl));
+      const lbl = (d.pnl >= 0 ? '+' : '-') + '$' + (Math.abs(d.pnl) >= 1000 ? (Math.abs(d.pnl) / 1000).toFixed(1) + 'k' : Math.abs(d.pnl));
       ctx.fillText(lbl, x + bw / 2, d.pnl >= 0 ? midY - bh - 4 : midY + bh + 12);
     }
   });
@@ -2114,19 +2114,19 @@ function drawEmotionChart() {
     if (isPos) { ctx.beginPath(); ctx.roundRect(x, midY - bh, bw, bh, [3, 3, 0, 0]); ctx.fill(); }
     else { ctx.beginPath(); ctx.roundRect(x, midY, bw, bh, [0, 0, 3, 3]); ctx.fill(); }
     ctx.fillStyle = '#3a3836'; ctx.font = '9px DM Sans'; ctx.textAlign = 'center';
-    const label = e.name.length > 8 ? e.name.slice(0, 7) + 'â€¦' : e.name;
+    const label = e.name.length > 8 ? e.name.slice(0, 7) + '…' : e.name;
     ctx.fillText(label, x + bw / 2, H - 4);
     ctx.fillStyle = isPos ? '#3db87a' : '#d95f5f'; ctx.font = '9px DM Mono';
-    const lbl = (e.pnl >= 0 ? '+' : '-') + 'â‚¹' + (Math.abs(e.pnl) >= 1000 ? (Math.abs(e.pnl) / 1000).toFixed(0) + 'k' : Math.abs(e.pnl));
+    const lbl = (e.pnl >= 0 ? '+' : '-') + '$' + (Math.abs(e.pnl) >= 1000 ? (Math.abs(e.pnl) / 1000).toFixed(0) + 'k' : Math.abs(e.pnl));
     ctx.fillText(lbl, x + bw / 2, e.pnl >= 0 ? midY - bh - 4 : midY + bh + 12);
   });
   ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(10, midY); ctx.lineTo(W - 10, midY); ctx.stroke();
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 //  INIT
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────
 function renderAll() {
   renderDashboard();
   renderTradeLog();
@@ -2145,4 +2145,6 @@ window.addEventListener('resize', () => {
 </script>
 </body>
 </html>
+
+
 
