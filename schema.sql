@@ -5,6 +5,7 @@ create table if not exists public.trades (
   user_id uuid not null references auth.users(id) on delete cascade,
   symbol text not null,
   trade_date date not null,
+  trade_time text,
   direction text not null check (direction in ('Long', 'Short')),
   setup text,
   entry numeric,
@@ -15,10 +16,18 @@ create table if not exists public.trades (
   target numeric,
   rr numeric,
   emotion text,
+  rating integer,
+  plan text,
+  mistake text,
   notes text,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
+
+alter table public.trades add column if not exists trade_time text;
+alter table public.trades add column if not exists rating integer;
+alter table public.trades add column if not exists plan text;
+alter table public.trades add column if not exists mistake text;
 
 create or replace function public.handle_trade_updated_at()
 returns trigger

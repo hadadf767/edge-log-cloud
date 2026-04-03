@@ -1,217 +1,2148 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edge Log Cloud</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edge Log â€” Trading Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0b0c0c; --bg2:#111313; --bg3:#181a1a; --bg4:#1e2020; --bg5:#242727;
+  --border:rgba(255,255,255,0.065); --border2:rgba(255,255,255,0.11); --border3:rgba(255,255,255,0.18);
+  --text:#ede9e2; --text2:#8c8a84; --text3:#565450; --text4:#3a3836;
+  --accent:#c9973e; --accent2:#a87a2c; --accentbg:rgba(201,151,62,0.1);
+  --green:#3db87a; --greenbg:rgba(61,184,122,0.1); --greenborder:rgba(61,184,122,0.25);
+  --red:#d95f5f; --redbg:rgba(217,95,95,0.1); --redborder:rgba(217,95,95,0.25);
+  --blue:#5090c8; --bluebg:rgba(80,144,200,0.1); --blueborder:rgba(80,144,200,0.25);
+  --amber:#d4a83a; --amberbg:rgba(212,168,58,0.1);
+  --purple:#8b74c8; --purplebg:rgba(139,116,200,0.1);
+  --r:10px; --r2:6px; --r3:14px;
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow:hidden;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px;}
+
+/* â”€â”€ APP SHELL â”€â”€ */
+.shell{display:flex;height:100vh;}
+
+/* â”€â”€ SIDEBAR â”€â”€ */
+.sb{width:228px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sb-top{padding:22px 20px 18px;border-bottom:1px solid var(--border);}
+.sb-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent);letter-spacing:.05em;display:flex;align-items:center;gap:8px;}
+.sb-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);opacity:.7;}
+.sb-tagline{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:.1em;margin-top:3px;}
+.sb-nav{flex:1;overflow-y:auto;padding:12px 10px;}
+.sb-section-label{font-size:9px;font-weight:700;color:var(--text4);letter-spacing:.14em;text-transform:uppercase;padding:0 8px;margin:14px 0 4px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:var(--r2);cursor:pointer;color:var(--text2);font-size:13px;transition:all .14s;user-select:none;position:relative;}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:var(--bg4);color:var(--text);}
+.nav-item .ni{font-size:13px;width:16px;text-align:center;flex-shrink:0;}
+.nav-item .nb{margin-left:auto;font-size:10px;font-family:'DM Mono',monospace;background:var(--bg5);color:var(--text3);padding:1px 7px;border-radius:20px;}
+.nav-item .ndot{width:6px;height:6px;border-radius:50%;background:var(--red);margin-left:auto;}
+.sb-bottom{padding:16px 18px;border-top:1px solid var(--border);}
+.sb-pnl-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.sb-pnl-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;}
+.sb-stats-row{display:flex;gap:14px;margin-top:8px;}
+.sb-stat{font-size:11px;color:var(--text3);}
+.sb-stat span{color:var(--text2);}
+
+/* â”€â”€ MAIN â”€â”€ */
+.main{flex:1;overflow-y:auto;background:var(--bg);}
+.page{display:none;padding:30px 34px;max-width:1160px;animation:fadeIn .18s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* â”€â”€ PAGE HEADER â”€â”€ */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:26px;gap:16px;}
+.ph-left{}
+.ph-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;line-height:1.2;}
+.ph-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:3px;}
+.ph-actions{display:flex;gap:8px;flex-shrink:0;align-items:center;}
+
+/* â”€â”€ BUTTONS â”€â”€ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--r2);font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .14s;border:none;white-space:nowrap;}
+.btn-primary{background:var(--accent);color:#0b0c0c;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{background:var(--bg4);color:var(--text);}
+.btn-ghost.active-btn{border-color:var(--accent);color:var(--accent);background:var(--accentbg);}
+.btn-danger{background:var(--redbg);color:var(--red);border:1px solid var(--redborder);}
+.btn-danger:hover{background:rgba(217,95,95,.2);}
+.btn-sm{padding:5px 10px;font-size:11px;}
+.btn-icon{padding:6px 10px;font-size:14px;}
+
+/* â”€â”€ CARDS / STATS â”€â”€ */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;position:relative;overflow:hidden;}
+.stat-card-accent{border-top:2px solid var(--accent);}
+.stat-card-green{border-top:2px solid var(--green);}
+.stat-card-red{border-top:2px solid var(--red);}
+.stat-card-blue{border-top:2px solid var(--blue);}
+.stat-card-purple{border-top:2px solid var(--purple);}
+.sc-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;}
+.sc-val{font-family:'DM Mono',monospace;font-size:19px;font-weight:500;line-height:1;}
+.sc-val.pos{color:var(--green);}
+.sc-val.neg{color:var(--red);}
+.sc-val.gold{color:var(--accent);}
+.sc-sub{font-size:10px;color:var(--text3);margin-top:5px;}
+.sc-trend{position:absolute;right:12px;bottom:12px;font-size:18px;opacity:.12;}
+
+/* â”€â”€ PANELS / SECTIONS â”€â”€ */
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg3);}
+.panel-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
+.panel-body{padding:16px;}
+
+/* â”€â”€ TABLE â”€â”€ */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+thead tr{background:var(--bg3);border-bottom:1px solid var(--border);}
+th{text-align:left;padding:9px 13px;font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;cursor:pointer;user-select:none;}
+th:hover{color:var(--text2);}
+th.sort-asc::after{content:' â†‘';}
+th.sort-desc::after{content:' â†“';}
+td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr{cursor:pointer;transition:background .1s;}
+tbody tr:hover{background:var(--bg3);}
+.sym{font-family:'DM Mono',monospace;font-weight:500;font-size:13px;color:var(--text);}
+.mono{font-family:'DM Mono',monospace;}
+.dir-l{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:var(--greenbg);color:var(--green);border:1px solid var(--greenborder);}
+.dir-s{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;background:var(--redbg);color:var(--red);border:1px solid var(--redborder);}
+.pnl-p{color:var(--green);font-family:'DM Mono',monospace;font-weight:500;}
+.pnl-n{color:var(--red);font-family:'DM Mono',monospace;font-weight:500;}
+.tag{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;background:var(--bg4);color:var(--text3);border:1px solid var(--border);}
+.tag-setup{background:var(--bluebg);color:var(--blue);border-color:var(--blueborder);}
+.tag-e-calm{background:var(--greenbg);color:var(--green);border-color:var(--greenborder);}
+.tag-e-fomo,.tag-e-revenge{background:var(--redbg);color:var(--red);border-color:var(--redborder);}
+.tag-e-amber{background:var(--amberbg);color:var(--amber);}
+.stars{color:var(--accent);letter-spacing:1px;font-size:11px;}
+.rr-badge{font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border-radius:3px;}
+.rr-good{background:var(--greenbg);color:var(--green);}
+.rr-bad{background:var(--redbg);color:var(--red);}
+.rr-ok{background:var(--amberbg);color:var(--amber);}
+
+/* â”€â”€ MODAL â”€â”€ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);width:720px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow);animation:slideUp .2s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px 0;}
+.modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+.modal-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;padding:4px;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:22px 26px 26px;}
+
+/* â”€â”€ FORM â”€â”€ */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:0;}
+.fl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}
+.fi,.fs,.fta{background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:var(--r2);padding:8px 11px;font-size:13px;font-family:'DM Sans',sans-serif;transition:border-color .14s;outline:none;width:100%;}
+.fi:focus,.fs:focus,.fta:focus{border-color:var(--accent);}
+.fta{resize:vertical;min-height:72px;line-height:1.6;}
+.fg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.fg-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+.fg-full{grid-column:1/-1;}
+.f-row{display:flex;gap:10px;align-items:center;margin-bottom:14px;}
+.f-divider{height:1px;background:var(--border);margin:6px 0 16px;}
+.f-section{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
+
+/* â”€â”€ STAR RATING â”€â”€ */
+.star-row{display:flex;gap:2px;}
+.star-btn{background:none;border:none;cursor:pointer;font-size:20px;color:var(--text4);transition:color .1s;padding:0 2px;line-height:1;}
+.star-btn.on{color:var(--accent);}
+
+/* â”€â”€ CHARTS â”€â”€ */
+.chart-container{position:relative;}
+canvas{display:block;width:100%!important;}
+
+/* â”€â”€ CALENDAR HEATMAP â”€â”€ */
+.heatmap-wrap{overflow-x:auto;}
+.heatmap{display:flex;gap:3px;padding:4px 0;}
+.hm-col{display:flex;flex-direction:column;gap:3px;}
+.hm-cell{width:13px;height:13px;border-radius:2px;cursor:default;transition:transform .1s;position:relative;}
+.hm-cell:hover{transform:scale(1.3);z-index:1;}
+.hm-empty{background:var(--bg4);}
+.hm-win-1{background:rgba(61,184,122,.25);}
+.hm-win-2{background:rgba(61,184,122,.5);}
+.hm-win-3{background:rgba(61,184,122,.75);}
+.hm-win-4{background:rgba(61,184,122,1);}
+.hm-loss-1{background:rgba(217,95,95,.25);}
+.hm-loss-2{background:rgba(217,95,95,.5);}
+.hm-loss-3{background:rgba(217,95,95,.75);}
+.hm-loss-4{background:rgba(217,95,95,1);}
+.hm-month-labels{display:flex;gap:3px;padding-left:0;margin-bottom:3px;}
+.hm-month-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;}
+
+/* â”€â”€ RISK CALCULATOR â”€â”€ */
+.risk-calc{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px;}
+.risk-result{background:var(--bg4);border-radius:var(--r2);padding:14px;margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.rr-item{text-align:center;}
+.rr-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.rr-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;color:var(--text);}
+
+/* â”€â”€ PLAYBOOK â”€â”€ */
+.pb-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:0;margin-bottom:10px;overflow:hidden;transition:border-color .14s;}
+.pb-card:hover{border-color:var(--border2);}
+.pb-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;}
+.pb-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.pb-name{font-weight:600;font-size:14px;}
+.pb-wr{font-size:11px;margin-left:auto;font-family:'DM Mono',monospace;}
+.pb-body{padding:0 16px 14px;display:none;}
+.pb-body.open{display:block;}
+.pb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.pb-stat{background:var(--bg3);border-radius:var(--r2);padding:10px;text-align:center;}
+.pb-sl{font-size:11px;color:var(--text2);line-height:1.6;}
+
+/* â”€â”€ WEEK REVIEW â”€â”€ */
+.week-days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px;}
+.wd{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px;text-align:center;transition:border-color .14s;}
+.wd:hover{border-color:var(--border2);}
+.wd-name{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.wd-pnl{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;}
+.wd-trades{font-size:10px;color:var(--text3);margin-top:3px;}
+.wd-bar{height:3px;border-radius:2px;margin-top:6px;background:var(--bg4);}
+.wd-bar-fill{height:100%;border-radius:2px;}
+
+/* â”€â”€ RULE CARDS â”€â”€ */
+.rule-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;transition:border-color .14s;}
+.rule-card:hover{border-color:var(--border2);}
+.rule-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);background:var(--accentbg);border:1px solid rgba(201,151,62,.2);width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:500;}
+.rule-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .14s;}
+.rule-check.checked{background:var(--green);border-color:var(--green);}
+.rule-title{font-weight:600;font-size:14px;margin-bottom:4px;}
+.rule-desc{font-size:12px;color:var(--text2);line-height:1.65;}
+
+/* â”€â”€ MISTAKE PATTERNS â”€â”€ */
+.mistake-bar{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.mistake-bar:last-child{border-bottom:none;}
+.mb-name{font-size:12px;color:var(--text);width:200px;flex-shrink:0;}
+.mb-track{flex:1;height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;}
+.mb-fill{height:100%;border-radius:3px;background:var(--red);transition:width .4s;}
+.mb-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);width:30px;text-align:right;}
+.mb-pnl{font-family:'DM Mono',monospace;font-size:11px;width:80px;text-align:right;}
+
+/* â”€â”€ PROGRESS â”€â”€ */
+.prog-wrap{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:5px;}
+.prog-fill{height:100%;border-radius:2px;transition:width .4s;}
+
+/* â”€â”€ TOOLTIP â”€â”€ */
+.tooltip{position:fixed;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text);pointer-events:none;z-index:500;white-space:nowrap;box-shadow:var(--shadow);display:none;}
+
+/* â”€â”€ SEARCH â”€â”€ */
+.search-wrap{position:relative;margin-bottom:14px;}
+.search-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:var(--r2);padding:8px 12px 8px 34px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .14s;width:100%;}
+.search-input:focus{border-color:var(--accent);}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none;}
+
+/* â”€â”€ FILTER CHIPS â”€â”€ */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--text3);background:transparent;transition:all .14s;white-space:nowrap;}
+.chip:hover:not(.chip-on){border-color:var(--border2);color:var(--text2);}
+.chip.chip-on{border-color:var(--accent);color:var(--accent);background:var(--accentbg);}
+
+/* â”€â”€ EMPTY STATE â”€â”€ */
+.empty-state{text-align:center;padding:52px 20px;}
+.es-icon{font-size:32px;opacity:.2;margin-bottom:10px;}
+.es-text{font-size:13px;color:var(--text3);}
+.es-sub{font-size:11px;color:var(--text4);margin-top:4px;}
+
+/* â”€â”€ DETAIL GRID â”€â”€ */
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
+.di{background:var(--bg3);border-radius:var(--r2);padding:11px 12px;}
+.di-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px;}
+.di-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text);}
+.note-box{background:var(--bg3);border-radius:var(--r2);padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.7;border-left:2px solid var(--border2);}
+.note-box.plan-box{border-left-color:var(--accent);}
+.note-box.lesson-box{border-left-color:var(--blue);}
+
+/* â”€â”€ TOAST â”€â”€ */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r2);padding:10px 16px;font-size:13px;color:var(--text);z-index:999;box-shadow:var(--shadow);transform:translateY(10px);opacity:0;transition:all .2s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.toast-ok{border-left:3px solid var(--green);}
+.toast.toast-warn{border-left:3px solid var(--red);}
+
+/* â”€â”€ MISC â”€â”€ */
+.divider{height:1px;background:var(--border);margin:16px 0;}
+.badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:600;}
+.badge-green{background:var(--greenbg);color:var(--green);}
+.badge-red{background:var(--redbg);color:var(--red);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+</style>
 </head>
 <body>
-  <div class="shell">
-    <aside class="sidebar">
-      <div>
-        <div class="brand">EDGE LOG</div>
-        <p class="muted small">Cloud trading journal for every device.</p>
-      </div>
-      <div class="stack-sm">
-        <button class="ghost-btn" id="open-setup-btn">Supabase Settings</button>
-        <button class="ghost-btn" id="signout-btn" hidden>Sign out</button>
-      </div>
-      <div class="card sidebar-card">
-        <div class="label">Session</div>
-        <div id="session-state" class="mono">Offline</div>
-        <div id="session-user" class="muted small">Add Supabase keys to begin</div>
-      </div>
-      <div class="card sidebar-card">
-        <div class="label">Sync Notes</div>
-        <ul class="info-list muted small">
-          <li>Static site friendly</li>
-          <li>Works on mobile browsers</li>
-          <li>Trades sync per signed-in email</li>
-        </ul>
-      </div>
-    </aside>
+<div class="shell">
 
-    <main class="main">
-      <section class="hero">
-        <div>
-          <p class="eyebrow">Multi-device journal</p>
-          <h1>Use the same trade log on your phone, laptop, and anywhere else.</h1>
-          <p class="muted intro">This version stores trades in Supabase instead of browser-only storage, so your data follows your account.</p>
-        </div>
-        <div class="hero-actions">
-          <button class="primary-btn" id="open-auth-btn">Email Sign In</button>
-          <button class="ghost-btn" id="refresh-btn">Refresh</button>
-        </div>
-      </section>
+<!-- â•â• SIDEBAR â•â• -->
+<aside class="sb">
+  <div class="sb-top">
+    <div class="sb-logo"><div class="sb-logo-dot"></div>EDGE LOG</div>
+    <div class="sb-tagline">TRADING JOURNAL v2.0</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+      <button class="btn btn-ghost btn-sm" onclick="openCloudSetup()">Cloud Setup</button>
+      <button class="btn btn-ghost btn-sm" onclick="openCloudAuth()">Email Sign In</button>
+      <button class="btn btn-ghost btn-sm" id="cloud-signout" onclick="signOutCloud()" style="display:none">Sign Out</button>
+      <div id="cloud-status" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">Cloud: checking...</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section-label">Overview</div>
+    <div class="nav-item active" onclick="nav('dashboard')"><span class="ni">â¬›</span>Dashboard</div>
+    <div class="nav-item" onclick="nav('trades')"><span class="ni">â—ˆ</span>Trade Log<span class="nb" id="nb-trades">0</span></div>
+    <div class="nav-item" onclick="nav('analytics')"><span class="ni">â—Ž</span>Analytics</div>
+    <div class="nav-item" onclick="nav('calendar')"><span class="ni">â–¦</span>Calendar</div>
 
-      <section class="stats-grid" id="stats-grid">
-        <article class="card stat-card"><div class="label">Net P&amp;L</div><div id="stat-pnl" class="metric">₹0</div></article>
-        <article class="card stat-card"><div class="label">Trades</div><div id="stat-trades" class="metric">0</div></article>
-        <article class="card stat-card"><div class="label">Win Rate</div><div id="stat-winrate" class="metric">0%</div></article>
-        <article class="card stat-card"><div class="label">Avg R:R</div><div id="stat-rr" class="metric">-</div></article>
-      </section>
+    <div class="sb-section-label">Tools</div>
+    <div class="nav-item" onclick="nav('risk')"><span class="ni">âŠ™</span>Risk Calculator</div>
+    <div class="nav-item" onclick="nav('playbook')"><span class="ni">â—«</span>Playbook</div>
 
-      <section class="content-grid">
-        <article class="card panel">
-          <div class="panel-head">
-            <div>
-              <div class="label">Log Trade</div>
-              <h2 id="form-title">New trade</h2>
-            </div>
-            <button class="ghost-btn" id="reset-form-btn">Clear</button>
-          </div>
-          <form id="trade-form" class="form-grid">
-            <input type="hidden" id="trade-id">
-            <label>
-              <span>Symbol</span>
-              <input id="symbol" placeholder="NIFTY" required>
-            </label>
-            <label>
-              <span>Date</span>
-              <input id="trade-date" type="date" required>
-            </label>
-            <label>
-              <span>Direction</span>
-              <select id="direction">
-                <option>Long</option>
-                <option>Short</option>
-              </select>
-            </label>
-            <label>
-              <span>Setup</span>
-              <input id="setup" placeholder="Breakout">
-            </label>
-            <label>
-              <span>Entry</span>
-              <input id="entry" type="number" step="0.01" placeholder="0.00">
-            </label>
-            <label>
-              <span>Exit</span>
-              <input id="exit" type="number" step="0.01" placeholder="0.00">
-            </label>
-            <label>
-              <span>Quantity</span>
-              <input id="quantity" type="number" step="1" placeholder="1">
-            </label>
-            <label>
-              <span>P&amp;L</span>
-              <input id="pnl" type="number" step="0.01" placeholder="Auto or manual">
-            </label>
-            <label>
-              <span>Stop Loss</span>
-              <input id="stop-loss" type="number" step="0.01" placeholder="0.00">
-            </label>
-            <label>
-              <span>Target</span>
-              <input id="target" type="number" step="0.01" placeholder="0.00">
-            </label>
-            <label>
-              <span>R:R</span>
-              <input id="rr" type="number" step="0.01" placeholder="1.50">
-            </label>
-            <label>
-              <span>Emotion</span>
-              <select id="emotion">
-                <option>Calm</option>
-                <option>Neutral</option>
-                <option>FOMO</option>
-                <option>Revenge</option>
-                <option>Anxious</option>
-                <option>Overconfident</option>
-              </select>
-            </label>
-            <label class="full">
-              <span>Notes</span>
-              <textarea id="notes" rows="4" placeholder="What happened, what you learned, what to repeat or stop?"></textarea>
-            </label>
-            <div class="full form-actions">
-              <button class="primary-btn" type="submit" id="save-trade-btn">Save Trade</button>
-            </div>
-          </form>
-        </article>
+    <div class="sb-section-label">Review</div>
+    <div class="nav-item" onclick="nav('weekly')"><span class="ni">â—»</span>Weekly Review</div>
+    <div class="nav-item" onclick="nav('mistakes')"><span class="ni">â–³</span>Mistakes<span class="ndot" id="nb-mistakes" style="display:none"></span></div>
 
-        <article class="card panel">
-          <div class="panel-head wrap">
-            <div>
-              <div class="label">Trade Log</div>
-              <h2>Cloud synced trades</h2>
-            </div>
-            <div class="toolbar">
-              <input id="search" class="search" placeholder="Search symbol, setup, notes">
-              <button class="ghost-btn" id="export-btn">Export CSV</button>
-            </div>
-          </div>
-          <div id="empty-state" class="empty-state">
-            <h3>No trades yet</h3>
-            <p class="muted">Sign in, then log your first trade. Your data will sync to any device where you sign in with the same email.</p>
-          </div>
-          <div class="table-wrap">
-            <table id="trades-table" hidden>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Symbol</th>
-                  <th>Dir</th>
-                  <th>Setup</th>
-                  <th>P&amp;L</th>
-                  <th>R:R</th>
-                  <th>Emotion</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="trade-rows"></tbody>
-            </table>
-          </div>
-        </article>
-      </section>
-    </main>
+    <div class="sb-section-label">System</div>
+    <div class="nav-item" onclick="nav('rules')"><span class="ni">â–£</span>My Rules</div>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-pnl-label">Net P&L</div>
+    <div class="sb-pnl-val" id="sb-pnl">â‚¹0</div>
+    <div class="sb-stats-row">
+      <div class="sb-stat">WR: <span id="sb-wr">â€”</span></div>
+      <div class="sb-stat">PF: <span id="sb-pf">â€”</span></div>
+      <div class="sb-stat">RR: <span id="sb-rr">â€”</span></div>
+    </div>
+  </div>
+</aside>
+
+<!-- â•â• MAIN â•â• -->
+<main class="main">
+
+<!-- â”€â”€â”€ DASHBOARD â”€â”€â”€ -->
+<div id="page-dashboard" class="page active">
+  <div class="ph">
+    <div class="ph-left">
+      <div class="ph-title">Dashboard</div>
+      <div class="ph-sub" id="ph-date"></div>
+    </div>
+    <div class="ph-actions">
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">â†“ Export CSV</button>
+      <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
+    </div>
   </div>
 
-  <dialog id="setup-modal" class="modal">
-    <form method="dialog" class="modal-card stack">
-      <div>
-        <div class="label">Supabase Setup</div>
-        <h3>Paste your project keys</h3>
-        <p class="muted small">These values are safe for frontend use when you use the public anon key and RLS policies in the included SQL file.</p>
-      </div>
-      <label>
-        <span>Project URL</span>
-        <input id="supabase-url" placeholder="https://your-project.supabase.co">
-      </label>
-      <label>
-        <span>Anon Key</span>
-        <textarea id="supabase-anon" rows="5" placeholder="eyJ..."></textarea>
-      </label>
-      <div class="modal-actions">
-        <button class="ghost-btn" value="cancel">Close</button>
-        <button class="primary-btn" type="button" id="save-setup-btn">Save Settings</button>
-      </div>
-    </form>
-  </dialog>
+  <div class="stats-row">
+    <div class="stat-card stat-card-green">
+      <div class="sc-label">Net P&L</div>
+      <div class="sc-val" id="d-pnl">â‚¹0</div>
+      <div class="sc-sub" id="d-pnl-sub">All time</div>
+      <div class="sc-trend">â‚¹</div>
+    </div>
+    <div class="stat-card stat-card-accent">
+      <div class="sc-label">Win Rate</div>
+      <div class="sc-val gold" id="d-wr">â€”</div>
+      <div class="sc-sub" id="d-wr-sub">0 trades</div>
+      <div class="sc-trend">%</div>
+    </div>
+    <div class="stat-card stat-card-blue">
+      <div class="sc-label">Profit Factor</div>
+      <div class="sc-val" id="d-pf" style="color:var(--text)">â€”</div>
+      <div class="sc-sub">Gross W / Gross L</div>
+      <div class="sc-trend">Ã—</div>
+    </div>
+    <div class="stat-card stat-card-purple">
+      <div class="sc-label">Avg R:R</div>
+      <div class="sc-val" id="d-rr" style="color:var(--purple)">â€”</div>
+      <div class="sc-sub">Realized risk:reward</div>
+    </div>
+    <div class="stat-card stat-card-red">
+      <div class="sc-label">Max Drawdown</div>
+      <div class="sc-val neg" id="d-dd">â‚¹0</div>
+      <div class="sc-sub" id="d-dd-sub">Peak to trough</div>
+    </div>
+  </div>
 
-  <dialog id="auth-modal" class="modal">
-    <form method="dialog" class="modal-card stack">
-      <div>
-        <div class="label">Sign In</div>
-        <h3>Magic link email login</h3>
-        <p class="muted small">Open the login link from your email on any device and your journal will load there.</p>
+  <!-- Equity curve -->
+  <div class="panel" style="margin-bottom:16px">
+    <div class="panel-header">
+      <div class="panel-title">Equity Curve</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm chip-on" id="eq-btn-all" onclick="setEqRange('all',this)">All</button>
+        <button class="btn btn-ghost btn-sm" id="eq-btn-30" onclick="setEqRange(30,this)">30D</button>
+        <button class="btn btn-ghost btn-sm" id="eq-btn-14" onclick="setEqRange(14,this)">14D</button>
       </div>
-      <label>
-        <span>Email</span>
-        <input id="auth-email" type="email" placeholder="you@example.com">
-      </label>
-      <div class="modal-actions">
-        <button class="ghost-btn" value="cancel">Close</button>
-        <button class="primary-btn" type="button" id="send-link-btn">Send Magic Link</button>
-      </div>
-    </form>
-  </dialog>
+    </div>
+    <div class="panel-body" style="padding:16px">
+      <canvas id="eq-canvas" height="130"></canvas>
+    </div>
+  </div>
 
-  <div id="toast" class="toast"></div>
-  <script type="module" src="./app.js"></script>
+  <!-- 2-col: recent trades + quick stats -->
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Recent Trades</div>
+        <button class="btn btn-ghost btn-sm" onclick="nav('trades')">View all â†’</button>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Date</th><th>Symbol</th><th>Dir</th><th>P&L</th><th>â­</th>
+        </tr></thead>
+        <tbody id="d-recent"></tbody></table>
+      </div>
+    </div>
+
+    <div>
+      <!-- Streak -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="panel-header"><div class="panel-title">Trade Streak (last 20)</div></div>
+        <div class="panel-body">
+          <div style="display:flex;gap:4px;flex-wrap:wrap" id="d-streak"></div>
+          <div style="display:flex;gap:16px;margin-top:10px">
+            <div style="font-size:11px;color:var(--text3)">Current: <span id="d-streak-cur" style="color:var(--text2)">â€”</span></div>
+            <div style="font-size:11px;color:var(--text3)">Best W: <span id="d-streak-best" style="color:var(--green)">0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Best day / worst day -->
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Day Records</div></div>
+        <div class="panel-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Best Day</div>
+              <div class="pnl-p" id="d-best-day" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500">â‚¹0</div>
+              <div style="font-size:10px;color:var(--text3)" id="d-best-day-date">â€”</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Worst Day</div>
+              <div class="pnl-n" id="d-worst-day" style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500">â‚¹0</div>
+              <div style="font-size:10px;color:var(--text3)" id="d-worst-day-date">â€”</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Avg Win</div>
+              <div class="pnl-p" id="d-avg-win" style="font-family:'DM Mono',monospace;font-size:14px">â‚¹0</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Avg Loss</div>
+              <div class="pnl-n" id="d-avg-loss" style="font-family:'DM Mono',monospace;font-size:14px">â‚¹0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ TRADE LOG â”€â”€â”€ -->
+<div id="page-trades" class="page">
+  <div class="ph">
+    <div class="ph-title">Trade Log</div>
+    <div class="ph-actions">
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">â†“ CSV</button>
+      <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">âŒ•</span>
+    <input class="search-input" id="search-input" placeholder="Search by symbol, setup, notesâ€¦" oninput="renderTradeLog()">
+  </div>
+  <div class="chips">
+    <span class="chip chip-on" onclick="setFilter('all',this)">All</span>
+    <span class="chip" onclick="setFilter('win',this)">Winners</span>
+    <span class="chip" onclick="setFilter('loss',this)">Losers</span>
+    <span class="chip" onclick="setFilter('long',this)">Long</span>
+    <span class="chip" onclick="setFilter('short',this)">Short</span>
+    <span class="chip" onclick="setFilter('fomo',this)">FOMO</span>
+    <span class="chip" onclick="setFilter('rev',this)">Revenge</span>
+    <span class="chip" onclick="setFilter('r5',this)">â˜… 5</span>
+  </div>
+  <div class="panel">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th onclick="sortBy('date')">Date</th>
+          <th onclick="sortBy('symbol')">Symbol</th>
+          <th>Dir</th>
+          <th onclick="sortBy('setup')">Setup</th>
+          <th onclick="sortBy('entry')">Entry</th>
+          <th onclick="sortBy('exit')">Exit</th>
+          <th>Qty</th>
+          <th onclick="sortBy('pnl')">P&L</th>
+          <th onclick="sortBy('rr')">R:R</th>
+          <th>Emotion</th>
+          <th onclick="sortBy('rating')">â˜…</th>
+          <th>Mistake</th>
+        </tr></thead>
+        <tbody id="log-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ ANALYTICS â”€â”€â”€ -->
+<div id="page-analytics" class="page">
+  <div class="ph"><div class="ph-title">Analytics</div></div>
+
+  <div class="two-col" style="margin-bottom:16px">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Equity Curve</div></div>
+      <div class="panel-body"><canvas id="a-eq-canvas" height="160"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">P&L Distribution</div></div>
+      <div class="panel-body"><canvas id="a-hist-canvas" height="160"></canvas></div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:16px">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">P&L by Setup</div></div>
+      <div class="panel-body"><canvas id="a-setup-canvas" height="180"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Win Rate by Time of Week</div></div>
+      <div class="panel-body"><canvas id="a-day-canvas" height="180"></canvas></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><div class="panel-title">Breakdown by Setup</div></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setup</th><th>Trades</th><th>Wins</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th><th>Best Trade</th><th>Worst Trade</th></tr></thead>
+        <tbody id="a-setup-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ CALENDAR â”€â”€â”€ -->
+<div id="page-calendar" class="page">
+  <div class="ph">
+    <div class="ph-title">Calendar Heatmap</div>
+    <div class="ph-actions">
+      <button class="btn btn-ghost btn-sm" onclick="calYear(-1)">â† Prev</button>
+      <span id="cal-year-label" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text2);padding:0 8px">2026</span>
+      <button class="btn btn-ghost btn-sm" onclick="calYear(1)">Next â†’</button>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:16px">
+    <div class="panel-header"><div class="panel-title">Daily P&L Heatmap</div></div>
+    <div class="panel-body">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="cal-month-labels"></div>
+      <div class="heatmap-wrap">
+        <div class="heatmap" id="cal-heatmap"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:10px">
+        <span style="font-size:10px;color:var(--text3)">Loss</span>
+        <div style="width:10px;height:10px;border-radius:2px;background:rgba(217,95,95,1)"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:rgba(217,95,95,.5)"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:var(--bg4)"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:rgba(61,184,122,.5)"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:rgba(61,184,122,1)"></div>
+        <span style="font-size:10px;color:var(--text3)">Profit</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="three-col">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Best Month</div></div>
+      <div class="panel-body">
+        <div class="sc-val pos" id="cal-best-month">â€”</div>
+        <div class="sc-sub" id="cal-best-month-label">â€”</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Profitable Days</div></div>
+      <div class="panel-body">
+        <div class="sc-val gold" id="cal-prof-days">â€”</div>
+        <div class="sc-sub">out of traded days</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Avg per Trade Day</div></div>
+      <div class="panel-body">
+        <div class="sc-val" id="cal-avg-day" style="color:var(--text)">â€”</div>
+        <div class="sc-sub">across all active days</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ RISK CALCULATOR â”€â”€â”€ -->
+<div id="page-risk" class="page">
+  <div class="ph"><div class="ph-title">Risk Calculator</div></div>
+
+  <div class="two-col">
+    <div>
+      <div class="risk-calc">
+        <div class="f-section" style="margin-bottom:14px">Position Sizer</div>
+        <div class="fg-grid" style="gap:10px">
+          <div class="fg">
+            <label class="fl">Account Size (â‚¹)</label>
+            <input class="fi" id="rc-account" type="number" value="100000" oninput="calcRisk()">
+          </div>
+          <div class="fg">
+            <label class="fl">Risk % per trade</label>
+            <input class="fi" id="rc-riskpct" type="number" value="1" step="0.1" oninput="calcRisk()">
+          </div>
+          <div class="fg">
+            <label class="fl">Entry Price (â‚¹)</label>
+            <input class="fi" id="rc-entry" type="number" placeholder="e.g. 22450" oninput="calcRisk()">
+          </div>
+          <div class="fg">
+            <label class="fl">Stop Loss (â‚¹)</label>
+            <input class="fi" id="rc-sl" type="number" placeholder="e.g. 22350" oninput="calcRisk()">
+          </div>
+          <div class="fg">
+            <label class="fl">Target (â‚¹)</label>
+            <input class="fi" id="rc-target" type="number" placeholder="e.g. 22650" oninput="calcRisk()">
+          </div>
+          <div class="fg">
+            <label class="fl">Lot Size</label>
+            <input class="fi" id="rc-lotsize" type="number" value="50" oninput="calcRisk()">
+          </div>
+        </div>
+        <div class="risk-result" id="risk-result">
+          <div class="rr-item"><div class="rr-label">Risk Amount</div><div class="rr-val pnl-n" id="rc-risk-amt">â€”</div></div>
+          <div class="rr-item"><div class="rr-label">Max Qty / Lots</div><div class="rr-val" id="rc-qty">â€”</div></div>
+          <div class="rr-item"><div class="rr-label">Reward</div><div class="rr-val pnl-p" id="rc-reward">â€”</div></div>
+          <div class="rr-item"><div class="rr-label">R:R Ratio</div><div class="rr-val" id="rc-rr">â€”</div></div>
+          <div class="rr-item"><div class="rr-label">Win Needed (BEP)</div><div class="rr-val gold" id="rc-bep">â€”</div></div>
+          <div class="rr-item"><div class="rr-label">Capital at Risk</div><div class="rr-val" id="rc-cap-pct">â€”</div></div>
+        </div>
+      </div>
+
+      <!-- Quick reference -->
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Win Rate needed to break even</div></div>
+        <div class="panel-body">
+          <table style="min-width:0">
+            <thead><tr><th>R:R Ratio</th><th>Min Win Rate</th><th>Verdict</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">1:1</td><td class="mono">50%</td><td><span class="badge badge-red">Hard</span></td></tr>
+              <tr><td class="mono">1:1.5</td><td class="mono">40%</td><td><span class="badge badge-green">Reasonable</span></td></tr>
+              <tr><td class="mono">1:2</td><td class="mono">33%</td><td><span class="badge badge-green">Good</span></td></tr>
+              <tr><td class="mono">1:3</td><td class="mono">25%</td><td><span class="badge badge-green">Excellent</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily loss limit tracker -->
+    <div>
+      <div class="panel" style="margin-bottom:14px">
+        <div class="panel-header"><div class="panel-title">Today's Limit Tracker</div></div>
+        <div class="panel-body">
+          <div class="fg-grid" style="gap:10px;margin-bottom:14px">
+            <div class="fg">
+              <label class="fl">Daily Loss Limit (â‚¹)</label>
+              <input class="fi" id="rc-daily-limit" type="number" value="3000" oninput="calcDailyLimit()">
+            </div>
+            <div class="fg">
+              <label class="fl">Max Trades / Day</label>
+              <input class="fi" id="rc-max-trades" type="number" value="3" oninput="calcDailyLimit()">
+            </div>
+          </div>
+          <div id="daily-limit-display"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Expectancy Calculator</div></div>
+        <div class="panel-body">
+          <div class="fg-grid" style="gap:10px;margin-bottom:14px">
+            <div class="fg"><label class="fl">Win Rate (%)</label><input class="fi" id="ex-wr" type="number" value="50" oninput="calcExpectancy()"></div>
+            <div class="fg"><label class="fl">Avg Win (â‚¹)</label><input class="fi" id="ex-win" type="number" value="3000" oninput="calcExpectancy()"></div>
+            <div class="fg"><label class="fl">Avg Loss (â‚¹)</label><input class="fi" id="ex-loss" type="number" value="2000" oninput="calcExpectancy()"></div>
+            <div class="fg"><label class="fl">Trades per month</label><input class="fi" id="ex-trades" type="number" value="20" oninput="calcExpectancy()"></div>
+          </div>
+          <div id="expectancy-display"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ PLAYBOOK â”€â”€â”€ -->
+<div id="page-playbook" class="page">
+  <div class="ph">
+    <div class="ph-title">Setup Playbook</div>
+    <div class="ph-sub">Based on your logged trades â€” what each setup actually earns you</div>
+  </div>
+  <div id="playbook-list"></div>
+</div>
+
+<!-- â”€â”€â”€ WEEKLY REVIEW â”€â”€â”€ -->
+<div id="page-weekly" class="page">
+  <div class="ph">
+    <div class="ph-title">Weekly Review</div>
+    <div class="ph-actions">
+      <button class="btn btn-ghost btn-sm" onclick="weekNav(-1)">â† Prev</button>
+      <span id="week-label" style="font-size:12px;color:var(--text2);padding:0 8px;font-family:'DM Mono',monospace"></span>
+      <button class="btn btn-ghost btn-sm" onclick="weekNav(1)">Next â†’</button>
+    </div>
+  </div>
+  <div class="week-days" id="week-days"></div>
+
+  <div class="two-col" style="margin-bottom:16px">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Daily P&L Chart</div></div>
+      <div class="panel-body"><canvas id="w-bar-canvas" height="160"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Week Summary</div></div>
+      <div class="panel-body" id="w-summary"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><div class="panel-title">This Week's Trades</div></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Symbol</th><th>Dir</th><th>Setup</th><th>P&L</th><th>Emotion</th><th>Notes</th></tr></thead>
+        <tbody id="w-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ MISTAKES â”€â”€â”€ -->
+<div id="page-mistakes" class="page">
+  <div class="ph"><div class="ph-title">Mistake Patterns</div></div>
+
+  <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">
+    <div class="stat-card stat-card-red">
+      <div class="sc-label">FOMO Trades</div>
+      <div class="sc-val neg" id="m-fomo">0</div>
+      <div class="sc-sub" id="m-fomo-pnl">â‚¹0 lost</div>
+    </div>
+    <div class="stat-card stat-card-red">
+      <div class="sc-label">Revenge Trades</div>
+      <div class="sc-val neg" id="m-revenge">0</div>
+      <div class="sc-sub" id="m-revenge-pnl">â‚¹0 lost</div>
+    </div>
+    <div class="stat-card" style="border-top:2px solid var(--amber)">
+      <div class="sc-label">Moved Stop</div>
+      <div class="sc-val" id="m-movedstop" style="color:var(--amber)">0</div>
+      <div class="sc-sub" id="m-movedstop-pnl">â‚¹0 impact</div>
+    </div>
+    <div class="stat-card stat-card-red">
+      <div class="sc-label">Mistake Rate</div>
+      <div class="sc-val neg" id="m-rate">0%</div>
+      <div class="sc-sub">Of all trades</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:16px">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Mistake Frequency</div></div>
+      <div class="panel-body" id="m-bars"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Emotion P&L Impact</div></div>
+      <div class="panel-body"><canvas id="m-emotion-canvas" height="200"></canvas></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><div class="panel-title">Trades to Review</div></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Symbol</th><th>P&L</th><th>Emotion</th><th>Mistake</th><th>Lesson</th></tr></thead>
+        <tbody id="m-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€â”€ RULES â”€â”€â”€ -->
+<div id="page-rules" class="page">
+  <div class="ph">
+    <div class="ph-title">My Trading Rules</div>
+    <div class="ph-sub">Check rules you followed today â€” build the habit</div>
+  </div>
+  <div id="rules-list" style="max-width:700px"></div>
+</div>
+
+</main>
+</div>
+
+<!-- â•â• ADD / EDIT TRADE MODAL â•â• -->
+<div class="overlay" id="modal-add">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-add-title">Log a Trade</div>
+      <button class="modal-close" onclick="closeOverlay('modal-add')">âœ•</button>
+    </div>
+    <div class="modal-body">
+      <div class="f-section">Trade Details</div>
+      <div class="fg-grid">
+        <div class="fg"><label class="fl">Symbol</label><input class="fi" id="f-sym" placeholder="NIFTY, BANKNIFTYâ€¦" style="text-transform:uppercase"></div>
+        <div class="fg"><label class="fl">Date</label><input class="fi" id="f-date" type="date"></div>
+        <div class="fg"><label class="fl">Direction</label>
+          <select class="fs" id="f-dir"><option>Long</option><option>Short</option></select>
+        </div>
+        <div class="fg"><label class="fl">Setup</label>
+          <select class="fs" id="f-setup">
+            <option value="">â€” Select â€”</option>
+            <option>Breakout</option><option>Reversal</option><option>Trend Follow</option>
+            <option>Support/Resistance</option><option>Opening Range</option><option>Gap Fill</option>
+            <option>VWAP Bounce</option><option>Price Action</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg-grid">
+        <div class="fg"><label class="fl">Entry Price (â‚¹)</label><input class="fi" id="f-entry" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
+        <div class="fg"><label class="fl">Exit Price (â‚¹)</label><input class="fi" id="f-exit" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
+        <div class="fg"><label class="fl">Quantity / Lots</label><input class="fi" id="f-qty" type="number" placeholder="1" oninput="autoCalcPnl()"></div>
+        <div class="fg"><label class="fl">P&L (â‚¹) <span style="color:var(--text3);font-style:italic;font-size:9px">auto-fills</span></label><input class="fi" id="f-pnl" type="number" placeholder="Auto or manual"></div>
+      </div>
+      <div class="fg-grid">
+        <div class="fg"><label class="fl">Stop Loss (â‚¹)</label><input class="fi" id="f-sl" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
+        <div class="fg"><label class="fl">Target (â‚¹)</label><input class="fi" id="f-target" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
+        <div class="fg"><label class="fl">R:R <span style="color:var(--text3);font-style:italic;font-size:9px">auto</span></label><input class="fi" id="f-rr" type="number" placeholder="1:?" step="0.01" readonly style="opacity:.7"></div>
+        <div class="fg"><label class="fl">Time of Entry</label><input class="fi" id="f-time" type="time" value="09:30"></div>
+      </div>
+
+      <div class="f-divider"></div>
+      <div class="f-section">Psychology & Notes</div>
+      <div class="fg-grid">
+        <div class="fg"><label class="fl">Emotion / State</label>
+          <select class="fs" id="f-emotion">
+            <option value="Calm">Calm &amp; Focused</option>
+            <option value="FOMO">FOMO</option>
+            <option value="Revenge">Revenge Trading</option>
+            <option value="Overconfident">Overconfident</option>
+            <option value="Anxious">Anxious</option>
+            <option value="Neutral">Neutral</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Mistake (if any)</label>
+          <select class="fs" id="f-mistake">
+            <option value="">None</option>
+            <option>Moved stop loss</option>
+            <option>Took profit too early</option>
+            <option>Entered before confirmation</option>
+            <option>Overtraded</option>
+            <option>Ignored stop loss</option>
+            <option>Sized too large</option>
+            <option>No setup â€” FOMO entry</option>
+            <option>Revenge trade</option>
+            <option>Held loser too long</option>
+            <option>Added to losing position</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:14px">
+        <label class="fl">Trade Rating</label>
+        <div class="star-row" id="form-stars"></div>
+      </div>
+      <div class="fg" style="margin-bottom:14px">
+        <label class="fl">Pre-trade Plan / Thesis</label>
+        <textarea class="fta" id="f-plan" placeholder="What's the setup? Where's price going and why? What needs to happen for this to work?"></textarea>
+      </div>
+      <div class="fg">
+        <label class="fl">Post-trade Lesson</label>
+        <textarea class="fta" id="f-notes" placeholder="What happened? Did you follow the plan? What would you do differently next time?"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+        <button class="btn btn-ghost" onclick="closeOverlay('modal-add')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveTrade()">Save Trade</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â• TRADE DETAIL MODAL â•â• -->
+<div class="overlay" id="modal-detail">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="md-title">Trade Detail</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-ghost btn-sm" id="md-edit-btn">Edit</button>
+        <button class="btn btn-danger btn-sm" id="md-del-btn">Delete</button>
+        <button class="modal-close" onclick="closeOverlay('modal-detail')">âœ•</button>
+      </div>
+    </div>
+    <div class="modal-body" id="md-body"></div>
+  </div>
+</div>
+
+<!-- â•â• TOOLTIP â•â• -->
+<div class="tooltip" id="tooltip"></div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const cloudStorageKey = "edge-log-supabase";
+const cloud = { client: null, session: null };
+
+function getCloudEls() {
+  return {
+    status: document.getElementById("cloud-status"),
+    signout: document.getElementById("cloud-signout"),
+  };
+}
+
+function readCloudConfig() {
+  try {
+    return JSON.parse(localStorage.getItem(cloudStorageKey) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function writeCloudConfig(config) {
+  localStorage.setItem(cloudStorageKey, JSON.stringify(config));
+}
+
+function updateCloudStatus() {
+  const els = getCloudEls();
+  if (!cloud.client) {
+    els.status.textContent = "Cloud: setup needed";
+    els.signout.style.display = "none";
+    return;
+  }
+  if (cloud.session?.user) {
+    els.status.textContent = `Cloud: ${cloud.session.user.email}`;
+    els.signout.style.display = "inline-flex";
+    return;
+  }
+  els.status.textContent = "Cloud: ready to sign in";
+  els.signout.style.display = "none";
+}
+
+function mapFromDb(row) {
+  return {
+    id: row.id,
+    date: row.trade_date,
+    time: row.trade_time || "09:30",
+    sym: row.symbol,
+    dir: row.direction,
+    setup: row.setup || "",
+    entry: row.entry,
+    exit: row.exit,
+    qty: row.quantity,
+    pnl: Number(row.pnl || 0),
+    sl: row.stop_loss,
+    target: row.target,
+    rr: row.rr,
+    emotion: row.emotion || "Calm",
+    plan: row.plan || "",
+    notes: row.notes || "",
+    mistake: row.mistake || "",
+    rating: row.rating || 3,
+  };
+}
+
+function mapToDb(trade) {
+  const payload = {
+    trade_date: trade.date,
+    trade_time: trade.time || null,
+    symbol: trade.sym,
+    direction: trade.dir,
+    setup: trade.setup || null,
+    entry: trade.entry || null,
+    exit: trade.exit || null,
+    quantity: trade.qty || null,
+    pnl: trade.pnl || 0,
+    stop_loss: trade.sl || null,
+    target: trade.target || null,
+    rr: trade.rr || null,
+    emotion: trade.emotion || null,
+    rating: trade.rating || null,
+    plan: trade.plan || null,
+    notes: trade.notes || null,
+    mistake: trade.mistake || null,
+  };
+  if (trade.id) payload.id = trade.id;
+  if (cloud.session?.user?.id) payload.user_id = cloud.session.user.id;
+  return payload;
+}
+
+async function initCloud() {
+  const config = readCloudConfig();
+  if (!config.url || !config.anonKey) {
+    cloud.client = null;
+    cloud.session = null;
+    updateCloudStatus();
+    return cloud;
+  }
+  cloud.client = createClient(config.url, config.anonKey, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+  });
+  const { data } = await cloud.client.auth.getSession();
+  cloud.session = data.session;
+  cloud.client.auth.onAuthStateChange((_event, session) => {
+    cloud.session = session;
+    updateCloudStatus();
+    if (window.refreshFromCloud) window.refreshFromCloud();
+  });
+  updateCloudStatus();
+  return cloud;
+}
+
+window.edgeCloud = {
+  getConfig: readCloudConfig,
+  async configure(url, anonKey) {
+    writeCloudConfig({ url, anonKey });
+    await initCloud();
+  },
+  async loadTrades() {
+    if (!cloud.client || !cloud.session?.user) return [];
+    const { data, error } = await cloud.client
+      .from("trades")
+      .select("*")
+      .order("trade_date", { ascending: false })
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return (data || []).map(mapFromDb);
+  },
+  async saveTrade(trade) {
+    if (!cloud.client || !cloud.session?.user) throw new Error("Configure cloud and sign in first.");
+    const payload = mapToDb(trade);
+    const { error } = await cloud.client.from("trades").upsert(payload, { onConflict: "id" });
+    if (error) throw error;
+  },
+  async deleteTrade(id) {
+    if (!cloud.client || !cloud.session?.user) throw new Error("Configure cloud and sign in first.");
+    const { error } = await cloud.client.from("trades").delete().eq("id", id);
+    if (error) throw error;
+  },
+  async sendMagicLink(email) {
+    if (!cloud.client) throw new Error("Configure cloud first.");
+    const redirectTo = window.location.href.split("#")[0];
+    const { error } = await cloud.client.auth.signInWithOtp({ email, options: { emailRedirectTo: redirectTo } });
+    if (error) throw error;
+  },
+  async signOut() {
+    if (!cloud.client) return;
+    await cloud.client.auth.signOut();
+  },
+  get session() {
+    return cloud.session;
+  },
+};
+
+window.openCloudSetup = async function openCloudSetup() {
+  const config = readCloudConfig();
+  const url = window.prompt("Paste your Supabase Project URL", config.url || "");
+  if (!url) return;
+  const anonKey = window.prompt("Paste your Supabase Publishable key", config.anonKey || "");
+  if (!anonKey) return;
+  await window.edgeCloud.configure(url.trim(), anonKey.trim());
+  if (window.refreshFromCloud) await window.refreshFromCloud();
+  if (window.toast) window.toast("Cloud settings saved âœ“");
+};
+
+window.openCloudAuth = async function openCloudAuth() {
+  const email = window.prompt("Enter your email for the magic link");
+  if (!email) return;
+  try {
+    await window.edgeCloud.sendMagicLink(email.trim());
+    if (window.toast) window.toast("Magic link sent âœ“");
+  } catch (error) {
+    if (window.toast) window.toast(error.message || "Could not send magic link", true);
+  }
+};
+
+window.signOutCloud = async function signOutCloud() {
+  await window.edgeCloud.signOut();
+  if (window.toast) window.toast("Signed out");
+};
+
+await initCloud();
+</script>
+
+<script>
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  DATA
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+let T = [];
+let editId = null, formRating = 3, tradeFilter = 'all', sortKey = 'date', sortDir = -1;
+let eqRange = 'all', calDisplayYear = new Date().getFullYear(), weekOffset = 0;
+const rulesChecked = JSON.parse(localStorage.getItem('ej2-rules') || '{}');
+
+function save() {}
+function saveRules() { localStorage.setItem('ej2-rules', JSON.stringify(rulesChecked)); }
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  NAVIGATION
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function nav(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const map = {dashboard:'dashboard',trades:'trade log',analytics:'analytics',calendar:'calendar',risk:'risk',playbook:'playbook',weekly:'weekly',mistakes:'mistakes',rules:'rules'};
+  document.querySelectorAll('.nav-item').forEach(n => {
+    const txt = n.textContent.toLowerCase();
+    if (txt.includes(map[name] || name)) n.classList.add('active');
+  });
+  if (name === 'analytics') renderAnalytics();
+  if (name === 'calendar') renderCalendar();
+  if (name === 'weekly') renderWeekly();
+  if (name === 'mistakes') renderMistakes();
+  if (name === 'playbook') renderPlaybook();
+  if (name === 'risk') { calcRisk(); calcDailyLimit(); calcExpectancy(); }
+  if (name === 'rules') renderRules();
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  STATS
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function stats(arr) {
+  if (!arr.length) return {};
+  const pnl = arr.reduce((s, t) => s + t.pnl, 0);
+  const wins = arr.filter(t => t.pnl > 0);
+  const losses = arr.filter(t => t.pnl < 0);
+  const wr = arr.length ? wins.length / arr.length : 0;
+  const grossW = wins.reduce((s, t) => s + t.pnl, 0);
+  const grossL = Math.abs(losses.reduce((s, t) => s + t.pnl, 0));
+  const pf = grossL > 0 ? grossW / grossL : grossW > 0 ? 999 : 0;
+  const rrT = arr.filter(t => t.rr);
+  const avgRR = rrT.length ? rrT.reduce((s, t) => s + t.rr, 0) / rrT.length : null;
+  // max drawdown
+  let peak = 0, dd = 0, running = 0;
+  [...arr].sort((a, b) => a.date.localeCompare(b.date)).forEach(t => {
+    running += t.pnl;
+    if (running > peak) peak = running;
+    const cur = peak - running;
+    if (cur > dd) dd = cur;
+  });
+  const avgWin = wins.length ? grossW / wins.length : 0;
+  const avgLoss = losses.length ? -(grossL / losses.length) : 0;
+  return { pnl, wins, losses, wr, grossW, grossL, pf, avgRR, dd, avgWin, avgLoss };
+}
+
+function fmtPnl(v) {
+  const s = v >= 0 ? '+' : '';
+  return `<span class="${v >= 0 ? 'pnl-p' : 'pnl-n'}">${s}â‚¹${Math.abs(v).toLocaleString('en-IN')}</span>`;
+}
+function fmtDir(d) {
+  return d === 'Long'
+    ? '<span class="dir-l">â–² L</span>'
+    : '<span class="dir-s">â–¼ S</span>';
+}
+function fmtStars(r) {
+  r = r || 3;
+  return `<span class="stars">${'â˜…'.repeat(r)}${'â˜†'.repeat(5 - r)}</span>`;
+}
+function fmtEmo(e) {
+  const cls = e === 'FOMO' ? 'tag-e-fomo' : e === 'Revenge' ? 'tag-e-revenge' : e === 'Calm' ? 'tag-e-calm' : 'tag-e-amber';
+  return `<span class="tag ${cls}">${e || 'â€”'}</span>`;
+}
+function fmtMono(v) { return `<span class="mono" style="font-size:12px;color:var(--text2)">${v}</span>`; }
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  MODAL HELPERS
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
+function openAdd(id = null) {
+  editId = id;
+  const t = id ? T.find(x => x.id === id) : null;
+  document.getElementById('modal-add-title').textContent = id ? 'Edit Trade' : 'Log a Trade';
+  ['sym','date','entry','exit','qty','pnl','sl','target','rr','time','plan','notes'].forEach(k => {
+    const el = document.getElementById('f-' + k);
+    if (!el) return;
+    el.value = t ? (t[k] || '') : (k === 'date' ? new Date().toISOString().split('T')[0] : k === 'time' ? '09:30' : '');
+  });
+  document.getElementById('f-dir').value = t ? t.dir : 'Long';
+  document.getElementById('f-setup').value = t ? (t.setup || '') : '';
+  document.getElementById('f-emotion').value = t ? (t.emotion || 'Calm') : 'Calm';
+  document.getElementById('f-mistake').value = t ? (t.mistake || '') : '';
+  setFormRating(t ? (t.rating || 3) : 3);
+  document.getElementById('modal-add').classList.add('open');
+}
+
+// Star rating in form
+function buildFormStars() {
+  const el = document.getElementById('form-stars');
+  el.innerHTML = [1,2,3,4,5].map(i =>
+    `<button type="button" class="star-btn ${i <= formRating ? 'on' : ''}" onclick="setFormRating(${i})">â˜…</button>`
+  ).join('');
+}
+function setFormRating(n) {
+  formRating = n;
+  buildFormStars();
+}
+
+// Auto-calc P&L
+function autoCalcPnl() {
+  const entry = parseFloat(document.getElementById('f-entry').value);
+  const exit = parseFloat(document.getElementById('f-exit').value);
+  const qty = parseFloat(document.getElementById('f-qty').value) || 1;
+  const dir = document.getElementById('f-dir').value;
+  if (entry && exit) {
+    const pnl = dir === 'Long' ? (exit - entry) * qty : (entry - exit) * qty;
+    document.getElementById('f-pnl').value = pnl.toFixed(2);
+  }
+  autoCalcRR();
+}
+function autoCalcRR() {
+  const entry = parseFloat(document.getElementById('f-entry').value);
+  const sl = parseFloat(document.getElementById('f-sl').value);
+  const target = parseFloat(document.getElementById('f-target').value);
+  if (entry && sl && target) {
+    const risk = Math.abs(entry - sl);
+    const reward = Math.abs(target - entry);
+    if (risk > 0) document.getElementById('f-rr').value = (reward / risk).toFixed(2);
+  }
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  SAVE TRADE
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+async function refreshFromCloud() {
+  if (!window.edgeCloud) return;
+  try {
+    T = await window.edgeCloud.loadTrades();
+    renderAll();
+    const activePage = document.querySelector('.page.active');
+    if (activePage) {
+      const name = activePage.id.replace('page-', '');
+      if (['analytics', 'calendar', 'weekly', 'mistakes', 'playbook', 'risk', 'rules'].includes(name)) nav(name);
+    }
+  } catch (error) {
+    toast(error.message || 'Could not load cloud trades', true);
+  }
+}
+
+async function saveTrade() {
+  const sym = document.getElementById('f-sym').value.trim().toUpperCase();
+  if (!sym) { toast('Enter a symbol', true); return; }
+  const entry = parseFloat(document.getElementById('f-entry').value) || 0;
+  const exit = parseFloat(document.getElementById('f-exit').value) || 0;
+  const qty = parseFloat(document.getElementById('f-qty').value) || 1;
+  const dir = document.getElementById('f-dir').value;
+  let pnl = parseFloat(document.getElementById('f-pnl').value);
+  if (isNaN(pnl) && entry && exit)
+    pnl = dir === 'Long' ? (exit - entry) * qty : (entry - exit) * qty;
+  const sl = parseFloat(document.getElementById('f-sl').value) || null;
+  const target = parseFloat(document.getElementById('f-target').value) || null;
+  let rr = parseFloat(document.getElementById('f-rr').value) || null;
+  if (!rr && sl && target && entry) {
+    const risk = Math.abs(entry - sl), reward = Math.abs(target - entry);
+    rr = risk > 0 ? +(reward / risk).toFixed(2) : null;
+  }
+  const trade = {
+    id: editId || null,
+    date: document.getElementById('f-date').value || new Date().toISOString().split('T')[0],
+    time: document.getElementById('f-time').value || '09:30',
+    sym, dir,
+    setup: document.getElementById('f-setup').value,
+    entry, exit, qty,
+    pnl: isNaN(pnl) ? 0 : +pnl.toFixed(2),
+    sl, target, rr,
+    emotion: document.getElementById('f-emotion').value,
+    plan: document.getElementById('f-plan').value,
+    notes: document.getElementById('f-notes').value,
+    mistake: document.getElementById('f-mistake').value,
+    rating: formRating,
+  };
+  try {
+    await window.edgeCloud.saveTrade(trade);
+    closeOverlay('modal-add');
+    editId = null;
+    await refreshFromCloud();
+    toast(trade.id ? 'Trade updated âœ“' : 'Trade saved âœ“');
+  } catch (error) {
+    toast(error.message || 'Could not save trade', true);
+  }
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  DELETE
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+async function deleteTrade(id) {
+  if (!confirm('Delete this trade?')) return;
+  try {
+    await window.edgeCloud.deleteTrade(id);
+    closeOverlay('modal-detail');
+    await refreshFromCloud();
+    toast('Trade deleted');
+  } catch (error) {
+    toast(error.message || 'Could not delete trade', true);
+  }
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  DETAIL MODAL
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function openDetail(id) {
+  const t = T.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('md-title').innerHTML =
+    `<span class="mono" style="font-size:18px">${t.sym}</span> <span style="font-size:14px;color:var(--text2)">${t.date}</span>`;
+  document.getElementById('md-edit-btn').onclick = () => { closeOverlay('modal-detail'); openAdd(id); };
+  document.getElementById('md-del-btn').onclick = () => deleteTrade(id);
+  const fields = [
+    { l: 'Direction', v: fmtDir(t.dir) },
+    { l: 'Setup', v: t.setup ? `<span class="tag tag-setup">${t.setup}</span>` : 'â€”' },
+    { l: 'P&L', v: fmtPnl(t.pnl) },
+    { l: 'Entry', v: t.entry ? `â‚¹${t.entry.toLocaleString('en-IN')}` : 'â€”' },
+    { l: 'Exit', v: t.exit ? `â‚¹${t.exit.toLocaleString('en-IN')}` : 'â€”' },
+    { l: 'Qty', v: t.qty || 'â€”' },
+    { l: 'R:R', v: t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : 'â€”' },
+    { l: 'Emotion', v: fmtEmo(t.emotion) },
+    { l: 'Rating', v: fmtStars(t.rating) },
+  ];
+  document.getElementById('md-body').innerHTML = `
+    <div class="dg">${fields.map(f => `<div class="di"><div class="di-label">${f.l}</div><div class="di-val">${f.v}</div></div>`).join('')}</div>
+    ${t.plan ? `<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Pre-trade Plan</div><div class="note-box plan-box" style="margin-bottom:14px">${t.plan}</div>` : ''}
+    ${t.notes ? `<div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Lesson / Notes</div><div class="note-box lesson-box" style="margin-bottom:14px">${t.notes}</div>` : ''}
+    ${t.mistake ? `<div style="display:inline-flex;align-items:center;gap:7px;background:var(--redbg);color:var(--red);padding:7px 12px;border-radius:var(--r2);font-size:12px;border:1px solid var(--redborder)">âš  Mistake: ${t.mistake}</div>` : ''}
+  `;
+  document.getElementById('modal-detail').classList.add('open');
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  DASHBOARD
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderDashboard() {
+  const st = stats(T);
+  const pnl = st.pnl || 0;
+  const el = document.getElementById('d-pnl');
+  el.textContent = (pnl >= 0 ? '+' : '') + 'â‚¹' + Math.abs(pnl).toLocaleString('en-IN');
+  el.className = 'sc-val ' + (pnl >= 0 ? 'pos' : 'neg');
+  document.getElementById('d-pnl-sub').textContent = T.length + ' total trades';
+  document.getElementById('d-wr').textContent = T.length ? (st.wr * 100).toFixed(1) + '%' : 'â€”';
+  document.getElementById('d-wr-sub').textContent = T.length + ' trades';
+  document.getElementById('d-pf').textContent = st.pf > 0 ? (st.pf > 100 ? 'âˆž' : st.pf.toFixed(2)) : 'â€”';
+  document.getElementById('d-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(2) : 'â€”';
+  document.getElementById('d-dd').textContent = st.dd ? '-â‚¹' + st.dd.toLocaleString('en-IN') : 'â‚¹0';
+  document.getElementById('nb-trades').textContent = T.length;
+
+  // Sidebar
+  document.getElementById('sb-pnl').textContent = (pnl >= 0 ? '+' : '') + 'â‚¹' + Math.abs(pnl).toLocaleString('en-IN');
+  document.getElementById('sb-pnl').style.color = pnl >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('sb-wr').textContent = T.length ? (st.wr * 100).toFixed(0) + '%' : 'â€”';
+  document.getElementById('sb-pf').textContent = st.pf > 0 ? (st.pf > 100 ? 'âˆž' : st.pf.toFixed(1)) : 'â€”';
+  document.getElementById('sb-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(1) : 'â€”';
+  const mistakeTrades = T.filter(t => t.mistake || t.emotion === 'FOMO' || t.emotion === 'Revenge');
+  document.getElementById('nb-mistakes').style.display = mistakeTrades.length ? 'block' : 'none';
+
+  // Day records
+  const dayMap = {};
+  T.forEach(t => { dayMap[t.date] = (dayMap[t.date] || 0) + t.pnl; });
+  const days = Object.entries(dayMap);
+  if (days.length) {
+    const best = days.reduce((a, b) => b[1] > a[1] ? b : a);
+    const worst = days.reduce((a, b) => b[1] < a[1] ? b : a);
+    document.getElementById('d-best-day').textContent = '+â‚¹' + best[1].toLocaleString('en-IN');
+    document.getElementById('d-best-day-date').textContent = best[0];
+    document.getElementById('d-worst-day').textContent = '-â‚¹' + Math.abs(worst[1]).toLocaleString('en-IN');
+    document.getElementById('d-worst-day-date').textContent = worst[0];
+  }
+  if (st.avgWin) document.getElementById('d-avg-win').textContent = '+â‚¹' + Math.round(st.avgWin).toLocaleString('en-IN');
+  if (st.avgLoss) document.getElementById('d-avg-loss').textContent = '-â‚¹' + Math.abs(Math.round(st.avgLoss)).toLocaleString('en-IN');
+
+  // Recent trades
+  const rec = [...T].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
+  document.getElementById('d-recent').innerHTML = rec.length
+    ? rec.map(t => `<tr onclick="openDetail(${t.id})">
+        <td class="mono" style="font-size:11px;color:var(--text3)">${t.date}</td>
+        <td><span class="sym">${t.sym}</span></td>
+        <td>${fmtDir(t.dir)}</td>
+        <td>${fmtPnl(t.pnl)}</td>
+        <td>${fmtStars(t.rating)}</td>
+      </tr>`).join('')
+    : `<tr><td colspan="5"><div class="empty-state"><div class="es-icon">â—ˆ</div><div class="es-text">No trades yet</div><div class="es-sub">Click "+ Log Trade" to begin</div></div></td></tr>`;
+
+  // Streak
+  const sorted = [...T].sort((a, b) => a.date.localeCompare(b.date));
+  const last20 = sorted.slice(-20);
+  let cur = 0, bestW = 0, runW = 0;
+  sorted.forEach(t => {
+    if (t.pnl > 0) { runW++; if (runW > bestW) bestW = runW; } else runW = 0;
+  });
+  if (sorted.length) {
+    const last = sorted[sorted.length - 1];
+    let streak = 1;
+    for (let i = sorted.length - 2; i >= 0; i--) {
+      if ((sorted[i].pnl > 0) === (last.pnl > 0)) streak++;
+      else break;
+    }
+    cur = last.pnl > 0 ? streak : -streak;
+  }
+  document.getElementById('d-streak').innerHTML = last20.map(t => {
+    const cls = t.pnl > 0 ? 'background:var(--green);' : 'background:var(--red);';
+    return `<div style="width:16px;height:16px;border-radius:3px;${cls}" title="${t.date}: ${t.sym} ${t.pnl >= 0 ? '+' : ''}â‚¹${t.pnl}"></div>`;
+  }).join('') || '<span style="color:var(--text3);font-size:11px">No trades</span>';
+  document.getElementById('d-streak-cur').textContent = cur > 0 ? cur + ' wins' : cur < 0 ? Math.abs(cur) + ' losses' : 'â€”';
+  document.getElementById('d-streak-cur').style.color = cur > 0 ? 'var(--green)' : cur < 0 ? 'var(--red)' : 'var(--text2)';
+  document.getElementById('d-streak-best').textContent = bestW;
+
+  drawEqChart('eq-canvas', T, eqRange);
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  TRADE LOG
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function setFilter(f, el) {
+  tradeFilter = f;
+  document.querySelectorAll('.chips .chip').forEach(c => c.classList.remove('chip-on'));
+  el.classList.add('chip-on');
+  renderTradeLog();
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = -1; }
+  document.querySelectorAll('th.sort-asc, th.sort-desc').forEach(t => { t.classList.remove('sort-asc','sort-desc'); });
+  renderTradeLog();
+}
+
+function renderTradeLog() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  let arr = [...T];
+  // filter
+  if (tradeFilter === 'win') arr = arr.filter(t => t.pnl > 0);
+  else if (tradeFilter === 'loss') arr = arr.filter(t => t.pnl <= 0);
+  else if (tradeFilter === 'long') arr = arr.filter(t => t.dir === 'Long');
+  else if (tradeFilter === 'short') arr = arr.filter(t => t.dir === 'Short');
+  else if (tradeFilter === 'fomo') arr = arr.filter(t => t.emotion === 'FOMO');
+  else if (tradeFilter === 'rev') arr = arr.filter(t => t.emotion === 'Revenge');
+  else if (tradeFilter === 'r5') arr = arr.filter(t => t.rating === 5);
+  // search
+  if (q) arr = arr.filter(t =>
+    (t.sym || '').toLowerCase().includes(q) ||
+    (t.setup || '').toLowerCase().includes(q) ||
+    (t.notes || '').toLowerCase().includes(q) ||
+    (t.plan || '').toLowerCase().includes(q) ||
+    (t.date || '').includes(q)
+  );
+  // sort
+  arr.sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (typeof av === 'string') return sortDir * av.localeCompare(bv || '');
+    return sortDir * ((av || 0) - (bv || 0));
+  });
+  document.getElementById('log-tbody').innerHTML = arr.length
+    ? arr.map(t => {
+        const rrBadge = t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : 'â€”';
+        const mistTag = t.mistake ? `<span class="tag" style="background:var(--redbg);color:var(--red);border-color:var(--redborder);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.mistake}">${t.mistake}</span>` : '<span style="color:var(--text4)">â€”</span>';
+        return `<tr onclick="openDetail(${t.id})">
+          <td class="mono" style="font-size:11px;color:var(--text3)">${t.date}</td>
+          <td><span class="sym">${t.sym}</span></td>
+          <td>${fmtDir(t.dir)}</td>
+          <td><span class="tag tag-setup">${t.setup || 'â€”'}</span></td>
+          <td class="mono" style="font-size:12px">${t.entry ? 'â‚¹' + t.entry.toLocaleString('en-IN') : 'â€”'}</td>
+          <td class="mono" style="font-size:12px">${t.exit ? 'â‚¹' + t.exit.toLocaleString('en-IN') : 'â€”'}</td>
+          <td class="mono" style="font-size:12px">${t.qty || 'â€”'}</td>
+          <td>${fmtPnl(t.pnl)}</td>
+          <td>${rrBadge}</td>
+          <td>${fmtEmo(t.emotion)}</td>
+          <td>${fmtStars(t.rating)}</td>
+          <td>${mistTag}</td>
+        </tr>`;
+      }).join('')
+    : `<tr><td colspan="12"><div class="empty-state"><div class="es-icon">â—ˆ</div><div class="es-text">No trades match</div></div></td></tr>`;
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  ANALYTICS
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderAnalytics() {
+  drawEqChart('a-eq-canvas', T, 'all');
+  drawHistChart();
+  drawSetupChart();
+  drawDayChart();
+  renderSetupBreakdown();
+}
+
+function renderSetupBreakdown() {
+  const setups = {};
+  T.forEach(t => { const s = t.setup || 'No Setup'; if (!setups[s]) setups[s] = []; setups[s].push(t); });
+  document.getElementById('a-setup-tbody').innerHTML = Object.entries(setups)
+    .sort((a, b) => b[1].reduce((s, t) => s + t.pnl, 0) - a[1].reduce((s, t) => s + t.pnl, 0))
+    .map(([s, arr]) => {
+      const st = stats(arr);
+      const best = Math.max(...arr.map(t => t.pnl));
+      const worst = Math.min(...arr.map(t => t.pnl));
+      return `<tr>
+        <td><span class="tag tag-setup">${s}</span></td>
+        <td class="mono">${arr.length}</td>
+        <td class="mono">${st.wins ? st.wins.length : 0}</td>
+        <td class="mono" style="color:${st.wr >= .5 ? 'var(--green)' : 'var(--red)'}">${(st.wr * 100).toFixed(0)}%</td>
+        <td>${fmtPnl(st.pnl)}</td>
+        <td>${fmtPnl(Math.round(st.pnl / arr.length))}</td>
+        <td><span class="pnl-p mono">+â‚¹${best.toLocaleString('en-IN')}</span></td>
+        <td><span class="pnl-n mono">-â‚¹${Math.abs(worst).toLocaleString('en-IN')}</span></td>
+      </tr>`;
+    }).join('') || `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text3)">Log trades to see breakdown</td></tr>`;
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  CALENDAR
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function calYear(d) { calDisplayYear += d; renderCalendar(); }
+function renderCalendar() {
+  document.getElementById('cal-year-label').textContent = calDisplayYear;
+  const year = calDisplayYear;
+  const start = new Date(year, 0, 1);
+  const end = new Date(year, 11, 31);
+  // build day â†’ pnl map
+  const dayMap = {};
+  T.filter(t => t.date && t.date.startsWith(year)).forEach(t => {
+    dayMap[t.date] = (dayMap[t.date] || 0) + t.pnl;
+  });
+  const tradedDays = Object.keys(dayMap);
+  const profDays = tradedDays.filter(d => dayMap[d] > 0).length;
+  const avgDay = tradedDays.length ? Object.values(dayMap).reduce((s, v) => s + v, 0) / tradedDays.length : 0;
+
+  // monthly stats
+  const monthMap = {};
+  Object.entries(dayMap).forEach(([d, v]) => {
+    const m = d.slice(0, 7);
+    monthMap[m] = (monthMap[m] || 0) + v;
+  });
+  const bestMonth = Object.entries(monthMap).sort((a, b) => b[1] - a[1])[0];
+  document.getElementById('cal-best-month').textContent = bestMonth ? (bestMonth[1] >= 0 ? '+' : '') + 'â‚¹' + Math.round(bestMonth[1]).toLocaleString('en-IN') : 'â€”';
+  document.getElementById('cal-best-month-label').textContent = bestMonth ? bestMonth[0] : 'â€”';
+  document.getElementById('cal-prof-days').textContent = tradedDays.length ? profDays + ' / ' + tradedDays.length : 'â€”';
+  const avgEl = document.getElementById('cal-avg-day');
+  avgEl.textContent = tradedDays.length ? (avgDay >= 0 ? '+' : '') + 'â‚¹' + Math.round(avgDay).toLocaleString('en-IN') : 'â€”';
+  avgEl.className = 'sc-val ' + (avgDay >= 0 ? 'pos' : 'neg');
+
+  // build heatmap: week columns from Jan 1
+  const maxAbs = Math.max(...Object.values(dayMap).map(Math.abs), 1);
+  const hm = document.getElementById('cal-heatmap');
+  const dayOfWeek = (new Date(year, 0, 1).getDay() + 6) % 7; // 0=Mon
+
+  let html = '';
+  let d = new Date(year, 0, 1);
+  d.setDate(d.getDate() - dayOfWeek); // go back to Monday of first week
+
+  const monthLabels = document.getElementById('cal-month-labels');
+  const months = [];
+
+  while (d.getFullYear() <= year || d <= end) {
+    html += '<div class="hm-col">';
+    for (let row = 0; row < 7; row++) {
+      const ds = d.toISOString().split('T')[0];
+      const isYear = d.getFullYear() === year;
+      if (!isYear) { html += '<div class="hm-cell hm-empty"></div>'; }
+      else {
+        const pnl = dayMap[ds];
+        let cls = 'hm-empty';
+        if (pnl !== undefined) {
+          const intensity = Math.min(4, Math.ceil(Math.abs(pnl) / maxAbs * 4));
+          cls = pnl >= 0 ? `hm-win-${intensity}` : `hm-loss-${intensity}`;
+        }
+        const tip = pnl !== undefined ? `${ds}: ${pnl >= 0 ? '+' : ''}â‚¹${pnl.toLocaleString('en-IN')}` : ds;
+        html += `<div class="hm-cell ${cls}" title="${tip}"></div>`;
+      }
+      d.setDate(d.getDate() + 1);
+    }
+    html += '</div>';
+    if (d.getFullYear() > year) break;
+  }
+  hm.innerHTML = html;
+
+  // Month labels
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  monthLabels.innerHTML = monthNames.map(m => `<span class="hm-month-label" style="width:${13*4+3*4}px">${m}</span>`).join('');
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  RISK CALCULATOR
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function calcRisk() {
+  const acc = parseFloat(document.getElementById('rc-account').value) || 0;
+  const riskPct = parseFloat(document.getElementById('rc-riskpct').value) || 1;
+  const entry = parseFloat(document.getElementById('rc-entry').value);
+  const sl = parseFloat(document.getElementById('rc-sl').value);
+  const target = parseFloat(document.getElementById('rc-target').value);
+  const lot = parseFloat(document.getElementById('rc-lotsize').value) || 1;
+  const riskAmt = acc * riskPct / 100;
+  document.getElementById('rc-risk-amt').textContent = riskAmt > 0 ? '-â‚¹' + riskAmt.toLocaleString('en-IN') : 'â€”';
+  if (entry && sl) {
+    const riskPerUnit = Math.abs(entry - sl);
+    const maxUnits = riskPerUnit > 0 ? riskAmt / riskPerUnit : 0;
+    const maxLots = Math.floor(maxUnits / lot);
+    document.getElementById('rc-qty').textContent = maxLots + ' lots (' + Math.floor(maxUnits) + ' units)';
+    if (target) {
+      const rewardPerUnit = Math.abs(target - entry);
+      const rewardAmt = rewardPerUnit * maxUnits;
+      const rr = riskPerUnit > 0 ? rewardPerUnit / riskPerUnit : 0;
+      const bep = rr > 0 ? (1 / (1 + rr) * 100).toFixed(1) : 'â€”';
+      document.getElementById('rc-reward').textContent = '+â‚¹' + Math.round(rewardAmt).toLocaleString('en-IN');
+      document.getElementById('rc-rr').textContent = '1:' + rr.toFixed(2);
+      document.getElementById('rc-rr').style.color = rr >= 2 ? 'var(--green)' : rr >= 1.5 ? 'var(--amber)' : 'var(--red)';
+      document.getElementById('rc-bep').textContent = bep + '%';
+    }
+  }
+  document.getElementById('rc-cap-pct').textContent = riskAmt > 0 && acc > 0 ? (riskAmt / acc * 100).toFixed(2) + '%' : 'â€”';
+}
+
+function calcDailyLimit() {
+  const limit = parseFloat(document.getElementById('rc-daily-limit').value) || 0;
+  const maxTrades = parseInt(document.getElementById('rc-max-trades').value) || 3;
+  const today = new Date().toISOString().split('T')[0];
+  const todayTrades = T.filter(t => t.date === today);
+  const todayPnl = todayTrades.reduce((s, t) => s + t.pnl, 0);
+  const dd = Math.min(0, todayPnl);
+  const pct = limit > 0 ? Math.min(100, Math.abs(dd) / limit * 100) : 0;
+  const trPct = Math.min(100, todayTrades.length / maxTrades * 100);
+  const canTrade = Math.abs(dd) < limit && todayTrades.length < maxTrades;
+  document.getElementById('daily-limit-display').innerHTML = `
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:11px;color:var(--text3)">Loss used</span>
+        <span class="mono" style="font-size:11px;color:${Math.abs(dd) > limit * .7 ? 'var(--red)' : 'var(--text2)'}">â‚¹${Math.abs(dd).toLocaleString('en-IN')} / â‚¹${limit.toLocaleString('en-IN')}</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%;background:${pct > 80 ? 'var(--red)' : pct > 60 ? 'var(--amber)' : 'var(--green)'}"></div></div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:11px;color:var(--text3)">Trades taken</span>
+        <span class="mono" style="font-size:11px;color:var(--text2)">${todayTrades.length} / ${maxTrades}</span>
+      </div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:${trPct}%;background:${trPct > 80 ? 'var(--red)' : trPct > 60 ? 'var(--amber)' : 'var(--blue)'}"></div></div>
+    </div>
+    <div style="padding:10px 14px;border-radius:var(--r2);background:${canTrade ? 'var(--greenbg)' : 'var(--redbg)'};border:1px solid ${canTrade ? 'var(--greenborder)' : 'var(--redborder)'};color:${canTrade ? 'var(--green)' : 'var(--red)'};font-size:13px;font-weight:500">
+      ${canTrade ? 'âœ“ You can trade today' : 'â›” Stop â€” limit reached'}
+    </div>
+  `;
+}
+
+function calcExpectancy() {
+  const wr = parseFloat(document.getElementById('ex-wr').value) / 100 || .5;
+  const win = parseFloat(document.getElementById('ex-win').value) || 0;
+  const loss = parseFloat(document.getElementById('ex-loss').value) || 0;
+  const trades = parseFloat(document.getElementById('ex-trades').value) || 20;
+  const expectancy = wr * win - (1 - wr) * loss;
+  const monthly = expectancy * trades;
+  const color = expectancy >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('expectancy-display').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--bg4);border-radius:var(--r2);padding:12px;text-align:center">
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Per Trade</div>
+        <div class="mono" style="font-size:17px;font-weight:500;color:${color}">${expectancy >= 0 ? '+' : ''}â‚¹${expectancy.toFixed(0)}</div>
+      </div>
+      <div style="background:var(--bg4);border-radius:var(--r2);padding:12px;text-align:center">
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Per Month</div>
+        <div class="mono" style="font-size:17px;font-weight:500;color:${color}">${monthly >= 0 ? '+' : ''}â‚¹${monthly.toFixed(0)}</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3);line-height:1.6">
+      ${expectancy > 0 ? 'âœ“ Positive expectancy â€” if you can maintain these numbers consistently, this strategy is viable.' : 'âœ— Negative expectancy â€” either increase win rate, increase avg win, or reduce avg loss.'}
+    </div>
+  `;
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  PLAYBOOK
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderPlaybook() {
+  const setups = {};
+  T.forEach(t => { const s = t.setup || 'No Setup'; if (!setups[s]) setups[s] = []; setups[s].push(t); });
+  const colors = { 'Breakout':'#5090c8','Reversal':'#d95f5f','Trend Follow':'#3db87a','Support/Resistance':'#c9973e','Opening Range':'#8b74c8','Gap Fill':'#d4a83a','VWAP Bounce':'#3db87a','Price Action':'#5090c8','Other':'#8a8880','No Setup':'#565450' };
+  const icons = { 'Breakout':'â—ˆ','Reversal':'â—Ž','Trend Follow':'â†’','Support/Resistance':'âŸ·','Opening Range':'â—°','Gap Fill':'â–½','VWAP Bounce':'âˆ¿','Price Action':'â—†','Other':'â—‹','No Setup':'?' };
+  document.getElementById('playbook-list').innerHTML = Object.entries(setups).length
+    ? Object.entries(setups).sort((a, b) => b[1].length - a[1].length).map(([s, arr]) => {
+        const st = stats(arr);
+        const color = colors[s] || '#8a8880';
+        const icon = icons[s] || 'â—‹';
+        const wr = (st.wr * 100).toFixed(0);
+        const trades = arr.slice(0, 3);
+        return `<div class="pb-card">
+          <div class="pb-head" onclick="this.nextElementSibling.classList.toggle('open')">
+            <div class="pb-icon" style="background:${color}22;color:${color}">${icon}</div>
+            <div>
+              <div class="pb-name">${s}</div>
+              <div style="font-size:11px;color:var(--text3)">${arr.length} trades Â· avg â‚¹${Math.round(st.pnl / arr.length).toLocaleString('en-IN')}</div>
+            </div>
+            <div class="pb-wr" style="color:${st.wr >= .5 ? 'var(--green)' : 'var(--red)'}">${wr}% WR</div>
+            <span style="color:var(--text3);font-size:12px;margin-left:8px">â€º</span>
+          </div>
+          <div class="pb-body">
+            <div class="pb-grid">
+              <div class="pb-stat"><div class="rr-label">Total P&L</div><div class="rr-val ${st.pnl >= 0 ? 'pnl-p' : 'pnl-n'}">${st.pnl >= 0 ? '+' : ''}â‚¹${Math.round(st.pnl).toLocaleString('en-IN')}</div></div>
+              <div class="pb-stat"><div class="rr-label">Profit Factor</div><div class="rr-val">${st.pf > 0 ? (st.pf > 100 ? 'âˆž' : st.pf.toFixed(2)) : 'â€”'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Avg R:R</div><div class="rr-val">${st.avgRR ? '1:' + st.avgRR.toFixed(2) : 'â€”'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Avg Win</div><div class="rr-val pnl-p">${st.avgWin ? '+â‚¹' + Math.round(st.avgWin).toLocaleString('en-IN') : 'â€”'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Avg Loss</div><div class="rr-val pnl-n">${st.avgLoss ? '-â‚¹' + Math.abs(Math.round(st.avgLoss)).toLocaleString('en-IN') : 'â€”'}</div></div>
+              <div class="pb-stat"><div class="rr-label">Best Trade</div><div class="rr-val pnl-p">+â‚¹${Math.max(...arr.map(t => t.pnl)).toLocaleString('en-IN')}</div></div>
+            </div>
+            <div style="font-size:11px;color:var(--text3);margin-top:4px">Recent trades in this setup:</div>
+            ${trades.map(t => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px">
+              <span style="color:var(--text3)">${t.date}</span>
+              <span class="sym">${t.sym}</span>
+              <span class="${t.pnl >= 0 ? 'pnl-p' : 'pnl-n'}">${t.pnl >= 0 ? '+' : ''}â‚¹${t.pnl.toLocaleString('en-IN')}</span>
+            </div>`).join('')}
+          </div>
+        </div>`;
+      }).join('')
+    : `<div class="empty-state"><div class="es-icon">â—«</div><div class="es-text">No setups yet</div><div class="es-sub">Log trades with a setup to build your playbook</div></div>`;
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  WEEKLY
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function weekNav(d) { weekOffset += d; renderWeekly(); }
+function renderWeekly() {
+  const now = new Date();
+  now.setDate(now.getDate() + weekOffset * 7);
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+  const days = ['Mon','Tue','Wed','Thu','Fri'];
+  const weekDays = days.map((name, i) => {
+    const d = new Date(mon); d.setDate(mon.getDate() + i);
+    const ds = d.toISOString().split('T')[0];
+    const arr = T.filter(t => t.date === ds);
+    const pnl = arr.reduce((s, t) => s + t.pnl, 0);
+    return { name, ds, arr, pnl };
+  });
+  const fri = new Date(mon); fri.setDate(mon.getDate() + 4);
+  document.getElementById('week-label').textContent =
+    mon.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) + ' â€“ ' +
+    fri.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const maxAbs = Math.max(...weekDays.map(d => Math.abs(d.pnl)), 1);
+  document.getElementById('week-days').innerHTML = weekDays.map(d => `
+    <div class="wd">
+      <div class="wd-name">${d.name}</div>
+      <div class="wd-pnl" style="color:${d.pnl > 0 ? 'var(--green)' : d.pnl < 0 ? 'var(--red)' : 'var(--text3)'}">
+        ${d.pnl !== 0 ? (d.pnl > 0 ? '+' : '') + 'â‚¹' + Math.abs(d.pnl).toLocaleString('en-IN') : 'â€”'}
+      </div>
+      <div class="wd-trades">${d.arr.length} trade${d.arr.length !== 1 ? 's' : ''}</div>
+      <div class="wd-bar"><div class="wd-bar-fill" style="width:${Math.abs(d.pnl) / maxAbs * 100}%;background:${d.pnl >= 0 ? 'var(--green)' : 'var(--red)'}"></div></div>
+    </div>`).join('');
+
+  const weekPnl = weekDays.reduce((s, d) => s + d.pnl, 0);
+  const weekTrades = weekDays.flatMap(d => d.arr);
+  const st = stats(weekTrades);
+  const mistakeTrades = weekTrades.filter(t => t.emotion === 'FOMO' || t.emotion === 'Revenge' || t.mistake);
+  document.getElementById('w-summary').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><div class="di-label">Week P&L</div><div class="di-val ${weekPnl >= 0 ? 'pnl-p' : 'pnl-n'}">${weekPnl >= 0 ? '+' : ''}â‚¹${Math.abs(weekPnl).toLocaleString('en-IN')}</div></div>
+      <div><div class="di-label">Trades</div><div class="di-val">${weekTrades.length}</div></div>
+      <div><div class="di-label">Win Rate</div><div class="di-val">${weekTrades.length ? (st.wr * 100).toFixed(0) + '%' : 'â€”'}</div></div>
+      <div><div class="di-label">Mistakes</div><div class="di-val" style="color:${mistakeTrades.length > 0 ? 'var(--red)' : 'var(--green)'}">${mistakeTrades.length}</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;border-left:2px solid var(--border2);padding-left:10px">
+      ${weekTrades.length === 0 ? 'No trades this week.' :
+        weekPnl > 0 && mistakeTrades.length === 0 ? 'âœ“ Profitable week with clean execution. Keep it up.' :
+        weekPnl > 0 && mistakeTrades.length > 0 ? `Profitable week but ${mistakeTrades.length} emotional trade(s). Review them.` :
+        weekPnl < 0 && mistakeTrades.length > 0 ? `Losing week with ${mistakeTrades.length} mistake(s). Focus on discipline next week.` :
+        'Losing week but no major mistakes. The setup may need review.'}
+    </div>`;
+
+  document.getElementById('w-tbody').innerHTML = weekTrades.length
+    ? [...weekTrades].sort((a, b) => a.date.localeCompare(b.date)).map(t => `
+        <tr onclick="openDetail(${t.id})">
+          <td class="mono" style="font-size:11px;color:var(--text3)">${t.date}</td>
+          <td><span class="sym">${t.sym}</span></td>
+          <td>${fmtDir(t.dir)}</td>
+          <td><span class="tag tag-setup">${t.setup || 'â€”'}</span></td>
+          <td>${fmtPnl(t.pnl)}</td>
+          <td>${fmtEmo(t.emotion)}</td>
+          <td style="font-size:11px;color:var(--text2);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes || 'â€”'}</td>
+        </tr>`).join('')
+    : `<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No trades this week</td></tr>`;
+
+  drawWeekBar(weekDays);
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  MISTAKES
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderMistakes() {
+  const fomo = T.filter(t => t.emotion === 'FOMO');
+  const revenge = T.filter(t => t.emotion === 'Revenge');
+  const movedSl = T.filter(t => t.mistake === 'Moved stop loss');
+  const bad = T.filter(t => t.mistake || t.emotion === 'FOMO' || t.emotion === 'Revenge');
+  document.getElementById('m-fomo').textContent = fomo.length;
+  document.getElementById('m-fomo-pnl').textContent = 'â‚¹' + Math.round(fomo.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' P&L';
+  document.getElementById('m-revenge').textContent = revenge.length;
+  document.getElementById('m-revenge-pnl').textContent = 'â‚¹' + Math.round(revenge.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' P&L';
+  document.getElementById('m-movedstop').textContent = movedSl.length;
+  document.getElementById('m-movedstop-pnl').textContent = 'â‚¹' + Math.round(movedSl.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' impact';
+  document.getElementById('m-rate').textContent = T.length ? (bad.length / T.length * 100).toFixed(0) + '%' : '0%';
+
+  const mistakeCounts = {};
+  T.forEach(t => { if (t.mistake) mistakeCounts[t.mistake] = (mistakeCounts[t.mistake] || 0) + 1; });
+  const max = Math.max(...Object.values(mistakeCounts), 1);
+  document.getElementById('m-bars').innerHTML = Object.entries(mistakeCounts).sort((a, b) => b[1] - a[1]).length
+    ? Object.entries(mistakeCounts).sort((a, b) => b[1] - a[1]).map(([m, c]) => {
+        const mPnl = T.filter(t => t.mistake === m).reduce((s, t) => s + t.pnl, 0);
+        return `<div class="mistake-bar">
+          <div class="mb-name">${m}</div>
+          <div class="mb-track"><div class="mb-fill" style="width:${c / max * 100}%"></div></div>
+          <div class="mb-count">${c}Ã—</div>
+          <div class="mb-pnl ${mPnl >= 0 ? 'pnl-p' : 'pnl-n'}">${mPnl >= 0 ? '+' : ''}â‚¹${Math.round(mPnl).toLocaleString('en-IN')}</div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--text3);font-size:12px;padding:10px 0">No mistakes logged â€” stay disciplined!</div>';
+
+  document.getElementById('m-tbody').innerHTML = bad.length
+    ? bad.slice(0, 20).map(t => `<tr onclick="openDetail(${t.id})">
+        <td class="mono" style="font-size:11px;color:var(--text3)">${t.date}</td>
+        <td><span class="sym">${t.sym}</span></td>
+        <td>${fmtPnl(t.pnl)}</td>
+        <td>${fmtEmo(t.emotion)}</td>
+        <td><span style="font-size:11px;color:var(--red)">${t.mistake || 'â€”'}</span></td>
+        <td style="font-size:11px;color:var(--text3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes || 'â€”'}</td>
+      </tr>`).join('')
+    : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text3)">No mistake trades logged</td></tr>`;
+
+  drawEmotionChart();
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  RULES
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const RULES = [
+  { n: '01', title: 'Never risk more than 1â€“2% per trade', desc: 'Position sizing is everything. A string of losses should never wipe you out. Risk 1% per trade and you can lose 20 in a row and still be in the game.' },
+  { n: '02', title: 'No setup = No trade', desc: 'If your criteria aren\'t met, sit on your hands. Boredom is not a setup. The market always gives you another opportunity â€” but a blown account doesn\'t come back.' },
+  { n: '03', title: 'Define stop loss BEFORE entry', desc: 'If you don\'t know where you\'re wrong before you enter, you have a hope, not a trade. Set your stop at the invalidation point, never a round number.' },
+  { n: '04', title: 'Maximum daily loss: stop at -2%', desc: 'Two bad trades can snowball into a blown account. If you\'re down 2% in a day, close the platform. The market will be there tomorrow.' },
+  { n: '05', title: 'Max 3 trades per day', desc: 'Your first two ideas are usually your best. Anything beyond that is often chasing or compensating. Quality over quantity.' },
+  { n: '06', title: 'Log every single trade', desc: 'If it\'s not written down, it didn\'t happen. Your journal is your feedback loop. Skipping logging is choosing to stay blind to your patterns.' },
+  { n: '07', title: 'Review every Friday â€” no exceptions', desc: 'The trade is not over when you exit. What worked? What didn\'t? What emotion drove your worst trade? Honest weekly review is where real growth happens.' },
+  { n: '08', title: 'Minimum 1:1.5 risk-to-reward', desc: 'Even with a 40% win rate, you can be profitable if your winners are bigger than your losers. Never take a trade where the target is smaller than the risk.' },
+  { n: '09', title: 'Never add to a losing position', desc: 'Averaging down on a losing trade is how small losses become account-killing losses. Honor your original stop.' },
+  { n: '10', title: 'Flat sizing until 3-month profitable', desc: 'Don\'t increase position size until you\'ve proven consistency. Get profitable first, then scale. Not the other way around.' },
+];
+function renderRules() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('rules-list').innerHTML = RULES.map(r => {
+    const key = today + '-' + r.n;
+    const checked = !!rulesChecked[key];
+    return `<div class="rule-card">
+      <div class="rule-num">${r.n}</div>
+      <div style="flex:1">
+        <div class="rule-title">${r.title}</div>
+        <div class="rule-desc">${r.desc}</div>
+      </div>
+      <div class="rule-check ${checked ? 'checked' : ''}" onclick="toggleRule('${key}', this)" title="Check if followed today">
+        ${checked ? '<span style="color:#fff;font-size:11px">âœ“</span>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+  const checkedToday = RULES.filter(r => !!rulesChecked[today + '-' + r.n]).length;
+  // header note
+  const ph = document.querySelector('#page-rules .ph-sub');
+  if (ph) ph.textContent = `${checkedToday} / ${RULES.length} rules followed today â€” check each one you honored`;
+}
+function toggleRule(key, el) {
+  rulesChecked[key] = !rulesChecked[key];
+  el.classList.toggle('checked', !!rulesChecked[key]);
+  el.innerHTML = rulesChecked[key] ? '<span style="color:#fff;font-size:11px">âœ“</span>' : '';
+  saveRules();
+  renderRules();
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  EXPORT CSV
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function exportCSV() {
+  const headers = ['Date','Symbol','Direction','Setup','Entry','Exit','Qty','PnL','RR','Emotion','Mistake','Rating','Plan','Notes'];
+  const rows = T.map(t => [
+    t.date, t.sym, t.dir, t.setup || '', t.entry || '', t.exit || '',
+    t.qty || '', t.pnl || 0, t.rr || '', t.emotion || '',
+    t.mistake || '', t.rating || 3,
+    (t.plan || '').replace(/,/g, ';'), (t.notes || '').replace(/,/g, ';')
+  ]);
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'trades-' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  toast('CSV exported âœ“');
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  TOAST
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toast(msg, warn = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (warn ? 'toast-warn' : 'toast-ok');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  CHARTS
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function setEqRange(r, btn) {
+  eqRange = r;
+  document.querySelectorAll('[id^=eq-btn]').forEach(b => b.classList.remove('active-btn'));
+  if (btn) btn.classList.add('active-btn');
+  drawEqChart('eq-canvas', T, eqRange);
+}
+
+function drawEqChart(id, data, range) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = (parseInt(canvas.getAttribute('height') || 130)) * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = parseInt(canvas.getAttribute('height') || 130);
+  ctx.clearRect(0, 0, W, H);
+
+  let arr = [...data].sort((a, b) => a.date.localeCompare(b.date));
+  if (typeof range === 'number') arr = arr.slice(-range);
+  if (arr.length < 2) {
+    ctx.fillStyle = '#3a3836'; ctx.font = '12px DM Sans';
+    ctx.textAlign = 'center'; ctx.fillText('Log at least 2 trades to see equity curve', W / 2, H / 2);
+    return;
+  }
+  let cum = 0;
+  const pts = [0, ...arr.map(t => { cum += t.pnl; return cum; })];
+  const mn = Math.min(...pts), mx = Math.max(...pts);
+  const rng = mx - mn || 1;
+  const pad = { l: 52, r: 12, t: 14, b: 22 };
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const px = i => pad.l + (i / (pts.length - 1)) * cw;
+  const py = v => pad.t + ch - ((v - mn) / rng) * ch;
+
+  // grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1; ctx.setLineDash([]);
+  [0.25, 0.5, 0.75, 1].forEach(f => {
+    const y = pad.t + ch * (1 - f);
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+  });
+  // zero line
+  if (mn < 0 && mx > 0) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+    const z = py(0);
+    ctx.beginPath(); ctx.moveTo(pad.l, z); ctx.lineTo(W - pad.r, z); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  const pos = pts[pts.length - 1] >= 0;
+  const lineColor = pos ? '#3db87a' : '#d95f5f';
+  // fill
+  const grad = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+  if (pos) { grad.addColorStop(0, 'rgba(61,184,122,.25)'); grad.addColorStop(1, 'rgba(61,184,122,0)'); }
+  else { grad.addColorStop(0, 'rgba(217,95,95,0)'); grad.addColorStop(1, 'rgba(217,95,95,.25)'); }
+  ctx.beginPath(); ctx.moveTo(px(0), py(0));
+  pts.forEach((v, i) => ctx.lineTo(px(i), py(v)));
+  ctx.lineTo(px(pts.length - 1), H - pad.b); ctx.lineTo(px(0), H - pad.b);
+  ctx.fillStyle = grad; ctx.fill();
+  // line
+  ctx.beginPath(); ctx.lineWidth = 1.5; ctx.strokeStyle = lineColor; ctx.lineJoin = 'round'; ctx.setLineDash([]);
+  pts.forEach((v, i) => i === 0 ? ctx.moveTo(px(i), py(v)) : ctx.lineTo(px(i), py(v)));
+  ctx.stroke();
+  // y labels
+  ctx.fillStyle = '#3a3836'; ctx.font = '10px DM Mono'; ctx.textAlign = 'right';
+  [mn, mx].forEach(v => {
+    const y = py(v); if (y >= pad.t && y <= H - pad.b)
+      ctx.fillText((v >= 0 ? '+' : '') + 'â‚¹' + (Math.abs(v) >= 1000 ? (v / 1000).toFixed(0) + 'k' : Math.round(v)), pad.l - 4, y + 3);
+  });
+}
+
+function drawHistChart() {
+  const canvas = document.getElementById('a-hist-canvas');
+  if (!canvas || T.length < 3) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 160 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 160;
+  ctx.clearRect(0, 0, W, H);
+  const pnls = T.map(t => t.pnl);
+  const mn = Math.min(...pnls), mx = Math.max(...pnls);
+  const bins = 12, binW = (mx - mn) / bins;
+  const counts = Array(bins).fill(0);
+  pnls.forEach(v => {
+    const i = Math.min(bins - 1, Math.floor((v - mn) / binW));
+    counts[i]++;
+  });
+  const maxC = Math.max(...counts);
+  const pad = { l: 10, r: 10, t: 10, b: 22 };
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const bw = cw / bins;
+  counts.forEach((c, i) => {
+    const bh = c / maxC * ch;
+    const x = pad.l + i * bw;
+    const binCenter = mn + (i + .5) * binW;
+    ctx.fillStyle = binCenter >= 0 ? 'rgba(61,184,122,.7)' : 'rgba(217,95,95,.7)';
+    ctx.beginPath(); ctx.roundRect(x + 1, H - pad.b - bh, bw - 2, bh, 2); ctx.fill();
+  });
+  // zero line
+  const zx = pad.l + (-mn / (mx - mn)) * cw;
+  ctx.strokeStyle = 'rgba(255,255,255,.15)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(zx, pad.t); ctx.lineTo(zx, H - pad.b); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#3a3836'; ctx.font = '9px DM Mono'; ctx.textAlign = 'center';
+  ctx.fillText('0', zx, H - 4);
+}
+
+function drawSetupChart() {
+  const canvas = document.getElementById('a-setup-canvas');
+  if (!canvas) return;
+  const setups = {};
+  T.forEach(t => { const s = t.setup || 'No Setup'; setups[s] = (setups[s] || []).concat(t); });
+  const entries = Object.entries(setups).slice(0, 7);
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 180 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 180;
+  ctx.clearRect(0, 0, W, H);
+  if (!entries.length) return;
+  const pnls = entries.map(([, arr]) => arr.reduce((s, t) => s + t.pnl, 0));
+  const maxA = Math.max(...pnls.map(Math.abs), 1);
+  const bw = Math.floor((W - 50) / entries.length) - 6;
+  const midY = H / 2 + 8;
+  entries.forEach(([s, arr], i) => {
+    const pnl = pnls[i];
+    const bh = Math.abs(pnl) / maxA * (H / 2 - 28);
+    const x = 30 + i * (bw + 8);
+    ctx.fillStyle = pnl >= 0 ? 'rgba(61,184,122,.75)' : 'rgba(217,95,95,.75)';
+    if (pnl >= 0) { ctx.beginPath(); ctx.roundRect(x, midY - bh, bw, bh, [3, 3, 0, 0]); ctx.fill(); }
+    else { ctx.beginPath(); ctx.roundRect(x, midY, bw, bh, [0, 0, 3, 3]); ctx.fill(); }
+    ctx.fillStyle = '#3a3836'; ctx.font = '9px DM Sans'; ctx.textAlign = 'center';
+    ctx.fillText((s.length > 7 ? s.slice(0, 6) + 'â€¦' : s), x + bw / 2, H - 4);
+  });
+  ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(20, midY); ctx.lineTo(W, midY); ctx.stroke();
+}
+
+function drawDayChart() {
+  const canvas = document.getElementById('a-day-canvas');
+  if (!canvas) return;
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const dayTrades = Array(7).fill(null).map(() => []);
+  T.forEach(t => {
+    const d = new Date(t.date);
+    const dow = (d.getDay() + 6) % 7;
+    dayTrades[dow].push(t);
+  });
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 180 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 180;
+  ctx.clearRect(0, 0, W, H);
+  const bw = Math.floor((W - 30) / 7) - 6;
+  const pad = { t: 14, b: 22 };
+  const ch = H - pad.t - pad.b;
+  days.forEach((name, i) => {
+    const arr = dayTrades[i];
+    const wr = arr.length ? arr.filter(t => t.pnl > 0).length / arr.length : 0;
+    const bh = wr * ch;
+    const x = 15 + i * (bw + 8);
+    ctx.fillStyle = `rgba(80,144,200,${0.2 + wr * 0.7})`;
+    ctx.beginPath(); ctx.roundRect(x, pad.t + ch - bh, bw, bh, 3); ctx.fill();
+    ctx.fillStyle = '#3a3836'; ctx.font = '9px DM Sans'; ctx.textAlign = 'center';
+    ctx.fillText(name, x + bw / 2, H - 4);
+    if (arr.length) {
+      ctx.fillStyle = wr >= .5 ? '#3db87a' : '#d95f5f'; ctx.font = '10px DM Mono';
+      ctx.fillText(Math.round(wr * 100) + '%', x + bw / 2, pad.t + ch - bh - 4);
+    }
+  });
+}
+
+function drawWeekBar(weekDays) {
+  const canvas = document.getElementById('w-bar-canvas');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 160 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 160;
+  ctx.clearRect(0, 0, W, H);
+  const pnls = weekDays.map(d => d.pnl);
+  const maxA = Math.max(...pnls.map(Math.abs), 1);
+  const bw = Math.floor((W - 40) / 5) - 8;
+  const midY = H / 2;
+  weekDays.forEach((d, i) => {
+    const bh = Math.abs(d.pnl) / maxA * (H / 2 - 26);
+    const x = 20 + i * (bw + 10);
+    ctx.fillStyle = d.pnl >= 0 ? 'rgba(61,184,122,.75)' : 'rgba(217,95,95,.75)';
+    if (d.pnl >= 0) { ctx.beginPath(); ctx.roundRect(x, midY - bh, bw, bh, [3, 3, 0, 0]); ctx.fill(); }
+    else { ctx.beginPath(); ctx.roundRect(x, midY, bw, bh, [0, 0, 3, 3]); ctx.fill(); }
+    ctx.fillStyle = '#3a3836'; ctx.font = '10px DM Sans'; ctx.textAlign = 'center';
+    ctx.fillText(d.name, x + bw / 2, H - 4);
+    if (d.pnl !== 0) {
+      ctx.fillStyle = d.pnl >= 0 ? '#3db87a' : '#d95f5f'; ctx.font = '9px DM Mono';
+      const lbl = (d.pnl >= 0 ? '+' : '-') + 'â‚¹' + (Math.abs(d.pnl) >= 1000 ? (Math.abs(d.pnl) / 1000).toFixed(1) + 'k' : Math.abs(d.pnl));
+      ctx.fillText(lbl, x + bw / 2, d.pnl >= 0 ? midY - bh - 4 : midY + bh + 12);
+    }
+  });
+  ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(10, midY); ctx.lineTo(W - 10, midY); ctx.stroke();
+}
+
+function drawEmotionChart() {
+  const canvas = document.getElementById('m-emotion-canvas');
+  if (!canvas) return;
+  const emotions = ['Calm', 'Neutral', 'FOMO', 'Revenge', 'Overconfident', 'Anxious'];
+  const emoData = emotions.map(e => ({
+    name: e,
+    trades: T.filter(t => t.emotion === e),
+    pnl: T.filter(t => t.emotion === e).reduce((s, t) => s + t.pnl, 0)
+  })).filter(e => e.trades.length > 0);
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = 200 * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = canvas.offsetWidth, H = 200;
+  ctx.clearRect(0, 0, W, H);
+  if (!emoData.length) return;
+  const maxA = Math.max(...emoData.map(e => Math.abs(e.pnl)), 1);
+  const bw = Math.floor((W - 40) / emoData.length) - 6;
+  const midY = H / 2;
+  emoData.forEach((e, i) => {
+    const bh = Math.abs(e.pnl) / maxA * (H / 2 - 28);
+    const x = 20 + i * (bw + 8);
+    const isPos = e.pnl >= 0;
+    ctx.fillStyle = isPos ? 'rgba(61,184,122,.75)' : 'rgba(217,95,95,.75)';
+    if (isPos) { ctx.beginPath(); ctx.roundRect(x, midY - bh, bw, bh, [3, 3, 0, 0]); ctx.fill(); }
+    else { ctx.beginPath(); ctx.roundRect(x, midY, bw, bh, [0, 0, 3, 3]); ctx.fill(); }
+    ctx.fillStyle = '#3a3836'; ctx.font = '9px DM Sans'; ctx.textAlign = 'center';
+    const label = e.name.length > 8 ? e.name.slice(0, 7) + 'â€¦' : e.name;
+    ctx.fillText(label, x + bw / 2, H - 4);
+    ctx.fillStyle = isPos ? '#3db87a' : '#d95f5f'; ctx.font = '9px DM Mono';
+    const lbl = (e.pnl >= 0 ? '+' : '-') + 'â‚¹' + (Math.abs(e.pnl) >= 1000 ? (Math.abs(e.pnl) / 1000).toFixed(0) + 'k' : Math.abs(e.pnl));
+    ctx.fillText(lbl, x + bw / 2, e.pnl >= 0 ? midY - bh - 4 : midY + bh + 12);
+  });
+  ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(10, midY); ctx.lineTo(W - 10, midY); ctx.stroke();
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  INIT
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderAll() {
+  renderDashboard();
+  renderTradeLog();
+}
+
+document.getElementById('ph-date').textContent =
+  new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+buildFormStars();
+
+renderAll();
+refreshFromCloud();
+window.addEventListener('resize', () => {
+  drawEqChart('eq-canvas', T, eqRange);
+});
+</script>
 </body>
 </html>
+
