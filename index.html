@@ -284,7 +284,9 @@ canvas{display:block;width:100%!important;}
     <div class="sb-tagline">TRADING JOURNAL v2.0</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
       <button class="btn btn-ghost btn-sm" onclick="openCloudSetup()">Cloud Setup</button>
-      <button class="btn btn-ghost btn-sm" onclick="openCloudAuth()">Email Sign In</button>
+      <button class="btn btn-ghost btn-sm" onclick="openCloudPasswordSignIn()">Sign In</button>
+      <button class="btn btn-ghost btn-sm" onclick="openCloudSignUp()">Sign Up</button>
+      <button class="btn btn-ghost btn-sm" onclick="openCloudAuth()">Magic Link</button>
       <button class="btn btn-ghost btn-sm" id="cloud-signout" onclick="signOutCloud()" style="display:none">Sign Out</button>
       <div id="cloud-status" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">Cloud: checking...</div>
     </div>
@@ -328,9 +330,9 @@ canvas{display:block;width:100%!important;}
       <div class="ph-title">Dashboard</div>
       <div class="ph-sub" id="ph-date"></div>
     </div>
-    <div class="ph-actions">
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export CSV</button>
-      <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
+      <div class="ph-actions">
+        <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export CSV</button>
+        <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
     </div>
   </div>
 
@@ -1028,6 +1030,16 @@ window.edgeCloud = {
     const { error } = await cloud.client.auth.signInWithOtp({ email, options: { emailRedirectTo: redirectTo } });
     if (error) throw error;
   },
+  async signInWithPassword(email, password) {
+    if (!cloud.client) throw new Error("Configure cloud first.");
+    const { error } = await cloud.client.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+  },
+  async signUpWithPassword(email, password) {
+    if (!cloud.client) throw new Error("Configure cloud first.");
+    const { error } = await cloud.client.auth.signUp({ email, password });
+    if (error) throw error;
+  },
   async signOut() {
     if (!cloud.client) return;
     await cloud.client.auth.signOut();
@@ -1056,6 +1068,33 @@ window.openCloudAuth = async function openCloudAuth() {
     if (window.toast) window.toast("Magic link sent ✓");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not send magic link", true);
+  }
+};
+
+window.openCloudPasswordSignIn = async function openCloudPasswordSignIn() {
+  const email = window.prompt("Enter your email");
+  if (!email) return;
+  const password = window.prompt("Enter your password");
+  if (!password) return;
+  try {
+    await window.edgeCloud.signInWithPassword(email.trim(), password);
+    if (window.refreshFromCloud) await window.refreshFromCloud();
+    if (window.toast) window.toast("Signed in ✓");
+  } catch (error) {
+    if (window.toast) window.toast(error.message || "Could not sign in", true);
+  }
+};
+
+window.openCloudSignUp = async function openCloudSignUp() {
+  const email = window.prompt("Enter your email");
+  if (!email) return;
+  const password = window.prompt("Create a password (at least 6 characters)");
+  if (!password) return;
+  try {
+    await window.edgeCloud.signUpWithPassword(email.trim(), password);
+    if (window.toast) window.toast("Account created. If Supabase asks for email confirmation, verify your email before signing in.");
+  } catch (error) {
+    if (window.toast) window.toast(error.message || "Could not sign up", true);
   }
 };
 
