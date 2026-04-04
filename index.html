@@ -273,6 +273,9 @@ canvas{display:block;width:100%!important;}
 .badge-red{background:var(--redbg);color:var(--red);}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.check-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text2);}
+.check-row input{width:auto;accent-color:var(--accent);}
 
 @media (max-width: 980px){
   body{overflow:auto;}
@@ -287,7 +290,7 @@ canvas{display:block;width:100%!important;}
   .main{overflow:visible;}
   .page{padding:22px 18px;max-width:none;}
   .stats-row{grid-template-columns:repeat(2,1fr);}
-  .two-col,.three-col{grid-template-columns:1fr;}
+  .two-col,.three-col,.four-col{grid-template-columns:1fr;}
   .week-days{grid-template-columns:repeat(2,1fr);}
   .risk-result{grid-template-columns:repeat(2,1fr);}
   .dg{grid-template-columns:1fr 1fr;}
@@ -298,7 +301,7 @@ canvas{display:block;width:100%!important;}
   .ph-actions{width:100%;flex-wrap:wrap;}
   .ph-actions .btn{flex:1;justify-content:center;}
   .stats-row{grid-template-columns:1fr;}
-  .fg-grid,.fg-grid3,.dg,.week-days,.risk-result{grid-template-columns:1fr;}
+  .fg-grid,.fg-grid3,.dg,.week-days,.risk-result,.four-col{grid-template-columns:1fr;}
   .panel-header{gap:10px;flex-wrap:wrap;}
   table{min-width:760px;}
 }
@@ -366,9 +369,10 @@ canvas{display:block;width:100%!important;}
       <div class="ph-title">Dashboard</div>
       <div class="ph-sub" id="ph-date"></div>
     </div>
-      <div class="ph-actions">
-        <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export CSV</button>
-        <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
+    <div class="ph-actions">
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportJSON()">↓ Backup JSON</button>
+      <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
     </div>
   </div>
 
@@ -400,6 +404,25 @@ canvas{display:block;width:100%!important;}
       <div class="sc-label">Max Drawdown</div>
       <div class="sc-val neg" id="d-dd">$0</div>
       <div class="sc-sub" id="d-dd-sub">Peak to trough</div>
+    </div>
+  </div>
+
+  <div class="four-col" style="margin-bottom:20px">
+    <div class="panel" style="margin-bottom:0">
+      <div class="panel-header"><div class="panel-title">Account Balance</div></div>
+      <div class="panel-body"><div class="sc-val" id="d-balance" style="color:var(--text)">$0</div><div class="sc-sub">Latest recorded balance</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <div class="panel-header"><div class="panel-title">Equity</div></div>
+      <div class="panel-body"><div class="sc-val" id="d-equity" style="color:var(--blue)">$0</div><div class="sc-sub">Latest equity snapshot</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <div class="panel-header"><div class="panel-title">This Week</div></div>
+      <div class="panel-body"><div class="sc-val" id="d-week-pnl" style="color:var(--accent)">$0</div><div class="sc-sub">Weekly performance</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <div class="panel-header"><div class="panel-title">Rule Followed</div></div>
+      <div class="panel-body"><div class="sc-val" id="d-rule-rate" style="color:var(--green)">0%</div><div class="sc-sub">Trades marked disciplined</div></div>
     </div>
   </div>
 
@@ -485,6 +508,7 @@ canvas{display:block;width:100%!important;}
     <div class="ph-title">Trade Log</div>
     <div class="ph-actions">
       <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportJSON()">↓ JSON</button>
       <button class="btn btn-primary" onclick="openAdd()">+ Log Trade</button>
     </div>
   </div>
@@ -558,6 +582,22 @@ canvas{display:block;width:100%!important;}
         <thead><tr><th>Setup</th><th>Trades</th><th>Wins</th><th>Win Rate</th><th>Total P&L</th><th>Avg P&L</th><th>Best Trade</th><th>Worst Trade</th></tr></thead>
         <tbody id="a-setup-tbody"></tbody>
       </table>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Best Pair & Session</div></div>
+      <div class="panel-body" id="a-forex-summary"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Pair Breakdown</div></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Pair</th><th>Trades</th><th>Win Rate</th><th>Pips</th><th>Total P&L</th></tr></thead>
+          <tbody id="a-pair-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -709,6 +749,19 @@ canvas{display:block;width:100%!important;}
           <div id="expectancy-display"></div>
         </div>
       </div>
+
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Forex Pip Calculator</div></div>
+        <div class="panel-body">
+          <div class="fg-grid" style="gap:10px;margin-bottom:14px">
+            <div class="fg"><label class="fl">Entry</label><input class="fi" id="pip-entry" type="number" step="0.0001" oninput="calcPips()"></div>
+            <div class="fg"><label class="fl">Stop Loss</label><input class="fi" id="pip-sl" type="number" step="0.0001" oninput="calcPips()"></div>
+            <div class="fg"><label class="fl">Target</label><input class="fi" id="pip-target" type="number" step="0.0001" oninput="calcPips()"></div>
+            <div class="fg"><label class="fl">Pip Size</label><input class="fi" id="pip-size" type="number" step="0.0001" value="0.0001" oninput="calcPips()"></div>
+          </div>
+          <div id="pip-display"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -752,6 +805,23 @@ canvas{display:block;width:100%!important;}
         <thead><tr><th>Date</th><th>Symbol</th><th>Dir</th><th>Setup</th><th>P&L</th><th>Emotion</th><th>Notes</th></tr></thead>
         <tbody id="w-tbody"></tbody>
       </table>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Weekly Reflection</div></div>
+      <div class="panel-body">
+        <textarea class="fta" id="week-note" placeholder="What worked this week? What needs fixing?"></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn btn-primary btn-sm" onclick="saveReviewNote('week')">Save Note</button></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Monthly Reflection</div></div>
+      <div class="panel-body">
+        <textarea class="fta" id="month-note" placeholder="Monthly lessons, goals, and patterns to monitor."></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn btn-primary btn-sm" onclick="saveReviewNote('month')">Save Note</button></div>
+      </div>
     </div>
   </div>
 </div>
@@ -842,10 +912,25 @@ canvas{display:block;width:100%!important;}
         </div>
       </div>
       <div class="fg-grid">
+        <div class="fg"><label class="fl">Strategy Name</label><input class="fi" id="f-strategy" placeholder="London breakout, pullback continuation…"></div>
+        <div class="fg"><label class="fl">Trading Session</label>
+          <select class="fs" id="f-session">
+            <option value="">— Select —</option>
+            <option>Asia</option><option>London</option><option>New York</option><option>London/New York Overlap</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg-grid">
         <div class="fg"><label class="fl">Entry Price ($)</label><input class="fi" id="f-entry" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
         <div class="fg"><label class="fl">Exit Price ($)</label><input class="fi" id="f-exit" type="number" placeholder="0.00" oninput="autoCalcPnl()"></div>
         <div class="fg"><label class="fl">Quantity / Lots</label><input class="fi" id="f-qty" type="number" placeholder="1" oninput="autoCalcPnl()"></div>
         <div class="fg"><label class="fl">P&L ($) <span style="color:var(--text3);font-style:italic;font-size:9px">auto-fills</span></label><input class="fi" id="f-pnl" type="number" placeholder="Auto or manual"></div>
+      </div>
+      <div class="fg-grid">
+        <div class="fg"><label class="fl">Lot Size</label><input class="fi" id="f-lotsize" type="number" step="0.01" placeholder="0.10"></div>
+        <div class="fg"><label class="fl">Pips</label><input class="fi" id="f-pips" type="number" step="0.1" placeholder="12.5"></div>
+        <div class="fg"><label class="fl">Account Balance ($)</label><input class="fi" id="f-balance" type="number" step="0.01" placeholder="10000"></div>
+        <div class="fg"><label class="fl">Equity After Trade ($)</label><input class="fi" id="f-equity" type="number" step="0.01" placeholder="10125"></div>
       </div>
       <div class="fg-grid">
         <div class="fg"><label class="fl">Stop Loss ($)</label><input class="fi" id="f-sl" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
@@ -887,6 +972,10 @@ canvas{display:block;width:100%!important;}
         <label class="fl">Trade Rating</label>
         <div class="star-row" id="form-stars"></div>
       </div>
+      <div class="check-row" style="margin-bottom:14px">
+        <input id="f-rulefollowed" type="checkbox">
+        <label for="f-rulefollowed" style="cursor:pointer">I followed my trading rules on this trade</label>
+      </div>
       <div class="fg" style="margin-bottom:14px">
         <label class="fl">Pre-trade Plan / Thesis</label>
         <textarea class="fta" id="f-plan" placeholder="What's the setup? Where's price going and why? What needs to happen for this to work?"></textarea>
@@ -927,6 +1016,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const cloudStorageKey = "edge-log-supabase";
 const cloud = { client: null, session: null };
+const embeddedCloudConfig = window.EDGE_LOG_DEFAULT_CONFIG || { url: "", anonKey: "" };
 
 function getCloudEls() {
   return {
@@ -941,6 +1031,11 @@ function readCloudConfig() {
   } catch {
     return {};
   }
+}
+
+function reviewStorageKey(type) {
+  const id = cloud.session?.user?.id || "guest";
+  return `edge-log-review-${type}-${id}`;
 }
 
 function writeCloudConfig(config) {
@@ -971,14 +1066,21 @@ function mapFromDb(row) {
     sym: row.symbol,
     dir: row.direction,
     setup: row.setup || "",
+    strategy: row.strategy || "",
+    session: row.trading_session || "",
     entry: row.entry,
     exit: row.exit,
     qty: row.quantity,
+    lotSize: row.lot_size,
+    pips: row.pips,
     pnl: Number(row.pnl || 0),
     sl: row.stop_loss,
     target: row.target,
     rr: row.rr,
     emotion: row.emotion || "Calm",
+    ruleFollowed: !!row.rule_followed,
+    balance: row.account_balance,
+    equity: row.equity,
     plan: row.plan || "",
     notes: row.notes || "",
     mistake: row.mistake || "",
@@ -993,15 +1095,22 @@ function mapToDb(trade) {
     symbol: trade.sym,
     direction: trade.dir,
     setup: trade.setup || null,
+    strategy: trade.strategy || null,
+    trading_session: trade.session || null,
     entry: trade.entry || null,
     exit: trade.exit || null,
     quantity: trade.qty || null,
+    lot_size: trade.lotSize || null,
+    pips: trade.pips || null,
     pnl: trade.pnl || 0,
     stop_loss: trade.sl || null,
     target: trade.target || null,
     rr: trade.rr || null,
     emotion: trade.emotion || null,
     rating: trade.rating || null,
+    rule_followed: !!trade.ruleFollowed,
+    account_balance: trade.balance || null,
+    equity: trade.equity || null,
     plan: trade.plan || null,
     notes: trade.notes || null,
     mistake: trade.mistake || null,
@@ -1012,7 +1121,8 @@ function mapToDb(trade) {
 }
 
 async function initCloud() {
-  const config = readCloudConfig();
+  const savedConfig = readCloudConfig();
+  const config = { url: savedConfig.url || embeddedCloudConfig.url, anonKey: savedConfig.anonKey || embeddedCloudConfig.anonKey };
   if (!config.url || !config.anonKey) {
     cloud.client = null;
     cloud.session = null;
@@ -1171,7 +1281,7 @@ function nav(name) {
   if (name === 'weekly') renderWeekly();
   if (name === 'mistakes') renderMistakes();
   if (name === 'playbook') renderPlaybook();
-  if (name === 'risk') { calcRisk(); calcDailyLimit(); calcExpectancy(); }
+  if (name === 'risk') { calcRisk(); calcDailyLimit(); calcExpectancy(); calcPips(); }
   if (name === 'rules') renderRules();
   closeMobileMenu();
 }
@@ -1240,8 +1350,15 @@ function openAdd(id = null) {
   });
   document.getElementById('f-dir').value = t ? t.dir : 'Long';
   document.getElementById('f-setup').value = t ? (t.setup || '') : '';
+  document.getElementById('f-strategy').value = t ? (t.strategy || '') : '';
+  document.getElementById('f-session').value = t ? (t.session || '') : '';
+  document.getElementById('f-lotsize').value = t ? (t.lotSize || '') : '';
+  document.getElementById('f-pips').value = t ? (t.pips || '') : '';
+  document.getElementById('f-balance').value = t ? (t.balance || '') : '';
+  document.getElementById('f-equity').value = t ? (t.equity || '') : '';
   document.getElementById('f-emotion').value = t ? (t.emotion || 'Calm') : 'Calm';
   document.getElementById('f-mistake').value = t ? (t.mistake || '') : '';
+  document.getElementById('f-rulefollowed').checked = t ? !!t.ruleFollowed : false;
   setFormRating(t ? (t.rating || 3) : 3);
   document.getElementById('modal-add').classList.add('open');
 }
@@ -1322,10 +1439,17 @@ async function saveTrade() {
     time: document.getElementById('f-time').value || '09:30',
     sym, dir,
     setup: document.getElementById('f-setup').value,
+    strategy: document.getElementById('f-strategy').value,
+    session: document.getElementById('f-session').value,
     entry, exit, qty,
+    lotSize: parseFloat(document.getElementById('f-lotsize').value) || null,
+    pips: parseFloat(document.getElementById('f-pips').value) || null,
     pnl: isNaN(pnl) ? 0 : +pnl.toFixed(2),
     sl, target, rr,
     emotion: document.getElementById('f-emotion').value,
+    ruleFollowed: document.getElementById('f-rulefollowed').checked,
+    balance: parseFloat(document.getElementById('f-balance').value) || null,
+    equity: parseFloat(document.getElementById('f-equity').value) || null,
     plan: document.getElementById('f-plan').value,
     notes: document.getElementById('f-notes').value,
     mistake: document.getElementById('f-mistake').value,
@@ -1370,13 +1494,20 @@ function openDetail(id) {
   const fields = [
     { l: 'Direction', v: fmtDir(t.dir) },
     { l: 'Setup', v: t.setup ? `<span class="tag tag-setup">${t.setup}</span>` : '—' },
+    { l: 'Strategy', v: t.strategy || '—' },
+    { l: 'Session', v: t.session || '—' },
     { l: 'P&L', v: fmtPnl(t.pnl) },
     { l: 'Entry', v: t.entry ? `$${t.entry.toLocaleString('en-IN')}` : '—' },
     { l: 'Exit', v: t.exit ? `$${t.exit.toLocaleString('en-IN')}` : '—' },
     { l: 'Qty', v: t.qty || '—' },
+    { l: 'Lot Size', v: t.lotSize || '—' },
+    { l: 'Pips', v: t.pips || '—' },
     { l: 'R:R', v: t.rr ? `<span class="rr-badge ${t.rr >= 2 ? 'rr-good' : t.rr >= 1.5 ? 'rr-ok' : 'rr-bad'}">1:${t.rr}</span>` : '—' },
     { l: 'Emotion', v: fmtEmo(t.emotion) },
     { l: 'Rating', v: fmtStars(t.rating) },
+    { l: 'Rules', v: t.ruleFollowed ? '<span class="badge badge-green">Followed</span>' : '<span class="badge badge-red">Missed</span>' },
+    { l: 'Balance', v: t.balance ? `$${t.balance.toLocaleString('en-IN')}` : '—' },
+    { l: 'Equity', v: t.equity ? `$${t.equity.toLocaleString('en-IN')}` : '—' },
   ];
   document.getElementById('md-body').innerHTML = `
     <div class="dg">${fields.map(f => `<div class="di"><div class="di-label">${f.l}</div><div class="di-val">${f.v}</div></div>`).join('')}</div>
@@ -1412,6 +1543,18 @@ function renderDashboard() {
   document.getElementById('sb-rr').textContent = st.avgRR ? '1:' + st.avgRR.toFixed(1) : '—';
   const mistakeTrades = T.filter(t => t.mistake || t.emotion === 'FOMO' || t.emotion === 'Revenge');
   document.getElementById('nb-mistakes').style.display = mistakeTrades.length ? 'block' : 'none';
+  const latestSnapshot = [...T].filter(t => t.balance || t.equity).sort((a,b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')))[0];
+  document.getElementById('d-balance').textContent = latestSnapshot?.balance ? '$' + Number(latestSnapshot.balance).toLocaleString('en-IN') : '—';
+  document.getElementById('d-equity').textContent = latestSnapshot?.equity ? '$' + Number(latestSnapshot.equity).toLocaleString('en-IN') : '—';
+  const monday = new Date();
+  monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+  const mondayStr = monday.toISOString().split('T')[0];
+  const weekTrades = T.filter(t => t.date >= mondayStr);
+  const weekPnl = weekTrades.reduce((s,t) => s + t.pnl, 0);
+  document.getElementById('d-week-pnl').textContent = (weekPnl >= 0 ? '+' : '-') + '$' + Math.abs(weekPnl).toLocaleString('en-IN');
+  document.getElementById('d-week-pnl').className = 'sc-val ' + (weekPnl >= 0 ? 'pos' : 'neg');
+  const ruleRate = T.length ? (T.filter(t => t.ruleFollowed).length / T.length * 100) : 0;
+  document.getElementById('d-rule-rate').textContent = ruleRate.toFixed(0) + '%';
 
   // Day records
   const dayMap = {};
@@ -1499,6 +1642,8 @@ function renderTradeLog() {
   if (q) arr = arr.filter(t =>
     (t.sym || '').toLowerCase().includes(q) ||
     (t.setup || '').toLowerCase().includes(q) ||
+    (t.strategy || '').toLowerCase().includes(q) ||
+    (t.session || '').toLowerCase().includes(q) ||
     (t.notes || '').toLowerCase().includes(q) ||
     (t.plan || '').toLowerCase().includes(q) ||
     (t.date || '').includes(q)
@@ -1540,6 +1685,7 @@ function renderAnalytics() {
   drawSetupChart();
   drawDayChart();
   renderSetupBreakdown();
+  renderForexBreakdown();
 }
 
 function renderSetupBreakdown() {
@@ -1562,6 +1708,39 @@ function renderSetupBreakdown() {
         <td><span class="pnl-n mono">-$${Math.abs(worst).toLocaleString('en-IN')}</span></td>
       </tr>`;
     }).join('') || `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text3)">Log trades to see breakdown</td></tr>`;
+}
+
+function renderForexBreakdown() {
+  const byPair = {};
+  T.forEach(t => {
+    const pair = t.sym || '—';
+    if (!byPair[pair]) byPair[pair] = [];
+    byPair[pair].push(t);
+  });
+  const pairRows = Object.entries(byPair).sort((a,b) => b[1].reduce((s,t)=>s+t.pnl,0) - a[1].reduce((s,t)=>s+t.pnl,0));
+  document.getElementById('a-pair-tbody').innerHTML = pairRows.length
+    ? pairRows.map(([pair, arr]) => {
+        const total = arr.reduce((s,t)=>s+t.pnl,0);
+        const pips = arr.reduce((s,t)=>s+(parseFloat(t.pips)||0),0);
+        const wr = arr.length ? arr.filter(t => t.pnl > 0).length / arr.length * 100 : 0;
+        return `<tr><td><span class="sym">${pair}</span></td><td class="mono">${arr.length}</td><td class="mono">${wr.toFixed(0)}%</td><td class="mono">${pips.toFixed(1)}</td><td>${fmtPnl(total)}</td></tr>`;
+      }).join('')
+    : `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text3)">No pair data yet</td></tr>`;
+  const sessionMap = {};
+  T.forEach(t => {
+    const s = t.session || 'Unspecified';
+    if (!sessionMap[s]) sessionMap[s] = [];
+    sessionMap[s].push(t);
+  });
+  const bestPair = pairRows[0];
+  const bestSession = Object.entries(sessionMap).sort((a,b) => b[1].reduce((s,t)=>s+t.pnl,0) - a[1].reduce((s,t)=>s+t.pnl,0))[0];
+  document.getElementById('a-forex-summary').innerHTML = `
+    <div class="two-col">
+      <div class="di"><div class="di-label">Best Pair</div><div class="di-val">${bestPair ? bestPair[0] : '—'}</div></div>
+      <div class="di"><div class="di-label">Best Session</div><div class="di-val">${bestSession ? bestSession[0] : '—'}</div></div>
+      <div class="di"><div class="di-label">Total Pips</div><div class="di-val">${T.reduce((s,t)=>s+(parseFloat(t.pips)||0),0).toFixed(1)}</div></div>
+      <div class="di"><div class="di-label">Rule Followed</div><div class="di-val">${T.length ? (T.filter(t => t.ruleFollowed).length / T.length * 100).toFixed(0) + '%' : '—'}</div></div>
+    </div>`;
 }
 
 // ─────────────────────────────────────
@@ -1723,6 +1902,27 @@ function calcExpectancy() {
   `;
 }
 
+function calcPips() {
+  const entry = parseFloat(document.getElementById('pip-entry').value);
+  const sl = parseFloat(document.getElementById('pip-sl').value);
+  const target = parseFloat(document.getElementById('pip-target').value);
+  const pipSize = parseFloat(document.getElementById('pip-size').value) || 0.0001;
+  if (!entry || !pipSize) {
+    document.getElementById('pip-display').innerHTML = '<div style="font-size:11px;color:var(--text3)">Enter values to calculate stop and target distance in pips.</div>';
+    return;
+  }
+  const stopPips = sl ? (Math.abs(entry - sl) / pipSize) : 0;
+  const targetPips = target ? (Math.abs(target - entry) / pipSize) : 0;
+  const rr = stopPips > 0 ? targetPips / stopPips : 0;
+  document.getElementById('pip-display').innerHTML = `
+    <div class="two-col">
+      <div class="di"><div class="di-label">Stop Distance</div><div class="di-val">${stopPips ? stopPips.toFixed(1) + ' pips' : '—'}</div></div>
+      <div class="di"><div class="di-label">Target Distance</div><div class="di-val">${targetPips ? targetPips.toFixed(1) + ' pips' : '—'}</div></div>
+      <div class="di"><div class="di-label">Pip R:R</div><div class="di-val">${rr ? '1:' + rr.toFixed(2) : '—'}</div></div>
+      <div class="di"><div class="di-label">Quick Read</div><div class="di-val">${rr >= 2 ? 'Strong' : rr >= 1.5 ? 'Solid' : 'Tight'}</div></div>
+    </div>`;
+}
+
 // ─────────────────────────────────────
 //  PLAYBOOK
 // ─────────────────────────────────────
@@ -1773,6 +1973,11 @@ function renderPlaybook() {
 //  WEEKLY
 // ─────────────────────────────────────
 function weekNav(d) { weekOffset += d; renderWeekly(); }
+function saveReviewNote(type) {
+  const id = type === 'week' ? 'week-note' : 'month-note';
+  localStorage.setItem(reviewStorageKey(type), document.getElementById(id).value || '');
+  toast((type === 'week' ? 'Weekly' : 'Monthly') + ' note saved ✓');
+}
 function renderWeekly() {
   const now = new Date();
   now.setDate(now.getDate() + weekOffset * 7);
@@ -1835,6 +2040,8 @@ function renderWeekly() {
     : `<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No trades this week</td></tr>`;
 
   drawWeekBar(weekDays);
+  document.getElementById('week-note').value = localStorage.getItem(reviewStorageKey('week')) || '';
+  document.getElementById('month-note').value = localStorage.getItem(reviewStorageKey('month')) || '';
 }
 
 // ─────────────────────────────────────
@@ -1852,6 +2059,11 @@ function renderMistakes() {
   document.getElementById('m-movedstop').textContent = movedSl.length;
   document.getElementById('m-movedstop-pnl').textContent = '$' + Math.round(movedSl.reduce((s, t) => s + t.pnl, 0)).toLocaleString('en-IN') + ' impact';
   document.getElementById('m-rate').textContent = T.length ? (bad.length / T.length * 100).toFixed(0) + '%' : '0%';
+  const topMistake = Object.entries(T.reduce((acc, t) => {
+    if (t.mistake) acc[t.mistake] = (acc[t.mistake] || 0) + 1;
+    return acc;
+  }, {})).sort((a,b) => b[1] - a[1])[0];
+  document.getElementById('m-rate').nextElementSibling.textContent = topMistake ? `Top issue: ${topMistake[0]}` : 'Of all trades';
 
   const mistakeCounts = {};
   T.forEach(t => { if (t.mistake) mistakeCounts[t.mistake] = (mistakeCounts[t.mistake] || 0) + 1; });
@@ -1930,11 +2142,11 @@ function toggleRule(key, el) {
 //  EXPORT CSV
 // ─────────────────────────────────────
 function exportCSV() {
-  const headers = ['Date','Symbol','Direction','Setup','Entry','Exit','Qty','PnL','RR','Emotion','Mistake','Rating','Plan','Notes'];
+  const headers = ['Date','Time','Symbol','Direction','Setup','Strategy','Session','Entry','Exit','Qty','LotSize','Pips','PnL','RR','Emotion','RuleFollowed','Balance','Equity','Mistake','Rating','Plan','Notes'];
   const rows = T.map(t => [
-    t.date, t.sym, t.dir, t.setup || '', t.entry || '', t.exit || '',
-    t.qty || '', t.pnl || 0, t.rr || '', t.emotion || '',
-    t.mistake || '', t.rating || 3,
+    t.date, t.time || '', t.sym, t.dir, t.setup || '', t.strategy || '', t.session || '', t.entry || '', t.exit || '',
+    t.qty || '', t.lotSize || '', t.pips || '', t.pnl || 0, t.rr || '', t.emotion || '', t.ruleFollowed ? 'Yes' : 'No',
+    t.balance || '', t.equity || '', t.mistake || '', t.rating || 3,
     (t.plan || '').replace(/,/g, ';'), (t.notes || '').replace(/,/g, ';')
   ]);
   const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
@@ -1943,6 +2155,15 @@ function exportCSV() {
   a.download = 'trades-' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
   toast('CSV exported ✓');
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(T, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'trades-' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  toast('JSON backup exported ✓');
 }
 
 // ─────────────────────────────────────
