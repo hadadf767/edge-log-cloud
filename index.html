@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edge Log — Trading Journal</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="./config.js"></script>
 <style>
 :root {
   --bg:#0b0c0c; --bg2:#111313; --bg3:#181a1a; --bg4:#1e2020; --bg5:#242727;
@@ -26,6 +27,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px;}
 .mobile-topbar{display:none;}
+.mobile-bottomnav{display:none;}
 
 /* ── APP SHELL ── */
 .shell{display:flex;height:100vh;}
@@ -280,11 +282,14 @@ canvas{display:block;width:100%!important;}
 @media (max-width: 980px){
   body{overflow:auto;}
   .mobile-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:250;}
+  .mobile-bottomnav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--bg2);position:fixed;left:0;right:0;bottom:0;z-index:255;}
+  .mobile-navbtn{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:10px;padding:8px 4px;font-size:11px;text-align:center;}
   .shell{display:block;height:auto;min-height:100vh;position:relative;}
   .sb{position:fixed;top:0;left:0;bottom:0;width:min(82vw,320px);z-index:300;border-right:1px solid var(--border);transform:translateX(-100%);transition:transform .2s ease;box-shadow:var(--shadow);}
   body.menu-open .sb{transform:translateX(0);}
   body.menu-open{overflow:hidden;}
   .main{overflow:visible;width:100%;}
+  .main{padding-bottom:88px;}
   .mobile-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:260;}
   body.menu-open .mobile-backdrop{display:block;}
   .main{overflow:visible;}
@@ -304,6 +309,7 @@ canvas{display:block;width:100%!important;}
   .fg-grid,.fg-grid3,.dg,.week-days,.risk-result,.four-col{grid-template-columns:1fr;}
   .panel-header{gap:10px;flex-wrap:wrap;}
   table{min-width:760px;}
+  .mobile-bottomnav{grid-template-columns:repeat(5,1fr);}
 }
 </style>
 </head>
@@ -312,6 +318,13 @@ canvas{display:block;width:100%!important;}
   <button class="btn btn-ghost btn-sm" onclick="toggleMobileMenu()">☰ Menu</button>
   <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--accent);letter-spacing:.06em">EDGE LOG</div>
   <button class="btn btn-ghost btn-sm" onclick="openAdd()">+ Trade</button>
+</div>
+<div class="mobile-bottomnav">
+  <button class="mobile-navbtn" onclick="nav('dashboard')">Home</button>
+  <button class="mobile-navbtn" onclick="nav('trades')">Trades</button>
+  <button class="mobile-navbtn" onclick="nav('analytics')">Stats</button>
+  <button class="mobile-navbtn" onclick="nav('weekly')">Review</button>
+  <button class="mobile-navbtn" onclick="openAdd()">+ Trade</button>
 </div>
 <div class="mobile-backdrop" onclick="closeMobileMenu()"></div>
 <div class="shell">
@@ -325,6 +338,8 @@ canvas{display:block;width:100%!important;}
       <button class="btn btn-ghost btn-sm" onclick="openCloudSetup()">Cloud Setup</button>
       <button class="btn btn-ghost btn-sm" onclick="openCloudPasswordSignIn()">Sign In</button>
       <button class="btn btn-ghost btn-sm" onclick="openCloudSignUp()">Sign Up</button>
+      <button class="btn btn-ghost btn-sm" onclick="openCloudResetRequest()">Reset Password</button>
+      <button class="btn btn-ghost btn-sm" onclick="openCloudSetPassword()">Set New Password</button>
       <button class="btn btn-ghost btn-sm" onclick="openCloudAuth()">Magic Link</button>
       <button class="btn btn-ghost btn-sm" id="cloud-signout" onclick="signOutCloud()" style="display:none">Sign Out</button>
       <div id="cloud-status" style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">Cloud: checking...</div>
@@ -1050,6 +1065,7 @@ function getCloudEls() {
   return {
     status: document.getElementById("cloud-status"),
     signout: document.getElementById("cloud-signout"),
+    setupButtons: Array.from(document.querySelectorAll('[onclick="openCloudSetup()"]')),
   };
 }
 
@@ -1072,6 +1088,8 @@ function writeCloudConfig(config) {
 
 function updateCloudStatus() {
   const els = getCloudEls();
+  const hasEmbeddedConfig = !!(embeddedCloudConfig.url && embeddedCloudConfig.anonKey);
+  els.setupButtons.forEach((btn) => btn.style.display = hasEmbeddedConfig ? "none" : "inline-flex");
   if (!cloud.client) {
     els.status.textContent = "Cloud: setup needed";
     els.signout.style.display = "none";
@@ -1214,6 +1232,17 @@ window.edgeCloud = {
     const { error } = await cloud.client.auth.signUp({ email, password });
     if (error) throw error;
   },
+  async sendPasswordReset(email) {
+    if (!cloud.client) throw new Error("Configure cloud first.");
+    const redirectTo = window.location.href.split("#")[0];
+    const { error } = await cloud.client.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) throw error;
+  },
+  async updatePassword(password) {
+    if (!cloud.client) throw new Error("Configure cloud first.");
+    const { error } = await cloud.client.auth.updateUser({ password });
+    if (error) throw error;
+  },
   async signOut() {
     if (!cloud.client) return;
     await cloud.client.auth.signOut();
@@ -1269,6 +1298,28 @@ window.openCloudSignUp = async function openCloudSignUp() {
     if (window.toast) window.toast("Account created. If Supabase asks for email confirmation, verify your email before signing in.");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not sign up", true);
+  }
+};
+
+window.openCloudResetRequest = async function openCloudResetRequest() {
+  const email = window.prompt("Enter your email to receive a password reset link");
+  if (!email) return;
+  try {
+    await window.edgeCloud.sendPasswordReset(email.trim());
+    if (window.toast) window.toast("Reset email sent ✓");
+  } catch (error) {
+    if (window.toast) window.toast(error.message || "Could not send reset email", true);
+  }
+};
+
+window.openCloudSetPassword = async function openCloudSetPassword() {
+  const password = window.prompt("Enter your new password");
+  if (!password) return;
+  try {
+    await window.edgeCloud.updatePassword(password);
+    if (window.toast) window.toast("Password updated ✓");
+  } catch (error) {
+    if (window.toast) window.toast(error.message || "Could not update password", true);
   }
 };
 
