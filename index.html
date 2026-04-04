@@ -28,6 +28,32 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 ::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px;}
 .mobile-topbar{display:none;}
 .mobile-bottomnav{display:none;}
+.auth-screen{display:none;min-height:100vh;padding:28px;background:
+  radial-gradient(circle at top left, rgba(201,151,62,.15), transparent 30%),
+  linear-gradient(180deg, #0a0b0b, #111313);}
+.auth-wrap{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.15fr .85fr;gap:22px;min-height:calc(100vh - 56px);align-items:center;}
+.auth-hero,.auth-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);}
+.auth-hero{padding:34px 34px 40px;}
+.auth-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-family:'DM Mono',monospace;margin-bottom:12px;}
+.auth-title{font-family:'Syne',sans-serif;font-size:clamp(34px,5vw,68px);line-height:.95;font-weight:700;max-width:10ch;margin-bottom:14px;}
+.auth-copy{color:var(--text2);font-size:15px;line-height:1.7;max-width:52ch;}
+.auth-points{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.auth-point{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.auth-point-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:6px;}
+.auth-point-val{font-size:13px;color:var(--text);}
+.auth-card{padding:26px;}
+.auth-brand{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:6px;}
+.auth-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:20px;}
+.auth-actions{display:grid;gap:10px;}
+.auth-actions .btn{justify-content:center;}
+.auth-note{margin-top:14px;font-size:12px;color:var(--text3);line-height:1.7;}
+.auth-status{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--bg3);border:1px solid var(--border);font-size:12px;color:var(--text2);}
+body.auth-gate{overflow:auto;}
+body.auth-gate .auth-screen{display:block;}
+body.auth-gate .shell,
+body.auth-gate .mobile-topbar,
+body.auth-gate .mobile-bottomnav,
+body.auth-gate .mobile-backdrop{display:none !important;}
 
 /* ── APP SHELL ── */
 .shell{display:flex;height:100vh;}
@@ -280,6 +306,8 @@ canvas{display:block;width:100%!important;}
 .check-row input{width:auto;accent-color:var(--accent);}
 
 @media (max-width: 980px){
+  .auth-wrap{grid-template-columns:1fr;}
+  .auth-points{grid-template-columns:1fr;}
   body{overflow:auto;}
   .mobile-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:250;}
   .mobile-bottomnav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--bg2);position:fixed;left:0;right:0;bottom:0;z-index:255;}
@@ -302,6 +330,8 @@ canvas{display:block;width:100%!important;}
 }
 
 @media (max-width: 640px){
+  .auth-screen{padding:16px;}
+  .auth-hero,.auth-card{padding:20px;}
   .ph{flex-direction:column;align-items:stretch;}
   .ph-actions{width:100%;flex-wrap:wrap;}
   .ph-actions .btn{flex:1;justify-content:center;}
@@ -316,6 +346,33 @@ canvas{display:block;width:100%!important;}
 </style>
 </head>
 <body>
+<section class="auth-screen" id="auth-screen">
+  <div class="auth-wrap">
+    <div class="auth-hero">
+      <div class="auth-kicker">Forex Journal</div>
+      <div class="auth-title">Review better. Trade cleaner. Grow faster.</div>
+      <div class="auth-copy">A focused journal for forex, metals, crypto, and indices. Track execution, review mistakes, and keep your data synced privately across mobile and desktop.</div>
+      <div class="auth-points">
+        <div class="auth-point"><div class="auth-point-label">Private Data</div><div class="auth-point-val">Each trader sees only their own account history.</div></div>
+        <div class="auth-point"><div class="auth-point-label">Cross Device</div><div class="auth-point-val">Use the same journal on your phone and laptop.</div></div>
+        <div class="auth-point"><div class="auth-point-label">Built For Review</div><div class="auth-point-val">Track setups, rules, mistakes, and weekly reflections.</div></div>
+      </div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-brand">EDGE LOG</div>
+      <div class="auth-sub">Trading Journal v2.0</div>
+      <div class="auth-actions">
+        <button class="btn btn-primary" onclick="openCloudPasswordSignIn()">Sign In</button>
+        <button class="btn btn-ghost" onclick="openCloudSignUp()">Create Account</button>
+        <button class="btn btn-ghost" onclick="openCloudResetRequest()">Reset Password</button>
+        <button class="btn btn-ghost" onclick="openCloudAuth()">Use Magic Link</button>
+        <button class="btn btn-ghost" id="auth-setup-btn" onclick="openCloudSetup()">Cloud Setup</button>
+      </div>
+      <div class="auth-status" id="auth-status">Checking cloud connection…</div>
+      <div class="auth-note">Use email and password for the smoothest experience. Magic link is still available as a backup option.</div>
+    </div>
+  </div>
+</section>
 <div class="mobile-topbar">
   <button class="btn btn-ghost btn-sm" onclick="toggleMobileMenu()">☰ Menu</button>
   <div style="font-family:'Syne',sans-serif;font-weight:700;color:var(--accent);letter-spacing:.06em">EDGE LOG</div>
@@ -1068,6 +1125,8 @@ function getCloudEls() {
     status: document.getElementById("cloud-status"),
     signout: document.getElementById("cloud-signout"),
     setupButtons: Array.from(document.querySelectorAll('[onclick="openCloudSetup()"]')),
+    authStatus: document.getElementById("auth-status"),
+    authSetupBtn: document.getElementById("auth-setup-btn"),
   };
 }
 
@@ -1092,18 +1151,25 @@ function updateCloudStatus() {
   const els = getCloudEls();
   const hasEmbeddedConfig = !!(embeddedCloudConfig.url && embeddedCloudConfig.anonKey);
   els.setupButtons.forEach((btn) => btn.style.display = hasEmbeddedConfig ? "none" : "inline-flex");
+  if (els.authSetupBtn) els.authSetupBtn.style.display = hasEmbeddedConfig ? "none" : "inline-flex";
   if (!cloud.client) {
     els.status.textContent = "Cloud: setup needed";
+    if (els.authStatus) els.authStatus.textContent = hasEmbeddedConfig ? "Cloud config missing or invalid." : "Add your cloud setup to continue.";
     els.signout.style.display = "none";
+    document.body.classList.add("auth-gate");
     return;
   }
   if (cloud.session?.user) {
     els.status.textContent = `Cloud: ${cloud.session.user.email}`;
+    if (els.authStatus) els.authStatus.textContent = `Signed in as ${cloud.session.user.email}`;
     els.signout.style.display = "inline-flex";
+    document.body.classList.remove("auth-gate");
     return;
   }
   els.status.textContent = "Cloud: ready to sign in";
+  if (els.authStatus) els.authStatus.textContent = "Cloud connected. Sign in to open your journal.";
   els.signout.style.display = "none";
+  document.body.classList.add("auth-gate");
 }
 
 function mapFromDb(row) {
@@ -1284,6 +1350,7 @@ window.openCloudPasswordSignIn = async function openCloudPasswordSignIn() {
   try {
     await window.edgeCloud.signInWithPassword(email.trim(), password);
     if (window.refreshFromCloud) await window.refreshFromCloud();
+    updateCloudStatus();
     if (window.toast) window.toast("Signed in ✓");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not sign in", true);
@@ -1297,6 +1364,7 @@ window.openCloudSignUp = async function openCloudSignUp() {
   if (!password) return;
   try {
     await window.edgeCloud.signUpWithPassword(email.trim(), password);
+    updateCloudStatus();
     if (window.toast) window.toast("Account created. If Supabase asks for email confirmation, verify your email before signing in.");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not sign up", true);
@@ -1308,6 +1376,7 @@ window.openCloudResetRequest = async function openCloudResetRequest() {
   if (!email) return;
   try {
     await window.edgeCloud.sendPasswordReset(email.trim());
+    updateCloudStatus();
     if (window.toast) window.toast("Reset email sent ✓");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not send reset email", true);
@@ -1319,6 +1388,7 @@ window.openCloudSetPassword = async function openCloudSetPassword() {
   if (!password) return;
   try {
     await window.edgeCloud.updatePassword(password);
+    updateCloudStatus();
     if (window.toast) window.toast("Password updated ✓");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not update password", true);
@@ -1327,6 +1397,7 @@ window.openCloudSetPassword = async function openCloudSetPassword() {
 
 window.signOutCloud = async function signOutCloud() {
   await window.edgeCloud.signOut();
+  updateCloudStatus();
   if (window.toast) window.toast("Signed out");
 };
 
