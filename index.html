@@ -44,6 +44,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .auth-card{padding:26px;}
 .auth-brand{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:6px;}
 .auth-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:20px;}
+.auth-form{display:grid;gap:10px;margin-bottom:12px;}
+.auth-field{display:grid;gap:5px;}
+.auth-field label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;}
 .auth-actions{display:grid;gap:10px;}
 .auth-actions .btn{justify-content:center;}
 .auth-note{margin-top:14px;font-size:12px;color:var(--text3);line-height:1.7;}
@@ -361,6 +364,16 @@ canvas{display:block;width:100%!important;}
     <div class="auth-card">
       <div class="auth-brand">EDGE LOG</div>
       <div class="auth-sub">Trading Journal v2.0</div>
+      <div class="auth-form">
+        <div class="auth-field">
+          <label for="auth-email-input">Email</label>
+          <input class="fi" id="auth-email-input" type="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label for="auth-password-input">Password</label>
+          <input class="fi" id="auth-password-input" type="password" placeholder="Enter password">
+        </div>
+      </div>
       <div class="auth-actions">
         <button class="btn btn-primary" onclick="openCloudPasswordSignIn()">Sign In</button>
         <button class="btn btn-ghost" onclick="openCloudSignUp()">Create Account</button>
@@ -1127,6 +1140,8 @@ function getCloudEls() {
     setupButtons: Array.from(document.querySelectorAll('[onclick="openCloudSetup()"]')),
     authStatus: document.getElementById("auth-status"),
     authSetupBtn: document.getElementById("auth-setup-btn"),
+    authEmail: document.getElementById("auth-email-input"),
+    authPassword: document.getElementById("auth-password-input"),
   };
 }
 
@@ -1332,10 +1347,11 @@ window.openCloudSetup = async function openCloudSetup() {
 };
 
 window.openCloudAuth = async function openCloudAuth() {
-  const email = window.prompt("Enter your email for the magic link");
-  if (!email) return;
+  const { authEmail } = getCloudEls();
+  const email = authEmail?.value.trim();
+  if (!email) { if (window.toast) window.toast("Enter your email first", true); return; }
   try {
-    await window.edgeCloud.sendMagicLink(email.trim());
+    await window.edgeCloud.sendMagicLink(email);
     if (window.toast) window.toast("Magic link sent ✓");
   } catch (error) {
     if (window.toast) window.toast(error.message || "Could not send magic link", true);
@@ -1343,12 +1359,13 @@ window.openCloudAuth = async function openCloudAuth() {
 };
 
 window.openCloudPasswordSignIn = async function openCloudPasswordSignIn() {
-  const email = window.prompt("Enter your email");
-  if (!email) return;
-  const password = window.prompt("Enter your password");
-  if (!password) return;
+  const { authEmail, authPassword } = getCloudEls();
+  const email = authEmail?.value.trim();
+  if (!email) { if (window.toast) window.toast("Enter your email first", true); return; }
+  const password = authPassword?.value;
+  if (!password) { if (window.toast) window.toast("Enter your password first", true); return; }
   try {
-    await window.edgeCloud.signInWithPassword(email.trim(), password);
+    await window.edgeCloud.signInWithPassword(email, password);
     if (window.refreshFromCloud) await window.refreshFromCloud();
     updateCloudStatus();
     if (window.toast) window.toast("Signed in ✓");
@@ -1358,12 +1375,13 @@ window.openCloudPasswordSignIn = async function openCloudPasswordSignIn() {
 };
 
 window.openCloudSignUp = async function openCloudSignUp() {
-  const email = window.prompt("Enter your email");
-  if (!email) return;
-  const password = window.prompt("Create a password (at least 6 characters)");
-  if (!password) return;
+  const { authEmail, authPassword } = getCloudEls();
+  const email = authEmail?.value.trim();
+  if (!email) { if (window.toast) window.toast("Enter your email first", true); return; }
+  const password = authPassword?.value;
+  if (!password) { if (window.toast) window.toast("Create a password first", true); return; }
   try {
-    await window.edgeCloud.signUpWithPassword(email.trim(), password);
+    await window.edgeCloud.signUpWithPassword(email, password);
     updateCloudStatus();
     if (window.toast) window.toast("Account created. If Supabase asks for email confirmation, verify your email before signing in.");
   } catch (error) {
@@ -1372,10 +1390,11 @@ window.openCloudSignUp = async function openCloudSignUp() {
 };
 
 window.openCloudResetRequest = async function openCloudResetRequest() {
-  const email = window.prompt("Enter your email to receive a password reset link");
-  if (!email) return;
+  const { authEmail } = getCloudEls();
+  const email = authEmail?.value.trim();
+  if (!email) { if (window.toast) window.toast("Enter your email first", true); return; }
   try {
-    await window.edgeCloud.sendPasswordReset(email.trim());
+    await window.edgeCloud.sendPasswordReset(email);
     updateCloudStatus();
     if (window.toast) window.toast("Reset email sent ✓");
   } catch (error) {
@@ -1384,8 +1403,9 @@ window.openCloudResetRequest = async function openCloudResetRequest() {
 };
 
 window.openCloudSetPassword = async function openCloudSetPassword() {
-  const password = window.prompt("Enter your new password");
-  if (!password) return;
+  const { authPassword } = getCloudEls();
+  const password = authPassword?.value;
+  if (!password) { if (window.toast) window.toast("Enter your new password first", true); return; }
   try {
     await window.edgeCloud.updatePassword(password);
     updateCloudStatus();
