@@ -897,7 +897,7 @@ canvas{display:block;width:100%!important;}
     <div class="modal-body">
       <div class="f-section">Trade Details</div>
       <div class="fg-grid">
-        <div class="fg"><label class="fl">Symbol</label><input class="fi" id="f-sym" placeholder="NIFTY, BANKNIFTY…" style="text-transform:uppercase"></div>
+        <div class="fg"><label class="fl">Symbol</label><input class="fi" id="f-sym" list="pair-list" placeholder="XAUUSD, EURUSD, BTCUSD…" style="text-transform:uppercase"></div>
         <div class="fg"><label class="fl">Date</label><input class="fi" id="f-date" type="date"></div>
         <div class="fg"><label class="fl">Direction</label>
           <select class="fs" id="f-dir"><option>Long</option><option>Short</option></select>
@@ -927,10 +927,6 @@ canvas{display:block;width:100%!important;}
         <div class="fg"><label class="fl">P&L ($) <span style="color:var(--text3);font-style:italic;font-size:9px">auto-fills</span></label><input class="fi" id="f-pnl" type="number" placeholder="Auto or manual"></div>
       </div>
       <div class="fg-grid">
-        <div class="fg"><label class="fl">Lot Size</label><input class="fi" id="f-lotsize" type="number" step="0.01" placeholder="0.10"></div>
-        <div class="fg"><label class="fl">Pips</label><input class="fi" id="f-pips" type="number" step="0.1" placeholder="12.5"></div>
-        <div class="fg"><label class="fl">Account Balance ($)</label><input class="fi" id="f-balance" type="number" step="0.01" placeholder="10000"></div>
-        <div class="fg"><label class="fl">Equity After Trade ($)</label><input class="fi" id="f-equity" type="number" step="0.01" placeholder="10125"></div>
       </div>
       <div class="fg-grid">
         <div class="fg"><label class="fl">Stop Loss ($)</label><input class="fi" id="f-sl" type="number" placeholder="0.00" oninput="autoCalcRR()"></div>
@@ -991,6 +987,38 @@ canvas{display:block;width:100%!important;}
     </div>
   </div>
 </div>
+
+<datalist id="pair-list">
+  <option value="XAUUSD"></option>
+  <option value="XAGUSD"></option>
+  <option value="EURUSD"></option>
+  <option value="GBPUSD"></option>
+  <option value="USDJPY"></option>
+  <option value="USDCHF"></option>
+  <option value="USDCAD"></option>
+  <option value="AUDUSD"></option>
+  <option value="NZDUSD"></option>
+  <option value="EURJPY"></option>
+  <option value="GBPJPY"></option>
+  <option value="EURGBP"></option>
+  <option value="EURCHF"></option>
+  <option value="EURAUD"></option>
+  <option value="GBPAUD"></option>
+  <option value="GBPCHF"></option>
+  <option value="AUDJPY"></option>
+  <option value="AUDCAD"></option>
+  <option value="AUDCHF"></option>
+  <option value="CADJPY"></option>
+  <option value="CHFJPY"></option>
+  <option value="NZDJPY"></option>
+  <option value="NZDUSD"></option>
+  <option value="BTCUSD"></option>
+  <option value="ETHUSD"></option>
+  <option value="SOLUSD"></option>
+  <option value="NAS100"></option>
+  <option value="US30"></option>
+  <option value="SPX500"></option>
+</datalist>
 
 <!-- ══ TRADE DETAIL MODAL ══ -->
 <div class="overlay" id="modal-detail">
@@ -1352,10 +1380,6 @@ function openAdd(id = null) {
   document.getElementById('f-setup').value = t ? (t.setup || '') : '';
   document.getElementById('f-strategy').value = t ? (t.strategy || '') : '';
   document.getElementById('f-session').value = t ? (t.session || '') : '';
-  document.getElementById('f-lotsize').value = t ? (t.lotSize || '') : '';
-  document.getElementById('f-pips').value = t ? (t.pips || '') : '';
-  document.getElementById('f-balance').value = t ? (t.balance || '') : '';
-  document.getElementById('f-equity').value = t ? (t.equity || '') : '';
   document.getElementById('f-emotion').value = t ? (t.emotion || 'Calm') : 'Calm';
   document.getElementById('f-mistake').value = t ? (t.mistake || '') : '';
   document.getElementById('f-rulefollowed').checked = t ? !!t.ruleFollowed : false;
@@ -1442,14 +1466,10 @@ async function saveTrade() {
     strategy: document.getElementById('f-strategy').value,
     session: document.getElementById('f-session').value,
     entry, exit, qty,
-    lotSize: parseFloat(document.getElementById('f-lotsize').value) || null,
-    pips: parseFloat(document.getElementById('f-pips').value) || null,
     pnl: isNaN(pnl) ? 0 : +pnl.toFixed(2),
     sl, target, rr,
     emotion: document.getElementById('f-emotion').value,
     ruleFollowed: document.getElementById('f-rulefollowed').checked,
-    balance: parseFloat(document.getElementById('f-balance').value) || null,
-    equity: parseFloat(document.getElementById('f-equity').value) || null,
     plan: document.getElementById('f-plan').value,
     notes: document.getElementById('f-notes').value,
     mistake: document.getElementById('f-mistake').value,
