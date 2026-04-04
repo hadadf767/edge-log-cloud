@@ -272,6 +272,29 @@ canvas{display:block;width:100%!important;}
 .badge-red{background:var(--redbg);color:var(--red);}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+@media (max-width: 980px){
+  body{overflow:auto;}
+  .shell{flex-direction:column;height:auto;min-height:100vh;}
+  .sb{width:100%;border-right:none;border-bottom:1px solid var(--border);}
+  .main{overflow:visible;}
+  .page{padding:22px 18px;max-width:none;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .two-col,.three-col{grid-template-columns:1fr;}
+  .week-days{grid-template-columns:repeat(2,1fr);}
+  .risk-result{grid-template-columns:repeat(2,1fr);}
+  .dg{grid-template-columns:1fr 1fr;}
+}
+
+@media (max-width: 640px){
+  .ph{flex-direction:column;align-items:stretch;}
+  .ph-actions{width:100%;flex-wrap:wrap;}
+  .ph-actions .btn{flex:1;justify-content:center;}
+  .stats-row{grid-template-columns:1fr;}
+  .fg-grid,.fg-grid3,.dg,.week-days,.risk-result{grid-template-columns:1fr;}
+  .panel-header{gap:10px;flex-wrap:wrap;}
+  table{min-width:760px;}
+}
 </style>
 </head>
 <body>
