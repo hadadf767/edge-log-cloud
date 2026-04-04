@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#141716"/>
+      <stop offset="100%" stop-color="#0b0c0c"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="none" stroke="#272a29" stroke-width="4"/>
+  <circle cx="106" cy="122" r="16" fill="#c9973e"/>
+  <text x="138" y="145" fill="#c9973e" font-family="Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="10">EDGE</text>
+  <text x="80" y="215" fill="#6b675f" font-family="Arial, sans-serif" font-size="26" letter-spacing="8">TRADING JOURNAL</text>
+  <path d="M88 350h72l48-78 54 98 54-132 44 70h64" fill="none" stroke="#3db87a" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+  <circle cx="88" cy="350" r="10" fill="#3db87a"/>
+  <circle cx="160" cy="350" r="10" fill="#3db87a"/>
+  <circle cx="208" cy="272" r="10" fill="#3db87a"/>
+  <circle cx="262" cy="370" r="10" fill="#3db87a"/>
+  <circle cx="316" cy="238" r="10" fill="#3db87a"/>
+  <circle cx="360" cy="308" r="10" fill="#3db87a"/>
+  <circle cx="424" cy="308" r="10" fill="#3db87a"/>
+</svg>
